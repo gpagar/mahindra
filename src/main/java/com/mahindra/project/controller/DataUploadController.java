@@ -2,12 +2,9 @@ package com.mahindra.project.controller;
 
 
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat; 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Calendar; 
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -24,18 +21,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.ui.Model; 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam; 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import com.mahindra.project.constant.Constant;
-import com.mahindra.project.model.Info;
+import org.springframework.web.servlet.ModelAndView;  
 import com.mahindra.project.model.MaintenanceData;
 import com.mahindra.project.model.SocData;
  
