@@ -19,7 +19,12 @@ public class PMController {
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "showPmPlan", method = RequestMethod.GET)
+	public ModelAndView showPmPlan(HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView model=new ModelAndView("pMaintanance/showPmPlan");
+		return model;
+	}
 	
 	
 }
