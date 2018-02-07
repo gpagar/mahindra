@@ -33,6 +33,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <script type='text/javascript' src='script.js'></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         
+<script type="text/javascript" src="../scripts/lib/prototype.js"></script> 
+<script type="text/javascript" src="../scripts/lib/scriptaculous.js"></script> 
+<script type="text/javascript" src="../scripts/mtg/myui.js"></script>
 
 <script>
   $( function() {
@@ -84,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								class="form-control chosen" tabindex="6" id="dept_id"
 								name="dept_id" >
 
-								<option value=""selected disabled="disabled">Choose Machine</option>
+								<option value="0" selected>Choose Machine</option>
 
 								<c:forEach items="${departmentList}" var="departmentList"
 									varStatus="count">
@@ -104,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						 
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
-							<button type="button" class="btn btn-info" id="submitbtn" onclick="getMonth()" disabled>Submit</button>  
+							<button type="button" class="btn btn-info" id="submitbtn" onclick="getMonth()">Submit</button>  
 
 
 						</div>
@@ -202,9 +205,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript">
 	
 		function getMonth() {
-			var file = $("#file").val();
+			var deptId = $("#dept_id").val();
 			
-			alert("ala"+file);
+			alert("ala"+dept_id);
 			 
 			$
 					.getJSON(
@@ -212,12 +215,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							{
 								 
-								file : file, 
+								deptId : deptId, 
 								ajax : 'true'
 
 							},
 							function(data) {
-								alert("ala");
+								alert("ala"+data);
 								$('#table_grid td').remove();
 								 
 
@@ -237,7 +240,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		 
 	}
+		
+		
 	</script>
+	
 </body>
 
 </html>
