@@ -87,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								class="form-control chosen" tabindex="6" id="dept_id"
 								name="dept_id" >
 
-								<option value="0" selected>Choose Machine</option>
+								<option value="0">Choose Machine</option>
 
 								<c:forEach items="${departmentList}" var="departmentList"
 									varStatus="count">

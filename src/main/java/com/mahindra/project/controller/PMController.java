@@ -35,20 +35,24 @@ public class PMController {
 	{
 		MachinMaintanaceSchedule machinMaintanaceSchedule = new MachinMaintanaceSchedule();
 		try {
-			
+			int deptId=Integer.parseInt(request.getParameter("deptId"));
+			System.out.println("deptId"+deptId);
 			machinMaintanaceSchedule.setfMonth(2);
 			machinMaintanaceSchedule.setfWeek(3);
 			machinMaintanaceSchedule.setsMonth(6);
 			machinMaintanaceSchedule.setsWeek(4);
 			machinMaintanaceSchedule.settMonth(10);
 			machinMaintanaceSchedule.setTweek(2);
-			
+			System.out.println("machinMaintanaceSchedule"+machinMaintanaceSchedule);
 			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		return machinMaintanaceSchedule;
+		
+		
+		
 	}
 	
 	
