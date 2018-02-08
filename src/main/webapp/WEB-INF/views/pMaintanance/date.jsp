@@ -128,7 +128,7 @@ document.write("<TABLE BORDER=1"
 for (var i = 0;i < 7;i ++) {
 document.write("<TD ALIGN=CENTER>"
 +"<FONT SIZE="+fs+">" + D[i] + "</FONT></TD>");
-}
+} 
 document.write("</TR><TR>");
 ctr = 0;
 for (var i = 0;i < 7; i++){
