@@ -136,7 +136,7 @@ if (i < dy) {
 document.write("<TD ALIGN=CENTER width='30px'>"
 +"<FONT SIZE=" + fs + "> </FONT>"
 +"</TD>");
-}  
+}   
 else {
 ctr++;
 document.write("<TD ALIGN=CENTER>"
