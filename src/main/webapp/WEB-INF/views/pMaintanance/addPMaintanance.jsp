@@ -11,49 +11,42 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- Bootstrap Core CSS -->
-<link href="${pageContext.request.contextPath}/resources/home/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="${pageContext.request.contextPath}/resources/home/css/style.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/home/css/morris.css" type="text/css"/>
-<!-- Graph CSS -->
-<link href="${pageContext.request.contextPath}/resources/home/css/font-awesome.css" rel="stylesheet"> 
-<!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resources/home/js/jquery-2.1.4.min.js"></script>
-<!-- //jQuery -->
-<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
-<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<!-- lined-icons -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/home/css/icon-font.min.css" type='text/css' />
-<!-- //lined-icons -->
 
-<link rel='stylesheet' type='text/css' href='stylesheet.css'/>
-        <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css'/>
-        <script type='text/javascript' src='script.js'></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-        
 
-<script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
- 
-  } );
-  </script>
   
 </head>
 <body>
    <div class="page-container">
    
-   <c:url var="importExcel2" value="/importExcel2"></c:url>
+  
+         
+   
+   
    <!--/content-inner-->
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
-		<ol class="breadcrumb">
+ <c:url var="importExcel2" value="/importExcel2"></c:url>
+      <c:url var="getMachinByType" value="/getMachinByType"></c:url>
+         <c:url var="getActivityByMachin" value="/getActivityByMachin"></c:url>
+              <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
+                 <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
+                 
+                 <script>
+  $( function() {
+    $( ".dp2" ).datepicker({
+    	 autoclose: true, 
+    	format: "dd-mm-yyyy"
+    		
+    });
+ 
+  } );
+  </script>
+
+		<!-- <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a> <i class="fa fa-angle-right"></i></li>
-            </ol>
+            </ol> -->
  
               <div id="main-content">
 			<!-- BEGIN Page Title -->
@@ -66,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Preventive Maintenance
+								<i class="fa fa-bars"></i>  Preventive Maintenance
 							</h3>
 							<div class="box-tool">
 							
@@ -77,24 +70,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/addNewUser"  class="form-horizontal"
+							<form action="${pageContext.request.contextPath}/insertPMaintananceDetails"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
 							
 
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
+					<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+										<select data-placeholder="Choose Machine Type"
+								class="form-control chosen" tabindex="6" id="machineType"
+								name="machineType" >
 
-								<option value=""selected disabled="disabled">Choose Machine</option>
+								<option value=""selected disabled="disabled">Choose Machine Type</option>
 
-								<c:forEach items="${departmentList}" var="departmentList"
-									varStatus="count">
-									<option value="${departmentList.deptId}"><c:out value="${departmentList.deptName}"/></option>
-								</c:forEach>
+								 
+									<option value="1">Electrical</option>
+								 <option value="2">Mechanical</option>
 
 
 							</select>
@@ -102,12 +94,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<input type="hidden" name="umo_id" id="umo_id" />
 									
 						</div>
+						
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<select data-placeholder="Choose Machine"
+								class="form-control chosen" tabindex="6" id="machineId"
+								name="machineId" >
+
+								<option value=""selected disabled="disabled">Choose Machine</option>
+
+								 
+
+
+							</select>
+						</div>
+									 
+									
+						</div>
 							<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Activity</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+								class="form-control chosen" tabindex="6" id="machinActivity"
+								name="machinActivity" >
 
 								<option value=""selected disabled="disabled">Choose Machine Activity</option>
 
@@ -123,8 +133,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Items</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+								class="form-control chosen" tabindex="6" id="machinItem"
+								name="machinItem" >
 
 								<option value=""selected disabled="disabled">Choose Items</option>
 
@@ -139,8 +149,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label"> Checkpoints</label>
 									<div class="col-sm-6 col-lg-4 controls">
 						<select data-placeholder="Choose Department"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+								class="form-control chosen" tabindex="6" id="machinCheckPoint"
+								name="machinCheckPoint" >
 
 									<option value=""selected disabled="disabled">Choose Checkpoint</option>
 
@@ -156,8 +166,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label"> Method</label>
 									<div class="col-sm-6 col-lg-4 controls">
 						<select data-placeholder="Choose Department"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+								class="form-control chosen" tabindex="6" id="methodId"
+								name="methodId" >
 
 									<option value=""selected disabled="disabled">Choose Method</option>
 										<option value="1">Physically</option>
@@ -175,8 +185,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Required Value</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="dept_id"
-								name="dept_id" >
+								class="form-control chosen" tabindex="6" id="requiredValueId"
+								name="requiredValueId" >
 
 								<option value=""selected disabled="disabled">Choose Required Value</option>
 
@@ -195,17 +205,91 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Date 1</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="uname" id="datepicker"  class="form-control"placeholder="dd-mm-yyy"data-rule-required="true" />
+										<input type="text" name="date1" id="date1"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" data-rule-required="true" />
 									</div>
 								 
 									
 						</div>
 						
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Observation 1</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<!-- <input type="text" name="observation1" id="observation1"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									 --><textarea rows="3" cols="50" class="form-control" name="observation1" id="observation1" placeholder="Enter Observation "  data-rule-required="true">
+									</textarea>
+									.</div>
+								 </div>
+									<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Photo</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="file" name="photo1" id="photo1"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									
+									</div>
+								 
+									
+						
+						</div>
+						
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Date 2</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="date2" id="date2"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" data-rule-required="true" />
+									</div>
+								 
+									
+						</div>
+						
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Observation 2</label>
+									<div class="col-sm-6 col-lg-4 controls">
+									<!-- 	<input type="text" name="observation2" id="observation2"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+								 -->	<textarea rows="3" cols="50" class="form-control" name="observation2" id="observation2" placeholder="Enter Observation "  data-rule-required="true">
+									</textarea>
+									</div>
+									</div>
+								 
+								 <div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Photo</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="file" name="photo2" id="photo2"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									</div>
+								 
+									
+						
+									
+						</div>
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Date 3</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="text" name="date3" id="date3"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" data-rule-required="true" />
+									</div>
+								 
+									
+						</div>
+						
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Observation 3</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<!-- <input type="text" name="observation3" id="observation3"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									 --><textarea rows="3" cols="50" class="form-control" name="observation3" id="observation3" placeholder="Enter Observation "  data-rule-required="true">
+									</textarea>
+									</div>
+								 
+									
+						</div>
+						<div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Photo</label>
+									<div class="col-sm-6 col-lg-4 controls">
+										<input type="file" name="photo3" id="photo3"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									</div>
+								 
+									
+						</div>
 						
 
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
-							<button type="button" class="btn btn-info" id="submitbtn" onclick="submitUser()" disabled>Submit</button>  
+							<button type="submit" class="btn btn-info" id="submitbtn">Submit</button>  
 
 
 						</div>
@@ -354,6 +438,246 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		 
 	}
+		
+		
+		
+		$(document).ready(function() { 
+
+			$('#machineType').change(
+
+					function() {
+
+						//alert("hh");
+
+						 
+
+						$.getJSON('${getMachinByType}', {
+
+							machineType : $(this).val(),
+
+							 
+
+							ajax : 'true'
+
+						}, function(data) {
+
+							var html = '<option value=""selected disabled="disabled">Choose Machine</option>';
+
+						
+
+							var len = data.length;
+
+							$('#machineId')
+
+						    .find('option')
+
+						    .remove()
+
+						    .end()
+
+								
+
+						    	//alert(len);
+
+							for ( var i = 0; i < len; i++) {
+
+								
+
+								 $("#machineId").append(
+
+				                           $("<option ></option>").attr(
+
+				                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+				                       );
+
+							} 
+							$("#machineId").trigger("chosen:updated");
+		 
+						});
+
+					});
+
+		});
+
+		$(document).ready(function() { 
+
+			$('#machineId').change(
+
+					function() {
+
+						alert("hh");
+
+						 
+
+						$.getJSON('${getActivityByMachin}', {
+
+							machinId : $(this).val(),
+
+							 
+
+							ajax : 'true'
+
+						}, function(data) {
+
+							var html = '<option value=""selected disabled="disabled">Choose Machine Activity</option>';
+
+						
+
+							var len = data.length;
+
+							$('#machinActivity')
+
+						    .find('option')
+
+						    .remove()
+
+						    .end()
+
+								
+
+						    	//alert(len);
+
+							for ( var i = 0; i < len; i++) {
+
+								
+
+								 $("#machinActivity").append(
+
+				                           $("<option ></option>").attr(
+
+				                               "value", data[i].activityId).text(data[i].activityName)
+
+				                       );
+
+							} 
+							$("#machinActivity").trigger("chosen:updated");
+		 
+						});
+
+					});
+
+		});
+
+		
+		$(document).ready(function() { 
+
+			$('#machinActivity').change(
+
+					function() {
+
+						//alert("hh");
+
+						 
+
+						$.getJSON('${getItemByActivity}', {
+
+							activityId : $(this).val(),
+
+							 
+
+							ajax : 'true'
+
+						}, function(data) {
+
+							var html = '<option value=""selected disabled="disabled">Choose Machine Item</option>';
+
+						
+
+							var len = data.length;
+
+							$('#machinItem')
+
+						    .find('option')
+
+						    .remove()
+
+						    .end()
+
+								
+
+						    	//alert(len);
+
+							for ( var i = 0; i < len; i++) {
+
+								
+
+								 $("#machinItem").append(
+
+				                           $("<option ></option>").attr(
+
+				                               "value", data[i].itemId).text(data[i].itemName)
+
+				                       );
+
+							} 
+							$("#machinItem").trigger("chosen:updated");
+		 
+						});
+
+					});
+
+		});
+		
+		
+		$(document).ready(function() { 
+
+			$('#machinItem').change(
+
+					function() {
+
+						//alert("hh");
+
+						 
+
+						$.getJSON('${getCheckPointsByItem}', {
+
+							itemId : $(this).val(),
+
+							 
+
+							ajax : 'true'
+
+						}, function(data) {
+
+							var html = '<option value=""selected disabled="disabled">Choose Machine Check Ponts</option>';
+
+						
+
+							var len = data.length;
+
+							$('#machinCheckPoint')
+
+						    .find('option')
+
+						    .remove()
+
+						    .end()
+
+								
+
+						    	//alert(len);
+
+							for ( var i = 0; i < len; i++) {
+
+								
+
+								 $("#machinCheckPoint").append(
+
+				                           $("<option ></option>").attr(
+
+				                               "value", data[i].checkPointId).text(data[i].checkPointName)
+
+				                       );
+
+							} 
+							$("#machinCheckPoint").trigger("chosen:updated");
+		 
+						});
+
+					});
+
+		});
 	</script>
 </body>
 
