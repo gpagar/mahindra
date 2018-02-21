@@ -37,7 +37,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "login";
+		return "pMaintanance/showPmPlan";
 	}
 	
 	@RequestMapping(value = "loginProcess")

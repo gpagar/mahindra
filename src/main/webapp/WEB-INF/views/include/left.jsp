@@ -8,15 +8,16 @@
 										<li><a href="home"><i class="fa fa-tachometer"></i> <span>dashboard</span><div class="clearfix"></div></a></li>
 										
 										
-										 <li id="menu-academico" ><a href="primitiveMaintenance"><i class="fa fa-envelope nav_icon"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
-									<li><a href="predictiveMaintenance"><i class="fa fa-picture-o" aria-hidden="true"></i><span>Predictive Maintenance</span><div class="clearfix"></div></a></li>
-									<li id="menu-academico" ><a href="breakDown"><i class="fa fa-bar-chart"></i><span>Break Down</span><div class="clearfix"></div></a></li>
+										 <li id="menu-academico" ><a href="addPredictiveMaintenance"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
+									<li><a href="showPmPlan"><i class="fa fa-calendar" aria-hidden="true"></i><span>PM Plan</span><div class="clearfix"></div></a></li>
+									  <li id="menu-academico" ><a href="breakDown"><i class="fa fa-exclamation-triangle"></i><span>Break Down</span><div class="clearfix"></div></a></li>
 									 <li id="menu-academico" ><a href="history"><i class="fa fa-bar-chart"></i><span>History</span><div class="clearfix"></div></a></li>
 									
 									<li id="menu-academico" ><a href="mail"><i class="fa fa-bar-chart"></i><span>Mail System</span><div class="clearfix"></div></a></li>
 									 
 									 <li><a href="graph"><i class="fa fa-table"></i>  <span>Auto Graph</span><div class="clearfix"></div></a></li>
-									 <li><a href="logout">Logout</a></li>
+									 <li><a href="logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
+									 
 									
 									
 								  </ul>

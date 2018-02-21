@@ -4,6 +4,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<style type="text/css">
+TD{
+width: 140px;
+}
+td{
+width: 140px;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Mahindra</title>
 
@@ -63,13 +72,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- BEGIN Main Content -->
 			<div class="row">
 					<!-- END Main Content -->
-	
 
 
 
 
 
-<SCRIPT LANGUAGE="JavaScript">
+
+						<SCRIPT LANGUAGE="JavaScript">
 
 /*
 3-month calendar script- Ada Shimar (adashimar@chalktv.com)
@@ -78,10 +87,10 @@ http://www.javascriptkit.com/
 */
 
 //Specify bgcolor of calendar
-var bg="#FFFFE1"
+var bg="#FF0000"
 
 //Specify font size
-var fs=2
+var fs=4
 
 var flg = 0;
 //var fs = 1;
@@ -96,15 +105,15 @@ pyr = pyr + 1900; // http://onyx.idbsu.edu/~ipowell
 yr = yr1 = (pmo==0?pyr-1:pyr); // last month's year
 mo = (pmo==0?11:pmo-1);  // last month
 bgn = new Date(M[mo]+" 1,"+yr1); // assign to date
-document.write('<TABLE BORDER=0><TR><TD VALIGN=TOP>');
+document.write('<TABLE BORDER=0><TR><TD VALIGN=TOP >');
 Calendar();       // Send last month to screen
-document.write('</TD><TD VALIGN=TOP> &nbsp; &nbsp;</TD><TD VALIGN=TOP>');
+document.write('</TD><TD VALIGN=TOP  > &nbsp; &nbsp;</TD><TD VALIGN=TOP  >');
 yr = pyr;                // present year
 mo = pmo;                // present month
 bgn = new Date(M[mo]+" 1,"+yr); // assign to date
 Calendar();           // Send this month to screen
  
-document.write('</TD><TD VALIGN=TOP> &nbsp; &nbsp;</TD><TD VALIGN=TOP>');
+document.write('</TD><TD VALIGN=TOP  > &nbsp; &nbsp;</TD><TD VALIGN=TOP  >');
 yr = (pmo==11?pyr+1:pyr); // next month's year
 mo = (pmo==11?0:pmo+1);   // next month
 bgn = new Date(M[mo]+" 1,"+yr); // assign to date
@@ -112,62 +121,79 @@ Calendar();           // Send next month to screen
 document.write('</TD></TR></TABLE>'); // Finish up
 }
 function Calendar(){
+	
 dy = bgn.getDay();
+
 yr = eval(yr);
 d = "312831303130313130313031";
-if (yr / 4 == Math.floor(yr / 4)) {
-d = d.substring(0, 2) + "29" + d.substring(4, d.length);
-}
-pos = (mo * 2);
-ld = eval(d.substring(pos, pos + 2));
-document.write("<TABLE BORDER=1"
-+ " BGCOLOR='" + bg
-+ "'><TR><TD ALIGN=CENTER COLSPAN=7>"
-+ "<FONT SIZE=" + fs + ">" + M[mo] + " " + yr
-+ "</FONT></TD></TR><TR><TR>");
+lyr=yr/4;
+
+if (lyr == (Math.floor(lyr))) {
+	
+			d = d.substring(0, 2) + "29" + d.substring(4, d.length);
+	}
+		pos = (mo * 2);
+		ld = eval(d.substring(pos, pos + 2));
+		
+		document.write("<TABLE BORDER=1"
+			+ " BGCOLOR='" + bg
+			+ "'><TR><TD ALIGN=CENTER COLSPAN=7  >"
+			+ "<FONT SIZE=" + fs + ">" + M[mo] + " " + yr
+			+ "</FONT></TD></TR><TR><TR>");
+		
+		
 for (var i = 0;i < 7;i ++) {
-document.write("<TD ALIGN=CENTER>"
-+"<FONT SIZE="+fs+">" + D[i] + "</FONT></TD>");
+	document.write("<TD ALIGN=CENTER  >"
+		+"<FONT SIZE="+fs+">" + D[i] + "</FONT></TD>");
 }   
-document.write("</TR><TR>");
-ctr = 0;
-for (var i = 0;i < 7; i++){
-if (i < dy) {
-document.write("<TD ALIGN=CENTER width='30px'>"
-+"<FONT SIZE=" + fs + "> </FONT>"
-+"</TD>");
-}   
-else {
-ctr++;
-document.write("<TD ALIGN=CENTER>"
-+ "<FONT SIZE=" + fs + ">" + ctr + "</FONT>"
-+ "</TD>");
-   }
-}
-document.write("</TR><TR>");
-while (ctr < ld) {
-for (var i = 0;i < 7; i++){
-ctr++;
-if (ctr > ld){
-document.write("<TD ALIGN=CENTER>"
-+ " </TD>");
-}
-else {
-document.write("<TD ALIGN=CENTER>"
-+ "<FONT SIZE=" + fs + ">" + ctr + "</FONT>"
-+ "</TD>");
+
+	document.write("</TR><TR>");
+	ctr = 0;
+for (var i = 0;i < 7; i++)
+{
+	if (i < dy)
+	{
+		document.write("<TD ALIGN=CENTER  >"
+			+"<FONT SIZE=" + fs + "> </FONT>"
+			+"</TD>");
+	}   
+	else 
+	{
+			ctr++;
+			document.write("<TD ALIGN=CENTER  >"
+				+ "<FONT SIZE=" + fs + ">" + ctr + "</FONT>"
+				+ "</TD>");
    }
 }
 
-document.write("</TR><TR>");
+		document.write("</TR><TR>");
+	while (ctr < ld) 
+	{
+		for (var i = 0;i < 7; i++)
+		{
+			ctr++;
+			if (ctr > ld)
+			{
+				document.write("<TD ALIGN=CENTER  >"
+					+ " </TD>");
+			}
+			else 
+			{
+				document.write("<TD ALIGN=CENTER >"
+					+ "<FONT SIZE=" + fs + ">" + ctr + "</FONT>"
+					+ "</TD>");
+   			}
+	}
+
+			document.write("</TR><TR>");
 }
-document.write("</TR></TABLE>");
+	document.write("</TR></TABLE>");
 
 }
 
 </SCRIPT>
 
-<CENTER>
+						<CENTER>
 <P><B> Maintanance</B>
 <SCRIPT LANGUAGE="JavaScript">
 
