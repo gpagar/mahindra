@@ -17,6 +17,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </head>
 <body>
+
+   <c:url var="getMachinByType" value="/getMachinByType"></c:url>
 	<div class="page-container">
 
 
@@ -48,53 +50,70 @@ TD, TH {
 }
 </STYLE>
 				<SCRIPT LANGUAGE="JavaScript">
-					/*******************
-					 UTILITY FUNCTIONS
-					 ********************/
+					 
 					// day of week of month's first day
-					function getFirstDay(theYear, theMonth) {
+			function getFirstDay(theYear, theMonth) {
+						
 						var firstDate = new Date(theYear, theMonth, 1)
+						
 						return firstDate.getDay()
-					}
+			}
+					
+					
+					
 					// number of days in the month
-					function getMonthLen(theYear, theMonth) {
+			function getMonthLen(theYear, theMonth) {
+						
 						var oneDay = 1000 * 60 * 60 * 24
 						var thisMonth = new Date(theYear, theMonth, 1)
 						var nextMonth = new Date(theYear, theMonth + 1, 1)
-						var len = Math.ceil((nextMonth.getTime() - thisMonth
-								.getTime())
-								/ oneDay)
+						var len = Math.ceil((nextMonth.getTime() - thisMonth.getTime())/ oneDay)
+						
 						return len
-					}
+			}
+					
+					
 					// create array of English month names
-					var theMonths = [ "January", "February", "March", "April",
-							"May", "June", "July", "August", "September",
-							"October", "November", "December" ]
+		var theMonths = [ "January", "February", "March", "April","May", "June", "July", "August", "September","October", "November", "December" ]
+					
+					
 					// return IE4+ or W3C DOM reference for an ID
-					function getObject(obj) {
+			function getObject(obj) {
+						
 						var theObj
-						if (document.all) {
+						
+						if (document.all) 
+						{
 							if (typeof obj == "string") {
 								return document.all(obj)
-							} else {
+							} 
+							else {
 								return obj.style
 							}
 						}
-						if (document.getElementById) {
+						
+						if (document.getElementById) 
+						{
 							if (typeof obj == "string") {
 								return document.getElementById(obj)
-							} else {
+							} 
+							else {
 								return obj.style
 							}
 						}
+						
+						
 						return null
-					}
+			}
 
+					
+					
 					/************************
 					 DRAW CALENDAR CONTENTS
 					 *************************/
 					// clear and re-populate table based on form's selections
-					function populateTable(form, ii) {
+				function populateTable(form, ii) {
+						
 						var theMonth = form.chooseMonth.selectedIndex
 						var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
 						// initialize date-dependent variables
@@ -155,7 +174,7 @@ TD, TH {
 					 INITIALIZATIONS
 					 ********************/
 					// create dynamic list of year choices
-					function fillYears() {
+					function fillYears(calMonthValue) {
 						var today = new Date()
 						var thisYear = today.getFullYear()
 						var yearChooser = document.dateChooser.chooseYear
@@ -163,17 +182,15 @@ TD, TH {
 							yearChooser.options[yearChooser.options.length] = new Option(
 									i, i)
 						}
-						setCurrMonth(today)
+						setCurrMonth(calMonthValue)
 					}
 					// set month choice to current month
-					function setCurrMonth(today) {
-						document.dateChooser.chooseMonth.selectedIndex = 2
+					function setCurrMonth(calMonthValue) {
+						document.dateChooser.chooseMonth.selectedIndex = calMonthValue
 					}
 				</SCRIPT>
 
-				<!-- <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a> <i class="fa fa-angle-right"></i></li>
-            </ol> -->
+				 
 
 				<div id="main-content">
 					<!-- BEGIN Page Title -->
@@ -190,179 +207,344 @@ TD, TH {
 									</h3>
 									<div class="box-tool"></div>
 
+</div>
 									<div class="box-content">
 
 
 
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-4 control-label">Machine
+												Type.</label>
+
+											<div class="col-sm-6 col-lg-4 controls">
+												<select data-placeholder="Choose Machine Type"
+													class="form-control chosen" tabindex="6" id="machineType"
+													name="machineType" required>
+
+													<option value="" selected disabled="disabled">Choose Machine Type</option>
+
+
+													<option value="1">Electrical</option>
+													<option value="2">Mechanical</option>
+
+
+												</select>
+											</div>
+											 
+										</div>
+
+
+										<div class="form-group">
+											<label class="col-sm-3 col-lg-4 control-label">Machine
+												name & No.</label>
+											<div class="col-sm-6 col-lg-4 controls">
+												<select data-placeholder="Choose Machine"
+													class="form-control chosen" tabindex="6" id="machineId"  onchange="getMonthCal(this.form)"
+													name="machineId" required>
+
+													<option value="" selected disabled="disabled">Choose Machine</option>
 
 
 
 
-										<BODY
-											onLoad="fillYears(); populateTable(document.dateChooser,3)">
+												</select>
+											</div>
 
 
+										</div>
+
+										<br />
+										<div class="form-group">
+											<div class="col-sm-6 col-lg-4 controls">
+
+												<BODY
+													onLoad="fillYears(5); populateTable(document.dateChooser,5)">
 
 
+													<TABLE ID="calendarTable" BORDER=1 ALIGN="center">
+														<TR>
+															<TH ID="tableHeader" COLSPAN=7></TH>
+														</TR>
+														<TR bgcolor="NavieBlue">
+															<TH width="35px">Sun</TH>
+															<TH width="35px">Mon</TH>
+															<TH width="35px">Tue</TH>
+															<TH width="35px">Wed</TH>
+															<TH width="35px">Thu</TH>
+															<TH width="35px">Fri</TH>
+															<TH width="35px">Sat</TH>
+														</TR>
+														<TBODY ID="tableBody"></TBODY>
+														 
+														 </TABLE>
+														 
+														
+														 
+														 
+																<FORM NAME="dateChooser">
+																	<SELECT NAME="chooseMonth"
+																		onChange="populateTable(this.form,5)"
+																		style="display: none;">
+																		<OPTION SELECTED>January</OPTION>
+																		<OPTION>February</OPTION>
+																		<OPTION>March</OPTION>
+																		<OPTION>April</OPTION>
+																		<OPTION>May</OPTION>
+																		<OPTION>June</OPTION>
+																		<OPTION>July</OPTION>
+																		<OPTION>August</OPTION>
+																		<OPTION>September</OPTION>
+																		<OPTION>October</OPTION>
+																		<OPTION>November</OPTION>
+																		<OPTION>December</OPTION>
+																	</SELECT> <SELECT NAME="chooseYear"
+																		onChange="populateTable(this.form)"
+																		style="display: none;">
 
+																	</SELECT>
 
+																</FORM>
 
+																 
+													
+												</BODY>
 
+											</div>
+											<div class="col-sm-6 col-lg-4 controls">
+											 <TABLE ID="calendarTable1" BORDER=1 ALIGN="center">
+														<TR>
+															<TH ID="tableHeader1" COLSPAN=7></TH>
+														</TR>
+														<TR bgcolor="NavieBlue">
+															<TH width="35px">Sun</TH>
+															<TH width="35px">Mon</TH>
+															<TH width="35px">Tue</TH>
+															<TH width="35px">Wed</TH>
+															<TH width="35px">Thu</TH>
+															<TH width="35px">Fri</TH>
+															<TH width="35px">Sat</TH>
+														</TR>
+														<TBODY ID="tableBody1"></TBODY>
+														 
+														 </TABLE>
+														 </div>
+									 	<div class="col-sm-6 col-lg-4 controls">
 
+												 
+<TABLE ID="calendarTable2" BORDER=1 ALIGN="center">
+														<TR>
+															<TH ID="tableHeader2" COLSPAN=7></TH>
+														</TR>
+														<TR bgcolor="NavieBlue">
+															<TH width="35px">Sun</TH>
+															<TH width="35px">Mon</TH>
+															<TH width="35px">Tue</TH>
+															<TH width="35px">Wed</TH>
+															<TH width="35px">Thu</TH>
+															<TH width="35px">Fri</TH>
+															<TH width="35px">Sat</TH>
+														</TR>
+														<TBODY ID="tableBody2"></TBODY>
+														 
+														 </TABLE>
 
+													 
 
-
-											<HR>
-											<TABLE ID="calendarTable" BORDER=1 ALIGN="center">
-												<TR>
-													<TH ID="tableHeader" COLSPAN=7></TH>
-												</TR>
-												<TR>
-													<TH>Sun</TH>
-													<TH>Mon</TH>
-													<TH>Tue</TH>
-													<TH>Wed</TH>
-													<TH>Thu</TH>
-													<TH>Fri</TH>
-													<TH>Sat</TH>
-												</TR>
-												<TBODY ID="tableBody"></TBODY>
-												<TR>
-													<TD COLSPAN=7>
-														<P>
-														<FORM NAME="dateChooser">
-															<SELECT NAME="chooseMonth"
-																onChange="populateTable(this.form,3)"
-																style="display: none;">
-																<OPTION SELECTED>January</OPTION>
-																<OPTION>February</OPTION>
-																<OPTION>March</OPTION>
-																<OPTION>April</OPTION>
-																<OPTION>May</OPTION>
-																<OPTION>June</OPTION>
-																<OPTION>July</OPTION>
-																<OPTION>August</OPTION>
-																<OPTION>September</OPTION>
-																<OPTION>October</OPTION>
-																<OPTION>November</OPTION>
-																<OPTION>December</OPTION>
-															</SELECT> <SELECT NAME="chooseYear"
-																onChange="populateTable(this.form)"
-																style="display: none;">
-															 
-															</SELECT>
-
-														</FORM>
-
-														</P>
-													</TD>
-												</TR>
-											</TABLE>
-
-
-
-
-
-											<br>
+											</div> 
+										</div></br>
+										<br> <br>
 									</div>
 
 								</div>
-
 							</div>
+
+
+
+
+
 						</div>
-						<!-- END Main Content -->
 
 
 
-						<!-- <a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-		class="fa fa-chevron-up"></i></a> -->
+
+
+						<!--//w3-agileits-pane-->
+						<!-- script-for sticky-nav -->
+						<script>
+							$(document)
+									.ready(
+											function() {
+												var navoffeset = $(
+														".header-main")
+														.offset().top;
+												$(window)
+														.scroll(
+																function() {
+																	var scrollpos = $(
+																			window)
+																			.scrollTop();
+																	if (scrollpos >= navoffeset) {
+																		$(
+																				".header-main")
+																				.addClass(
+																						"fixed");
+																	} else {
+																		$(
+																				".header-main")
+																				.removeClass(
+																						"fixed");
+																	}
+																});
+
+											});
+						</script>
+						<!-- /script-for sticky-nav -->
+						<!--inner block start here-->
+						<div class="inner-block"></div>
+						<!--inner block end here-->
+						<!--copy rights start here-->
+						<div class="copyrights">
+									 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
+
+							 
 					</div>
-
-
-
-
-
-					<!--//w3-agileits-pane-->
-					<!-- script-for sticky-nav -->
-					<script>
-						$(document).ready(function() {
-							var navoffeset = $(".header-main").offset().top;
-							$(window).scroll(function() {
-								var scrollpos = $(window).scrollTop();
-								if (scrollpos >= navoffeset) {
-									$(".header-main").addClass("fixed");
-								} else {
-									$(".header-main").removeClass("fixed");
-								}
-							});
-
-						});
-					</script>
-					<!-- /script-for sticky-nav -->
-					<!--inner block start here-->
-					<div class="inner-block"></div>
-					<!--inner block end here-->
-					<!--copy rights start here-->
-					<div class="copyrights">
-						<p>
-							© 2017-18 . All Rights Reserved | <a href="http://m&m.com/"
-								target="_blank">M&M</a>
-						</p>
-					</div>
+					<!--COPY rights end here-->
 				</div>
-				<!--COPY rights end here-->
 			</div>
+			<!--//content-inner-->
+			<!--/sidebar-menu-->
+
+			<jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
+
+
+
+
+
+			<div class="clearfix"></div>
 		</div>
-		<!--//content-inner-->
-		<!--/sidebar-menu-->
+		<script>
+			var toggle = true;
 
-		<jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
-
-
-
-
-
-		<div class="clearfix"></div>
-	</div>
-	<script>
-		var toggle = true;
-
-		$(".sidebar-icon").click(
-				function() {
-					if (toggle) {
-						$(".page-container").addClass("sidebar-collapsed")
-								.removeClass("sidebar-collapsed-back");
-						$("#menu span").css({
-							"position" : "absolute"
-						});
-					} else {
-						$(".page-container").removeClass("sidebar-collapsed")
-								.addClass("sidebar-collapsed-back");
-						setTimeout(function() {
+			$(".sidebar-icon").click(
+					function() {
+						if (toggle) {
+							$(".page-container").addClass("sidebar-collapsed")
+									.removeClass("sidebar-collapsed-back");
 							$("#menu span").css({
-								"position" : "relative"
+								"position" : "absolute"
 							});
-						}, 400);
-					}
+						} else {
+							$(".page-container").removeClass(
+									"sidebar-collapsed").addClass(
+									"sidebar-collapsed-back");
+							setTimeout(function() {
+								$("#menu span").css({
+									"position" : "relative"
+								});
+							}, 400);
+						}
 
-					toggle = !toggle;
-				});
-	</script>
-	<!--js -->
-	<script
-		src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
-	<!-- Bootstrap Core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/resources/home/js/bootstrap.min.js"></script>
-	<!-- /Bootstrap Core JavaScript -->
-	<!-- morris JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
-
+						toggle = !toggle;
+					});
+		</script>
+		<!--js -->
+		<script
+			src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script
+			src="${pageContext.request.contextPath}/resources/home/js/bootstrap.min.js"></script>
+		<!-- /Bootstrap Core JavaScript -->
+		<!-- morris JavaScript -->
+		<script
+			src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
 </body>
+
+
+
+<script type="text/javascript">
+function getMonthCal(calMonth)
+{
+	alert("jj");
+	fillYears(9);
+	
+	populateTable(calMonth,5);
+	}
+	
+	
+	
+	
+	
+$(document).ready(function() { 
+
+	$('#machineType').change(
+
+			function() {
+
+				//alert("hh");
+
+				 
+
+				$.getJSON('${getMachinByType}', {
+
+					machineType : $(this).val(),
+
+					 
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					var html = '<option value="" selected >Choose Machine</option>';
+
+				
+
+					var len = data.length;
+
+					$('#machineId')
+
+				    .find('option')
+
+				    .remove()
+
+				    .end()
+
+						
+
+				    	//alert(len);
+				    $("#machineId").append(
+
+	                           $("<option ></option>").attr(
+
+	                               "value", "").text("Select Machine Name Or Number")
+
+	                       );
+
+					for ( var i = 0; i < len; i++) {
+
+						
+
+						 $("#machineId").append(
+
+		                           $("<option ></option>").attr(
+
+		                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+		                       );
+
+					} 
+					
+					$("#machineId").trigger("chosen:updated");
+ 
+				});
+
+			});
+
+});
+
+</script>
 
 </html>

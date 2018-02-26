@@ -32,6 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          <c:url var="getActivityByMachin" value="/getActivityByMachin"></c:url>
               <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
                  <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
+                 <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
                  
                  <script>
   $( function() {
@@ -77,10 +78,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
+									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
 								class="form-control chosen" tabindex="6" id="machineType"
-								name="machineType" >
+								name="machineType" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Type</option>
 
@@ -100,7 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
 								class="form-control chosen" tabindex="6" id="machineId"
-								name="machineId" >
+								name="machineId" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
 
@@ -117,13 +119,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
 								class="form-control chosen" tabindex="6" id="machinActivity"
-								name="machinActivity" >
+								name="machinActivity" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Activity</option>
-
-								 
-
-
+ 
 							</select></div>
 									 
 								 
@@ -134,7 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
 								class="form-control chosen" tabindex="6" id="machinItem"
-								name="machinItem" >
+								name="machinItem" required>
 
 								<option value=""selected disabled="disabled">Choose Items</option>
 
@@ -147,17 +146,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label"> Checkpoints</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<div class="col-sm-6 col-lg-4 controls" >
 						<select data-placeholder="Choose Department"
 								class="form-control chosen" tabindex="6" id="machinCheckPoint"
-								name="machinCheckPoint" >
+								name="machinCheckPoint" required>
 
 									<option value=""selected disabled="disabled">Choose Checkpoint</option>
-
-
-								 
-
-
+ 
 							</select>
 							</div>
 							</div>
@@ -167,15 +162,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 						<select data-placeholder="Choose Department"
 								class="form-control chosen" tabindex="6" id="methodId"
-								name="methodId" >
+								name="methodId" required>
 
 									<option value=""selected disabled="disabled">Choose Method</option>
 										<option value="1">Physically</option>
 										<option value="2">Visually</option>
-
-								 
-
-
+ 
 							</select>
 							</div>
 							</div>
@@ -186,13 +178,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
 								class="form-control chosen" tabindex="6" id="requiredValueId"
-								name="requiredValueId" >
+								name="requiredValueId" required>
 
 								<option value=""selected disabled="disabled">Choose Required Value</option>
 
-								<c:forEach items="${departmentList}" var="departmentList"
+								<c:forEach items="${requiredValueList}" var="requiredValueList"
 									varStatus="count">
-									<option value="${departmentList.deptId}"><c:out value="${departmentList.deptName}"/></option>
+									<option value="${requiredValueList.requiredValueId}"><c:out value="${requiredValueList.requiredValue}"/></option>
 								</c:forEach>
 
 
@@ -205,7 +197,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Date 1</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="date1" id="date1"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" data-rule-required="true" />
+										<input type="text" name="date1" id="date1"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" required/>
 									</div>
 								 
 									
@@ -215,25 +207,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Observation 1</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<!-- <input type="text" name="observation1" id="observation1"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
-									 --><textarea rows="3" cols="50" class="form-control" name="observation1" id="observation1" placeholder="Enter Observation "  data-rule-required="true">
+									 --><textarea rows="3" cols="50" class="form-control" name="observation1" id="observation1" placeholder="Enter Observation "  required>
 									</textarea>
 									.</div>
 								 </div>
+								  
 									<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Photo</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="file" name="photo1" id="photo1"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
+									 
+										<input type="file" name="photo1" id="photo1"  class="form-control"placeholder="Enter Observation "  required />
 									
 									</div>
 								 
 									
 						
 						</div>
-						
+									 
+					<div id="date2div" style="display: none">
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Date 2</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name="date2" id="date2"  class="form-control dp2"placeholder="dd-mm-yyy" format= "dd-mm-yyyy" data-rule-required="true" />
+										<input type="text" name="date2" id="date2"  class="form-control dp2" placeholder="dd-mm-yyy" format= "dd-mm-yyyy"  />
 									</div>
 								 
 									
@@ -243,7 +238,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Observation 2</label>
 									<div class="col-sm-6 col-lg-4 controls">
 									<!-- 	<input type="text" name="observation2" id="observation2"  class="form-control"placeholder="Enter Observation "  data-rule-required="true" />
-								 -->	<textarea rows="3" cols="50" class="form-control" name="observation2" id="observation2" placeholder="Enter Observation "  data-rule-required="true">
+								 -->	<textarea rows="3" cols="50" class="form-control" name="observation2" id="observation2" placeholder="Enter Observation "   >
 									</textarea>
 									</div>
 									</div>
@@ -255,9 +250,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</div>
 								 
 									
+						</div>
 						
 									
 						</div>
+						<div id="date3div" style="display: none">
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Date 3</label>
 									<div class="col-sm-6 col-lg-4 controls">
@@ -285,12 +282,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								 
 									
 						</div>
-						
+						</div>
 
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
 							<button type="submit" class="btn btn-info" id="submitbtn">Submit</button>  
-
+				<button type="button" class="btn btn-info" id="addMaintenance2" onclick="unlockDate2Dive()">Add Maintenance</button>  
+		
 
 						</div>
 					</div>
@@ -339,7 +337,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--inner block end here-->
 <!--copy rights start here-->
 <div class="copyrights">
-		 <p>© 2017-18 . All Rights Reserved |  <a href="http://m&m.com/" target="_blank">M&M</a> </p></div>	
+		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
 </div>	
 <!--COPY rights end here-->
 </div>
@@ -461,7 +459,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 						}, function(data) {
 
-							var html = '<option value=""selected disabled="disabled">Choose Machine</option>';
+							var html = '<option value="" selected >Choose Machine</option>';
 
 						
 
@@ -478,6 +476,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 
 						    	//alert(len);
+						    $("#machineId").append(
+
+			                           $("<option ></option>").attr(
+
+			                               "value", "").text("Select Machine Name Or Number")
+
+			                       );
 
 							for ( var i = 0; i < len; i++) {
 
@@ -492,6 +497,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				                       );
 
 							} 
+							
 							$("#machineId").trigger("chosen:updated");
 		 
 						});
@@ -537,6 +543,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 
 						    	//alert(len);
+						    $("#machinActivity").append(
+
+			                           $("<option ></option>").attr(
+
+			                               "value", "").text("Select Machine Activity ")
+
+			                       );
 
 							for ( var i = 0; i < len; i++) {
 
@@ -597,6 +610,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 
 						    	//alert(len);
+						    $("#machinItem").append(
+
+			                           $("<option ></option>").attr(
+
+			                               "value", "").text("Select Item ")
+
+			                       );
 
 							for ( var i = 0; i < len; i++) {
 
@@ -657,6 +677,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 
 						    	//alert(len);
+						    $("#machinCheckPoint").append(
+
+			                           $("<option ></option>").attr(
+
+			                               "value", "").text("Select CheckPoint ")
+
+			                       );
 
 							for ( var i = 0; i < len; i++) {
 
@@ -678,6 +705,91 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					});
 
 		});
+		
+		$(document).ready(function() { 
+
+			$('#machinCheckPoint').change(
+					 
+					function() { 
+						
+						var machineId = $("#machineId").val();
+						
+						$.getJSON('${getCheckRecordAgistMachine}', {
+
+							checkPointId : $(this).val(),
+							machineId : machineId,
+							 
+
+							ajax : 'true'
+
+						}, function(data) {
+
+							 if(data.paMaintId==0)
+								 {
+								 document.getElementById("date1").value ="";
+								 document.getElementById("observation1").value ="";
+								 document.getElementById("date2").value ="";
+								 document.getElementById("observation2").value ="";
+								 document.getElementById("date3").value ="";
+								 document.getElementById("observation3").value ="";
+								 document.getElementById("date2div").style.display="none";
+								 document.getElementById("date3div").style.display="none";
+								 document.getElementById('addMaintenance2').style.visibility = 'visible';
+								 document.getElementById("requiredValueId").value ="";
+								 $("#requiredValueId").trigger("chosen:updated");
+								 document.getElementById("methodId").value ="";
+								 $("#methodId").trigger("chosen:updated");
+								 }
+							 else
+								 {
+								 alert(data.status);
+								 if(data.status==2)
+									 {
+									 document.getElementById("date2div").style.display="block";
+									 document.getElementById("date3div").style.display="none";
+									 document.getElementById('addMaintenance2').style.visibility = 'visible';
+									 }
+								 else if(data.status==3)
+									 {
+									 document.getElementById("date2div").style.display="block";
+									 document.getElementById("date3div").style.display="block";
+									 document.getElementById('addMaintenance2').style.visibility = 'hidden';
+									 }
+								 else
+									 {
+									 document.getElementById("date2div").style.display="none";
+									 document.getElementById("date3div").style.display="none";
+									 document.getElementById('addMaintenance2').style.visibility = 'visible';
+									 }
+								 
+								 document.getElementById("date1").value =data.date1;
+								 document.getElementById("observation1").value =data.date1Obervation;
+								 document.getElementById("date2").value =data.date2;
+								 document.getElementById("observation2").value =data.date2Obervation;
+								 document.getElementById("date3").value =data.date3;
+								 document.getElementById("observation3").value =data.date3Obervation;
+								 document.getElementById("requiredValueId").value =data.rquiredValure;
+								 $("#requiredValueId").trigger("chosen:updated");
+								 document.getElementById("methodId").value =data.method;
+								 $("#methodId").trigger("chosen:updated");
+								 }
+		 
+						});
+
+					});
+
+		});
+		
+		function unlockDate2Dive()
+		{
+			 if(document.getElementById("date2div").style.display=="block")
+				 {
+				 document.getElementById("date3div").style.display="block";
+				 document.getElementById('addMaintenance2').style.visibility = 'hidden'; 
+				 }
+			document.getElementById("date2div").style.display="block"; 
+		}
+		 
 	</script>
 </body>
 
