@@ -293,6 +293,14 @@ public class PMController {
 			int machinId = Integer.parseInt(request.getParameter("machineId"));
 			System.out.println("machineType " + machineType);
 			System.out.println("machinId " + machinId);
+			
+			RestTemplate rest = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machineId", machinId);
+			MachinMaintanaceSchedule machinMaintanaceSchedule = rest.postForObject(Constant.url + "getPmMaintenancePlan", map,
+					MachinMaintanaceSchedule.class);
+			System.out.println("MachinMaintanaceSchedule " + machinMaintanaceSchedule);
+			model.addObject("planList",machinMaintanaceSchedule);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
