@@ -29,169 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="left-content">
 			<div class="mother-grid-inner">
 				<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-
-
-
-				<script>
-					$(function() {
-						$(".dp2").datepicker({
-							autoclose : true,
-							format : "dd-mm-yyyy"
-
-						});
-
-					});
-				</script>
-
-
-				<STYLE TYPE="text/css">
-TD, TH {
-	text-align: center
-}
-</STYLE>
-				<SCRIPT LANGUAGE="JavaScript">
-					 
-					// day of week of month's first day
-			function getFirstDay(theYear, theMonth) {
-						
-						var firstDate = new Date(theYear, theMonth, 1)
-						
-						return firstDate.getDay()
-			}
-					
-					
-					
-					// number of days in the month
-			function getMonthLen(theYear, theMonth) {
-						
-						var oneDay = 1000 * 60 * 60 * 24
-						var thisMonth = new Date(theYear, theMonth, 1)
-						var nextMonth = new Date(theYear, theMonth + 1, 1)
-						var len = Math.ceil((nextMonth.getTime() - thisMonth.getTime())/ oneDay)
-						
-						return len
-			}
-					
-					
-					// create array of English month names
-		var theMonths = [ "January", "February", "March", "April","May", "June", "July", "August", "September","October", "November", "December" ]
-					
-					
-					// return IE4+ or W3C DOM reference for an ID
-			function getObject(obj) {
-						
-						var theObj
-						
-						if (document.all) 
-						{
-							if (typeof obj == "string") {
-								return document.all(obj)
-							} 
-							else {
-								return obj.style
-							}
-						}
-						
-						if (document.getElementById) 
-						{
-							if (typeof obj == "string") {
-								return document.getElementById(obj)
-							} 
-							else {
-								return obj.style
-							}
-						}
-						
-						
-						return null
-			}
-
-					
-					
-					/************************
-					 DRAW CALENDAR CONTENTS
-					 *************************/
-					// clear and re-populate table based on form's selections
-				function populateTable(form, ii) {
-						
-						var theMonth = form.chooseMonth.selectedIndex
-						var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
-						// initialize date-dependent variables
-						var firstDay = getFirstDay(theYear, theMonth)
-						var howMany = getMonthLen(theYear, theMonth)
-
-						// fill in month/year in table header
-						getObject("tableHeader").innerHTML = theMonths[theMonth]
-								+ " " + theYear
-
-						// initialize vars for table creation
-						var dayCounter = 1
-						var TBody = getObject("tableBody")
-						// clear any existing rows
-						while (TBody.rows.length > 0) {
-							TBody.deleteRow(0)
-						}
-						var newR, newC
-						var done = false
-						while (!done) {
-							// create new row at end
-							newR = TBody.insertRow(TBody.rows.length)
-							for (var i = 0; i < 7; i++) {
-
-								// create new cell at end of row
-								newC = newR.insertCell(newR.cells.length)
-								if (TBody.rows.length == 1 && i < firstDay) {
-									// no content for boxes before first day
-									newC.innerHTML = ""
-									continue
-								}
-								if (dayCounter == howMany) {
-									// no more rows after this one
-									done = true
-								}
-								// plug in date (or empty for boxes after last day)
-								for (var k = 0; k < TBody.rows.length; k++) {
-									if (k == ii)
-										newR.style.color = "#FF0000";
-									else
-										newR.style.color = "#000";
-								}
-								/* if(newR==2)
-									{
-									//newC.innerHTML = (dayCounter <= howMany) ? dayCounter++ : ""
-									newR.style.color = "#00AA00";
-									} */
-
-								newC.innerHTML = (dayCounter <= howMany) ? dayCounter++
-										: ""
-
-							}
-
-						}
-					}
-
-					/*******************
-					 INITIALIZATIONS
-					 ********************/
-					// create dynamic list of year choices
-					function fillYears(calMonthValue) {
-						var today = new Date()
-						var thisYear = today.getFullYear()
-						var yearChooser = document.dateChooser.chooseYear
-						for (i = thisYear; i < thisYear + 8; i++) {
-							yearChooser.options[yearChooser.options.length] = new Option(
-									i, i)
-						}
-						setCurrMonth(calMonthValue)
-					}
-					// set month choice to current month
-					function setCurrMonth(calMonthValue) {
-						document.dateChooser.chooseMonth.selectedIndex = calMonthValue
-					}
-				</SCRIPT>
-
-				 
-
+ 
 				<div id="main-content">
 					<!-- BEGIN Page Title -->
 
@@ -207,16 +45,21 @@ TD, TH {
 									</h3>
 									<div class="box-tool"></div>
 
-</div>
+								</div><br>
 									<div class="box-content">
 
+							<form action="${pageContext.request.contextPath}/generateCalender" class="form-horizontal"
+								method="post" id="validation-form">
 
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-4 control-label">Machine
+										<div class="box-content">
+										<label class="col-md-1"></label>
+											<div class="col-md-1">
+												 
+											</div>
+											<label class="col-md-2">Machine
 												Type.</label>
 
-											<div class="col-sm-6 col-lg-4 controls">
+											<div class="col-md-4">
 												<select data-placeholder="Choose Machine Type"
 													class="form-control chosen" tabindex="6" id="machineType"
 													name="machineType" required>
@@ -230,14 +73,21 @@ TD, TH {
 
 												</select>
 											</div>
+											
+											
 											 
-										</div>
+										</div><br><br>
+													
+												<div class="box-content">
+											<label class="col-md-1"></label>
 
-
-										<div class="form-group">
-											<label class="col-sm-3 col-lg-4 control-label">Machine
+											<div class="col-md-1">
+												 
+											</div>
+											
+											<label class="col-md-2">Machine
 												name & No.</label>
-											<div class="col-sm-6 col-lg-4 controls">
+											<div class="col-md-4">
 												<select data-placeholder="Choose Machine"
 													class="form-control chosen" tabindex="6" id="machineId"  onchange="getMonthCal(this.form)"
 													name="machineId" required>
@@ -249,113 +99,30 @@ TD, TH {
 
 												</select>
 											</div>
-
-
+											 
+										</div><br><br>
+										
+										<div class="box-content">
+											<div class="form-group">
+									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
+										<input type="submit" class="btn btn-primary" value="Submit"> 
 										</div>
+								</div>
+											 
+										</div><br><br>
+
+
+										 
 
 										<br />
-										<div class="form-group">
-											<div class="col-sm-6 col-lg-4 controls">
-
-												<BODY
-													onLoad="fillYears(5); populateTable(document.dateChooser,5)">
-
-
-													<TABLE ID="calendarTable" BORDER=1 ALIGN="center">
-														<TR>
-															<TH ID="tableHeader" COLSPAN=7></TH>
-														</TR>
-														<TR bgcolor="NavieBlue">
-															<TH width="35px">Sun</TH>
-															<TH width="35px">Mon</TH>
-															<TH width="35px">Tue</TH>
-															<TH width="35px">Wed</TH>
-															<TH width="35px">Thu</TH>
-															<TH width="35px">Fri</TH>
-															<TH width="35px">Sat</TH>
-														</TR>
-														<TBODY ID="tableBody"></TBODY>
-														 
-														 </TABLE>
-														 
-														
-														 
-														 
-																<FORM NAME="dateChooser">
-																	<SELECT NAME="chooseMonth"
-																		onChange="populateTable(this.form,5)"
-																		style="display: none;">
-																		<OPTION SELECTED>January</OPTION>
-																		<OPTION>February</OPTION>
-																		<OPTION>March</OPTION>
-																		<OPTION>April</OPTION>
-																		<OPTION>May</OPTION>
-																		<OPTION>June</OPTION>
-																		<OPTION>July</OPTION>
-																		<OPTION>August</OPTION>
-																		<OPTION>September</OPTION>
-																		<OPTION>October</OPTION>
-																		<OPTION>November</OPTION>
-																		<OPTION>December</OPTION>
-																	</SELECT> <SELECT NAME="chooseYear"
-																		onChange="populateTable(this.form)"
-																		style="display: none;">
-
-																	</SELECT>
-
-																</FORM>
-
-																 
-													
-												</BODY>
-
-											</div>
-											<div class="col-sm-6 col-lg-4 controls">
-											 <TABLE ID="calendarTable1" BORDER=1 ALIGN="center">
-														<TR>
-															<TH ID="tableHeader1" COLSPAN=7></TH>
-														</TR>
-														<TR bgcolor="NavieBlue">
-															<TH width="35px">Sun</TH>
-															<TH width="35px">Mon</TH>
-															<TH width="35px">Tue</TH>
-															<TH width="35px">Wed</TH>
-															<TH width="35px">Thu</TH>
-															<TH width="35px">Fri</TH>
-															<TH width="35px">Sat</TH>
-														</TR>
-														<TBODY ID="tableBody1"></TBODY>
-														 
-														 </TABLE>
-														 </div>
-									 	<div class="col-sm-6 col-lg-4 controls">
-
-												 
-<TABLE ID="calendarTable2" BORDER=1 ALIGN="center">
-														<TR>
-															<TH ID="tableHeader2" COLSPAN=7></TH>
-														</TR>
-														<TR bgcolor="NavieBlue">
-															<TH width="35px">Sun</TH>
-															<TH width="35px">Mon</TH>
-															<TH width="35px">Tue</TH>
-															<TH width="35px">Wed</TH>
-															<TH width="35px">Thu</TH>
-															<TH width="35px">Fri</TH>
-															<TH width="35px">Sat</TH>
-														</TR>
-														<TBODY ID="tableBody2"></TBODY>
-														 
-														 </TABLE>
-
-													 
-
-											</div> 
-										</div></br>
+										 
 										<br> <br>
+										</form>
 									</div>
+									
 
 								</div>
+								
 							</div>
 
 
@@ -370,34 +137,7 @@ TD, TH {
 
 						<!--//w3-agileits-pane-->
 						<!-- script-for sticky-nav -->
-						<script>
-							$(document)
-									.ready(
-											function() {
-												var navoffeset = $(
-														".header-main")
-														.offset().top;
-												$(window)
-														.scroll(
-																function() {
-																	var scrollpos = $(
-																			window)
-																			.scrollTop();
-																	if (scrollpos >= navoffeset) {
-																		$(
-																				".header-main")
-																				.addClass(
-																						"fixed");
-																	} else {
-																		$(
-																				".header-main")
-																				.removeClass(
-																						"fixed");
-																	}
-																});
-
-											});
-						</script>
+						 
 						<!-- /script-for sticky-nav -->
 						<!--inner block start here-->
 						<div class="inner-block"></div>
@@ -466,17 +206,7 @@ TD, TH {
 
 
 <script type="text/javascript">
-function getMonthCal(calMonth)
-{
-	alert("jj");
-	fillYears(9);
-	
-	populateTable(calMonth,5);
-	}
-	
-	
-	
-	
+ 
 	
 $(document).ready(function() { 
 

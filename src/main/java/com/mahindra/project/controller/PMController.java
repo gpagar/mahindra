@@ -281,4 +281,23 @@ public class PMController {
 		
 		return "redirect:/addPredictiveMaintenance";
 	}
+	
+	@RequestMapping(value = "/generateCalender", method = RequestMethod.POST)
+	public ModelAndView generateCalender(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("pMaintanance/generateCalender");
+		try
+		{
+			
+			int machineType = Integer.parseInt(request.getParameter("machineType"));
+			int machinId = Integer.parseInt(request.getParameter("machineId"));
+			System.out.println("machineType " + machineType);
+			System.out.println("machinId " + machinId);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
 }
