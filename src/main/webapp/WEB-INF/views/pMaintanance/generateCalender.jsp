@@ -16,7 +16,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 </head>
-<body onLoad="fillYears(${planList.fMonth}); populateTable(document.dateChooser,${planList.fWeek}, ${planList} ">
+<body onLoad="fillYears(6); populateTable(document.dateChooser,2) ">
 
    <c:url var="getMachinByType" value="/getMachinByType"></c:url>
 	<div class="page-container">
@@ -112,7 +112,7 @@ TD, TH {
 					 DRAW CALENDAR CONTENTS
 					 *************************/
 					// clear and re-populate table based on form's selections
-				function populateTable(form, ii, planList) {
+				function populateTable(form, ii) {
 						
 						var theMonth = form.chooseMonth.selectedIndex
 						var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
@@ -168,15 +168,15 @@ TD, TH {
 							}
 
 						}
-						fillYears1(planList.sMonth); 
-						populateTable1(document.dateChooser, planList.sWeek, planList);
+						fillYears1(8); 
+						populateTable1(document.dateChooser,8);
 					}
 
 					
 					
 					
 					
-				function populateTable1(form, ii, planList) {
+				function populateTable1(form, ii) {
 					
 					var theMonth = form.chooseMonth.selectedIndex
 					var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
@@ -232,11 +232,11 @@ TD, TH {
 						}
 
 					}
-					fillYears2(planList.tMonth); 
-					populateTable2(document.dateChooser, planList.tWeek, planList);
+					fillYears2(10); 
+					populateTable2(document.dateChooser,10);
 				}
 				
-function populateTable2(form, ii, planList) {
+function populateTable2(form, ii) {
 					
 					var theMonth = form.chooseMonth.selectedIndex
 					var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
@@ -360,7 +360,7 @@ function populateTable2(form, ii, planList) {
 							<div class="box">
 								<div class="box-title">
 									<h3>
-										<i class="fa fa-bars"></i> Preventive Maintenance Plan
+										<i class="fa fa-bars"></i> Preventive Maintenance Plan Schedule
 									</h3>
 									<div class="box-tool"></div>
 
@@ -369,7 +369,7 @@ function populateTable2(form, ii, planList) {
 
 
 
-										 <br/>
+										 
 
 
 										 
@@ -448,7 +448,6 @@ function populateTable2(form, ii, planList) {
 														<TBODY ID="tableBody1"></TBODY>
 														 
 														 </TABLE>
-														  
 														 </div>
 									 	<div class="col-sm-6 col-lg-4 controls">
 
@@ -471,15 +470,9 @@ function populateTable2(form, ii, planList) {
 														 </TABLE>
 
 													 
- 
+
 											</div> 
-										</div>
-										<div class="form-group">
-											<div class="col-sm-6 col-lg-4 controls">
-											<br/>
-										</div>
-										</div>
-										<br/><br/>
+										</div></br>
 										<br> <br>
 									</div>
 
@@ -487,7 +480,7 @@ function populateTable2(form, ii, planList) {
 							</div>
 
 
-<br/><br/>
+
 
 
 						</div>
@@ -593,5 +586,86 @@ function populateTable2(form, ii, planList) {
 
 
 
+<script type="text/javascript">
+function getMonthCal(calMonth)
+{
+	alert("jj");
+	fillYears(9);
+	
+	populateTable(calMonth,5);
+	}
+	
+	
+	
+	
+	
+$(document).ready(function() { 
+
+	$('#machineType').change(
+
+			function() {
+
+				//alert("hh");
+
+				 
+
+				$.getJSON('${getMachinByType}', {
+
+					machineType : $(this).val(),
+
+					 
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					var html = '<option value="" selected >Choose Machine</option>';
+
+				
+
+					var len = data.length;
+
+					$('#machineId')
+
+				    .find('option')
+
+				    .remove()
+
+				    .end()
+
+						
+
+				    	//alert(len);
+				    $("#machineId").append(
+
+	                           $("<option ></option>").attr(
+
+	                               "value", "").text("Select Machine Name Or Number")
+
+	                       );
+
+					for ( var i = 0; i < len; i++) {
+
+						
+
+						 $("#machineId").append(
+
+		                           $("<option ></option>").attr(
+
+		                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+		                       );
+
+					} 
+					
+					$("#machineId").trigger("chosen:updated");
+ 
+				});
+
+			});
+
+});
+
+</script>
 
 </html>
