@@ -11,9 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mahindra.project.constant.Constant;
+import com.mahindra.project.model.MachinDetailsList;
+import com.mahindra.project.model.UserDetails;
 
 /**
  * Handles requests for the application home page.
@@ -37,31 +44,52 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "pMaintanance/showPmPlan";
+		return "login2";
 	}
 	
-	@RequestMapping(value = "loginProcess")
-	public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "loginProcess" , method = RequestMethod.POST)
+	public String loginProcess(HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView model=new ModelAndView();
-		String username = request.getParameter("Username");
-		String password = request.getParameter("password");
-		
-		System.out.println("username"+username);
-		System.out.println("password"+password);
-		
-		if(username.equals("Admin") && password.equals("admin"))
+		String maping;
+		try
 		{
-			//model=new ModelAndView("home/index");
-			 model=new ModelAndView("primitiveMaintenance");
-		}
-		else
-		{
+			String username = request.getParameter("username");
+			String password = request.getParameter("pass");
+			
+			System.out.println("username"+username);
+			System.out.println("password"+password);
+			
+			
+			RestTemplate rest = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("email",username);
+			map.add("password",password);
+			UserDetails login  = rest.postForObject(Constant.url + "login", map,
+					UserDetails.class);
+			System.out.println("login " + login);
+			if(login!=null)
+			{
+				//model=new ModelAndView("home/index");
+				 model=new ModelAndView("primitiveMaintenance");
+				 maping="home";
+			}
+			else
+			{
 
-			model=new ModelAndView("login");
+				model=new ModelAndView("login2");
+				maping="/";
+				
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			model=new ModelAndView("login2");
+			maping="/";
 		}
 		
-		return model;
+		 
+		return "redirect:/"+maping;
 	}
 	
 	@RequestMapping(value = "home", method = RequestMethod.GET)

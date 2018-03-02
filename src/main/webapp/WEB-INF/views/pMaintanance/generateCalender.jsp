@@ -16,9 +16,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 </head>
-<body onLoad="fillYears(6); populateTable(document.dateChooser,2) ">
+<body onLoad="fillYears(${planList.fMonth-1}); populateTable(document.dateChooser,${planList.fWeek},${planList.fStatus}); fillYears1(${planList.sMonth-1}); populateTable1(document.dateChooser,${planList.sWeek},${planList.sStatus}); fillYears2(${planList.tMonth-1}); populateTable2(document.dateChooser,${planList.tweek},${planList.tStatus}) ">
 
-   <c:url var="getMachinByType" value="/getMachinByType"></c:url>
+    
 	<div class="page-container">
 
 
@@ -112,8 +112,8 @@ TD, TH {
 					 DRAW CALENDAR CONTENTS
 					 *************************/
 					// clear and re-populate table based on form's selections
-				function populateTable(form, ii) {
-						
+				function populateTable(form, ii,fStatus) {
+						//alert(ii +""+ fStatus);
 						var theMonth = form.chooseMonth.selectedIndex
 						var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
 						// initialize date-dependent variables
@@ -152,9 +152,18 @@ TD, TH {
 								// plug in date (or empty for boxes after last day)
 								for (var k = 1; k <=TBody.rows.length; k++) {
 									if (k == ii)
-										newR.style.color = "#FF0000";
+										{
+										//alert(fStatus);
+										if(fStatus==0)
+											newR.style.backgroundColor = "#228B22";
+										else
+											newR.style.backgroundColor = "#FFFF00"; 
+										} 
 									else
-										newR.style.color = "#000";
+										{
+										newR.style.backgroundColor = "#ffffff";
+										}
+										
 								}
 								/* if(newR==2)
 									{
@@ -168,16 +177,16 @@ TD, TH {
 							}
 
 						}
-						fillYears1(8); 
-						populateTable1(document.dateChooser,8);
+						/* fillYears1(8); 
+						populateTable1(document.dateChooser,8); */
 					}
 
 					
 					
 					
 					
-				function populateTable1(form, ii) {
-					
+				function populateTable1(form, ii, sStatus) {
+					//alert(sStatus);
 					var theMonth = form.chooseMonth.selectedIndex
 					var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
 					// initialize date-dependent variables
@@ -214,11 +223,20 @@ TD, TH {
 								done = true
 							}
 							// plug in date (or empty for boxes after last day)
-							for (var k = 0; k < TBody.rows.length; k++) {
+							for (var k = 0; k < TBody.rows.length; k++) { 
 								if (k == ii)
-									newR.style.color = "#FF0000";
-								else
-									newR.style.color = "#000";
+								{
+								//alert(sStatus);
+									if(sStatus==0)
+										newR.style.backgroundColor = "#228B22";
+									else
+										newR.style.backgroundColor = "#FFFF00"; 
+									
+								} 
+							else
+								{
+								newR.style.backgroundColor = "#ffffff";
+								}
 							}
 							/* if(newR==2)
 								{
@@ -232,12 +250,12 @@ TD, TH {
 						}
 
 					}
-					fillYears2(10); 
-					populateTable2(document.dateChooser,10);
+					/* fillYears2(10); 
+					populateTable2(document.dateChooser,10); */
 				}
 				
-function populateTable2(form, ii) {
-					
+function populateTable2(form, ii, tStatus) {
+					//alert(tStatus);
 					var theMonth = form.chooseMonth.selectedIndex
 					var theYear = parseInt(form.chooseYear.options[form.chooseYear.selectedIndex].text)
 					// initialize date-dependent variables
@@ -276,9 +294,18 @@ function populateTable2(form, ii) {
 							// plug in date (or empty for boxes after last day)
 							for (var k = 0; k < TBody.rows.length; k++) {
 								if (k == ii)
-									newR.style.color = "#FF0000";
-								else
-									newR.style.color = "#000";
+								{
+								//alert(tStatus);
+									if(tStatus==0)
+										newR.style.backgroundColor = "#228B22";
+									else
+										newR.style.backgroundColor = "#FFFF00"; 
+									
+								} 
+							else
+								{
+								newR.style.backgroundColor = "#ffffff";
+								}
 							}
 							/* if(newR==2)
 								{
@@ -452,7 +479,7 @@ function populateTable2(form, ii) {
 									 	<div class="col-sm-6 col-lg-4 controls">
 
 												 
-<TABLE ID="calendarTable2" BORDER=1 ALIGN="center">
+								<TABLE ID="calendarTable2" BORDER=1 ALIGN="center">
 														<TR>
 															<TH ID="tableHeader2" COLSPAN=7></TH>
 														</TR>
@@ -483,7 +510,7 @@ function populateTable2(form, ii) {
 
 
 
-						</div>
+						</div><br>
 
 
 

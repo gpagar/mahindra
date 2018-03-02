@@ -1,7 +1,10 @@
 package com.mahindra.project.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +57,7 @@ public class PMController {
 
 	@RequestMapping(value = "/showPmPlan", method = RequestMethod.GET)
 	public ModelAndView showPmPlan(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView model = new ModelAndView("pMaintanance/date");
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlan");
 		return model;
 	}
 
@@ -293,6 +296,67 @@ public class PMController {
 			int machinId = Integer.parseInt(request.getParameter("machineId"));
 			System.out.println("machineType " + machineType);
 			System.out.println("machinId " + machinId);
+			
+			Date date = new Date(); // your date
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH);
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			System.out.println("cal "+ cal);
+			System.out.println("year "+ year);
+			System.out.println("month "+ month);
+			System.out.println("day "+ day);
+			
+			java.util.Date fromDate = null;
+			java.util.Date toDate = null;
+			
+			if(month==1 || month==2 || month==3)
+			{
+				String fr = year-1 + "-" + 04 + "-" + 01;
+				String to = year + "-" + 03 + "-" + 31;
+
+			    try {
+			      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			      fromDate = formatter.parse(fr);
+			      String from_date = formatter.format(fromDate);
+			      System.out.println("fromDate:" + fromDate);
+			      System.out.println("from_date:" + from_date);
+			      
+			      toDate = formatter.parse(to);
+			      String to_date = formatter.format(toDate);
+			      System.out.println("toDate:" + toDate);
+			      System.out.println("to_date:" + to_date);
+			      
+			    } catch (Exception e) {
+			      System.out.println(e.toString());
+			      e.printStackTrace();
+			    }
+			}
+			else
+			{
+				String fr = year + "-" + 04 + "-" + 01;
+				String to = (year+1) + "-" + 03 + "-" + 31;
+
+			    try {
+			      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			      fromDate = formatter.parse(fr);
+			      String from_date = formatter.format(fromDate);
+			      System.out.println("fromDate:" + fromDate);
+			      System.out.println("from_date:" + from_date);
+			      
+			      toDate = formatter.parse(to);
+			      String to_date = formatter.format(toDate);
+			      System.out.println("toDate:" + toDate);
+			      System.out.println("to_date:" + to_date);
+			      
+			    } catch (Exception e) {
+			      System.out.println(e.toString());
+			      e.printStackTrace();
+			    }
+			}
+			
 			
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
