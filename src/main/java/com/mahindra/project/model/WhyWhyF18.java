@@ -22,7 +22,7 @@ public class WhyWhyF18{
 
 	private String problemReported;
 
-	private String bdTimeLoss;
+	private int bdTimeLoss;
 
 	private String engineLoss;
 
@@ -131,11 +131,11 @@ public class WhyWhyF18{
 		this.problemReported = problemReported;
 	}
 
-	public String getBdTimeLoss() {
+	public int getBdTimeLoss() {
 		return bdTimeLoss;
 	}
 
-	public void setBdTimeLoss(String bdTimeLoss) {
+	public void setBdTimeLoss(int bdTimeLoss) {
 		this.bdTimeLoss = bdTimeLoss;
 	}
 

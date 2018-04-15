@@ -23,11 +23,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     text-transform: uppercase;
 }
 
-table {
-    height: 200px;       /* Just for the demo          */
-    overflow-y: auto;    /* Trigger vertical scroll    */
-    overflow-x: auto;  /* Hide the horizontal scroll */
-}
 </style> 
    <script>
   $( function() {
@@ -49,53 +44,41 @@ table {
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
  <c:url var="importExcel2" value="/importExcel2"></c:url>
-      <c:url var="getMachinByType" value="/getMachinByType"></c:url>
-         <c:url var="getActivityByMachin" value="/getActivityByMachin"></c:url>
-              <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
-                 <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
-                 <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
-                  <c:url var="insertPMRecord" value="/insertPMRecord"></c:url> 
+    <c:url var="getMachinByType" value="/getMachinByType"></c:url>
+    <c:url var="getActivityByMachin" value="/getActivityByMachin"></c:url>
+    <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
+    <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
+    <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
+    <c:url var="insertPMRecord" value="/insertPMRecord"></c:url> 
   
-
-		<!-- <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a> <i class="fa fa-angle-right"></i></li>
-            </ol> -->
- 
               <div id="main-content">
 			<!-- BEGIN Page Title -->
-			 
-			<!-- END Page Title -->
-
+			
 			<!-- BEGIN Main Content -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>  Preventive Maintenance List
+								<i class="fa fa-bars"></i>  Preventive Maintenance
 							</h3>
 							<div class="box-tool">
-							
 						</div>
 
 						<div class="box-content">
 							<form action="${pageContext.request.contextPath}/searchPaMaintainenceList"  class="form-horizontal"
 							 id="validation-form"
-										enctype="multipart/form-data" method="post">
-							
-                  
+										enctype="multipart/form-data" method="get">
                    
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
-									 
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine Type"
+							<select data-placeholder="Choose Machine Type" 
 								class="form-control chosen" tabindex="6" id="machineType"
 								name="machineType" required onchange="onMacTypeChange(this.value)">
 
 								<option value="" >Choose Machine Type</option>
                                    <c:choose>
-                                   
                                    <c:when test="${machineType==1}">
                                    <option value="1" selected>Electrical</option>
 								   <option value="2">Mechanical</option>
@@ -108,22 +91,16 @@ table {
                                     <option value="1">Electrical</option>
 								   <option value="2">Mechanical</option>
                                    </c:otherwise>
-                                   
                                    </c:choose>
-								
 							</select>
 						</div>
-									<input type="hidden" name="umo_id" id="umo_id" />
-									
 						</div>
-						
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine"
+								<select data-placeholder="Choose Machine"
 								class="form-control chosen" tabindex="6" id="machineId"
 								name="machineId" required>
-
 								<option value=""selected disabled="disabled">Choose Machine</option>
 
 							</select>
@@ -134,26 +111,28 @@ table {
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
-			<!-- 	<button type="button" class="btn btn-info" id="addMaintenance2" onclick="unlockDate2Dive()">Search</button>   -->
-		
-
 						</div>
 					</div>
 					</form>
-		<form action="${pageContext.request.contextPath}/insertPMRecord"  class="form-horizontal" name="pm_form"
-							 id="validation-form"
-										enctype="multipart/form-data" method="post">	
-										 <input type="hidden" name="machine_id" id="machine_id" value="${machineId}"/>
-                   <input type="hidden" name="machine_type" id="machine_type" value="${machineType}"/>			
+			
 					<div class="agile-grids" >	
-				<!-- tables -->
 				
 				<div class="agile-tables">
-					<div class="w3l-table-info" style="overflow-x:auto; ">
-					<!-- <button class="btn btn-primary" id="action">Auto Rowspan</button> -->
+					<div class="w3l-table-info" style="overflow-x:auto; height:400px">
 					
 					    <table id="table"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
+						 <tr  style="height: 5px;">
+                            <td colspan="6" bgcolor="#f3fafe"></td>
+                            <td colspan="9"bgcolor="#f3fafe" style="text-align:center;">Frequency 4 Months</td>
+                         
+                         </tr>
+						 <tr  style="height: 5px;">
+                            <td colspan="6" bgcolor="#f3fafe"></td>
+                            <td colspan="3"bgcolor="#f3fafe" style="text-align:center;">Month</td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">Month</td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">Month</td>
+                         </tr>
 						  <tr>
 							<th>Sr.No</th>
 							<th>Activity_Done_In</th>
@@ -175,31 +154,31 @@ table {
 						  </tr>
 						</thead>
 						<tbody>
+				
 						<c:set var="cnt1" value="0"/>
                         <c:forEach var="entry" items="${actTypes}">
 						 <tr >
-						     <td></td>
-							<td colspan="16"><c:out value="${entry.value}"/></td>
+							<td colspan="16" style="text-align:center;"><c:out value="${entry.value}"/></td>
 						  </tr>
-						<c:forEach items="${paMaintainenceList}" var="paMaintainence" varStatus="count">
+					<c:forEach items="${paMaintainenceList}" var="paMaintainence" varStatus="count">
+			<form action="${pageContext.request.contextPath}/insertPMRecord"  class="form-horizontal" name="pm_form" enctype="multipart/form-data" method="post">	
+				<input type="hidden" name="machine_id" id="machine_id" value="${machineId}"/>
+                <input type="hidden" name="machine_type" id="machine_type" value="${machineType}"/>
 						<c:choose>
 						<c:when test="${entry.key==paMaintainence.int2}">
 						<c:set var="cnt1" value="${cnt1+1}"/>
-						<input type="hidden" id="key" name="key"/>
-						    <input type="hidden" name="check_point_id${count.index}" id="check_point_id${count.index}"  value="${paMaintainence.checkPointId}"/>
-						    <input type="hidden" name="pa_maint_id${count.index}" id="pa_maint_id${count.index}" value="${paMaintainence.paMaintId}"/>
-						    <input type="hidden" name="activity_id${count.index}" id="activity_id${count.index}" value="${paMaintainence.activityId}"/>
-						    <input type="hidden" name="item_id${count.index}" id="item_id${count.index}" value="${paMaintainence.itemId}"/>
+					 <%-- 	<input type="hidden" id="key" name="key"value="${count.index}"/>  --%>
+						    <input type="hidden" name="check_point_id" id="check_point_id"  value="${paMaintainence.checkPointId}"/>
+						    <input type="hidden" name="pa_maint_id" id="pa_maint_id" value="${paMaintainence.paMaintId}"/>
+						    <input type="hidden" name="activity_id" id="activity_id" value="${paMaintainence.activityId}"/>
+						    <input type="hidden" name="item_id" id="item_id" value="${paMaintainence.itemId}"/>
 						    
 						  <tr>
-						    
 							<td><c:out value="${cnt1}" /></td>
 							<td width="300" > <c:out value="${paMaintainence.activityName}" /></td>
-							
 						    <td ><c:out value="${paMaintainence.itemName}" /></td>
 							 <td ><c:out value="${paMaintainence.checkPointName}" /></td>
-						
-							 <td><select name="method_id${count.index}" id="method_id${count.index}">
+							 <td><select name="method_id" id="method_id"  required>
 							   <option value="">Select Method</option>
 							    <c:choose>
 							    <c:when test="${paMaintainence.method==1}">
@@ -215,55 +194,65 @@ table {
                                <option value="2">Physically</option>
 							    </c:otherwise>
 							    </c:choose>
-                              
- 
                              </select></td>
 						
-							  <td><select name="req_value${count.index}" id="req_value${count.index}"	>						
-                      <option value="">Select Required Value</option>
+							  <td><select name="req_value" id="req_value"  required>						
+                        <option value="">Select Required Value</option>
 						<c:forEach items="${requiredValueList}" var="requiredValue" varStatus="cnt">
-					 <c:choose>
+					    <c:choose>
 						    <c:when test="${paMaintainence.rquiredValure==requiredValue.requiredValueId}">
 						      <option value="${requiredValue.requiredValueId}" selected>${requiredValue.requiredValue}</option>
 						    </c:when>
 						    <c:otherwise>
 						   	 <option value="${requiredValue.requiredValueId}">${requiredValue.requiredValue}</option>
-						   </c:otherwise>
-						    </c:choose>
+						    </c:otherwise>
+						</c:choose>
                             
                        </c:forEach>
                              </select></td>
-                        <td><input type="date" name="date1${count.index}" id="date1${count.index}"   placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+                        <td><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
 							
-							<td><textarea rows="1" cols="20" name="date1ob${count.index}" id="date1ob${count.index}">${paMaintainence.date1Obervation}
+							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile1${count.index}" value="${paMaintainence.date1Photo}">
+							<td><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
+							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							</c:when>
+							
+							</c:choose>
 </td>
-                             <td><input type="date" name="date2${count.index}" id="date2${count.index}" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date2}"/></td>
+                             <td><input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
 
-							<td><textarea rows="1" cols="20" name="date2ob${count.index}" id="date2ob${count.index}">${paMaintainence.date2Obervation}
+							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile2${count.index}"value="${paMaintainence.date2Photo}"></td>
-							<td><textarea rows="1" cols="20" name="date3ob${count.index}" id="date3ob${count.index}">${paMaintainence.date3Obervation}
-</textarea></td>
-                             <td><input type="date" name="date3${count.index}" id="date3${count.index}" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
-
-							<td><input type="file" id="myFile3${count.index}" value="${paMaintainence.date3Photo}"></td>
-							<td><textarea rows="1" cols="18" name="remark${count.index}" id="remark${count.index}">${paMaintainence.remark}
-</textarea></td>  <td>   <a href="#" onclick="addNewPM(${count.index})"><i class="fa fa-save" style="font-size:24px"></i></a>
-</td> 
+							<td><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
+							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							</c:when>
+							</c:choose>
+							</td>
 						
+                             <td><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
+	<td><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
+</textarea></td>
+							<td><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							</c:when></c:choose>
+							</td>
+							<td><textarea rows="1" cols="18" name="remark" id="remark" >${paMaintainence.remark}
+</textarea></td>  <td> <input type="submit" value="Submit" name="submit"/>
+</td> 
 						</c:when>
-						</c:choose> </c:forEach></c:forEach>
-						</tbody>
-			
+						</c:choose></form>
+						 </c:forEach>
+						 </c:forEach>
+							</tbody>
 					  </table>
 					</div>
 				
 
 				</div>
-				<!-- //tables -->
-			</div>			</form>	     
+			</div>			     
 				</div>
 
 			</div>
@@ -271,17 +260,9 @@ table {
 		</div>
 	</div>
 	<!-- END Main Content -->
-	 
 
-
-	<!-- <a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-		class="fa fa-chevron-up"></i></a> -->
 	</div>
-                    	 
-						 
-	 
-		 
-		   
+ 
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
 		<script>
@@ -305,8 +286,8 @@ table {
 </div>
 <!--inner block end here-->
 <!--copy rights start here-->
-<div class="copyrights">
-		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
+<!-- <div class="copyrights">
+		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	 -->
 </div>	
 <!--COPY rights end here-->
 </div>
@@ -315,10 +296,6 @@ table {
 			<!--/sidebar-menu-->
 				
  <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
-
-
-
-
 
 							  <div class="clearfix"></div>		
 							</div>
@@ -351,72 +328,22 @@ table {
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function addNewPM(key)
 {
 	 if (confirm("Do you want to Save this record?")) {
 	var isValid=validation(key);
 	document.getElementById('key').value=key;
-	/* var activityId = $("#activity_id"+key).val();alert("activityId"+activityId)
-	var itemId = $("#item_id"+key).val();alert("itemId"+activityId)
-	var paMaintId = $("#pa_maint_id"+key).val();alert("paMaintId"+paMaintId)
-	var machineId = $("#machine_id").val();alert("machineId"+machineId)
-	var machineType = $("#machine_type").val();alert("machineType"+machineType)
-	var methodId = $("#method_id"+key).val();alert("methodId"+methodId)
-	var checkPointId=$("#check_point_id"+key).val();alert("checkPointId"+checkPointId)
-	var requiredVal=$("#req_value"+key).val();alert("requiredVal"+requiredVal)
-	var date1=$("#date1"+key).val();alert("date1"+date1)
-	var date1Ob=$("#date1ob"+key).val();alert("date1Ob"+date1Ob)
-	var date2=$("#date2"+key).val();alert("date2"+date2)
-	var date2Ob=$("#date2ob"+key).val();alert("date2Ob"+date2Ob)
-	var date3=$("#date3"+key).val();alert("date3"+date3)
-	var date3Ob=$("#date3ob"+key).val();alert("date3Ob"+date3Ob)
-	var remark=$("#remark"+key).val();alert("remark"+remark)
-	var file1 = $("#myFile1"+key).val();alert("file1"+file1)
-	var file2 = $("#myFile2"+key).val();alert("file2"+file2)
-	var file3 = $("#myFile3"+key).val();alert("file3"+file3)
- */
- 
+	
 	if(isValid==true)
 		{
 		document.forms["pm_form"].submit();
-		/* alert("data")
-		$.getJSON('${insertPMRecord}',
-				{
-			        activityId:activityId,
-			        itemId:itemId,
-			        paMaintId:paMaintId,
-			        machineId:machineId,
-			        machineType:machineType,
-        	        checkPointId:checkPointId,
-		        	methodId:methodId,
-		        	requiredValId:requiredVal,
-		        	date1:date1,
-		        	date2:date2,
-		        	date3:date3,
-		        	date1Ob:date1Ob,
-		        	date2Ob:date2Ob,
-		        	date3Ob:date3Ob,
-		        	remark:remark,
-					file1 : file1, 
-					file2 : file2, 
-					file3 : file3, 
-					ajax : 'true'
-
-				},
-				function(data) {
-		
-		alert("data")
-		}); */
-		
-		
-		
 		}
 	 }
 }
-</script>
+</script> -->
 <script type="text/javascript">
-function validation(key) {
+/* function validation(key) {
 	
 	var methodId = $("#method_id"+key).val();
 	var reqValue = $("#req_value"+key).val();
@@ -430,6 +357,16 @@ function validation(key) {
 		alert("Please Select Required Value");
 	}
 	return isValid;
+} */
+var tx = document.getElementsByTagName('textarea');
+for (var i = 0; i < tx.length; i++) {
+  tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+  tx[i].addEventListener("input", OnInput, false);
+}
+
+function OnInput() {
+  this.style.height = 'auto';
+  this.style.height = (this.scrollHeight) + 'px';
 }
 </script>
 
@@ -438,11 +375,7 @@ function validation(key) {
 		function getData() {
 			var file = $("#file").val();
 			
-			//alert("ala"+file);
-			 
-			$
-					.getJSON(
-							'${importExcel2}',
+			$.getJSON('${importExcel2}',
 
 							{
 								 
@@ -487,18 +420,8 @@ function validation(key) {
 
 		 
 	}
-		
-		
-		
-		/* $(document).ready(function() { 
+		function onMacTypeChange(machineType) {
 
-			$('#machineType').change(
- */
-					function onMacTypeChange(machineType) {
-
-						//alert("hh"+machineType);
-
-						 
 
 						$.getJSON('${getMachinByType}', {
 
@@ -553,10 +476,7 @@ function validation(key) {
 		 
 						});
 
-					}/* );
-
-		}); */
-
+					}
 		$(document).ready(function() { 
 
 			$('#machineId').change(
@@ -591,9 +511,6 @@ function validation(key) {
 
 						    .end()
 
-								
-
-						    	//alert(len);
 						    $("#machinActivity").append(
 
 			                           $("<option ></option>").attr(
@@ -630,16 +547,9 @@ function validation(key) {
 
 					function() {
 
-						//alert("hh");
-
-						 
-
 						$.getJSON('${getItemByActivity}', {
 
 							activityId : $(this).val(),
-
-							 
-
 							ajax : 'true'
 
 						}, function(data) {
@@ -658,9 +568,6 @@ function validation(key) {
 
 						    .end()
 
-								
-
-						    	//alert(len);
 						    $("#machinItem").append(
 
 			                           $("<option ></option>").attr(
@@ -696,10 +603,6 @@ function validation(key) {
 			$('#machinItem').change(
 
 					function() {
-
-						//alert("hh");
-
-						 
 
 						$.getJSON('${getCheckPointsByItem}', {
 
@@ -863,9 +766,6 @@ function validation(key) {
 
 		    .end()
 
-				
-
-		    	//alert(len);
 		    $("#machineId").append(
 
                        $("<option ></option>").attr(
@@ -905,7 +805,7 @@ function validation(key) {
 	}
 	</script>
 <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
 <script>
 $('#action').on('click', function() {
   $("#table").rowspanizer({vertical_align: 'middle'});
@@ -924,7 +824,7 @@ $("#table").rowspanizer({vertical_align: 'middle'});
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script>
+</script> --%>
 </body>
 
 </html>

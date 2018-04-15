@@ -41,7 +41,7 @@ public class WhyWhyAnalysisController {
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
-
+            System.out.println("whyWhyF18List"+whyWhyF18List.toString());
 			model.addObject("whyWhyF18List",whyWhyF18List);
 
 			model.addObject("machineType", machineType);
@@ -57,97 +57,99 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
 		try
 		{ 
+			int key=Integer.parseInt(request.getParameter("key"));		
+
 			int id=0;
 			try {
-				 id=Integer.parseInt(request.getParameter("id"));		
+				 id=Integer.parseInt(request.getParameter("id"+key));		
                  System.out.println("Id"+id);
 			}catch(Exception e)
 			{
 				id=0;
 				e.printStackTrace();
 			}
-			String month=request.getParameter("month");
+			String month=request.getParameter("month"+key);
             System.out.println("month"+month);
 
-			String date=request.getParameter("date");
+			String date=request.getParameter("date"+key);
             System.out.println("date"+date);
 
-			String dept=request.getParameter("dept");
+			String dept=request.getParameter("dept"+key);
             System.out.println("dept"+dept);
 
-			String cellCircle=request.getParameter("cellcircle");
+			String cellCircle=request.getParameter("cellcircle"+key);
             System.out.println("cellCircle"+cellCircle);
 
-			int machineId=Integer.parseInt(request.getParameter("machine_id"));		
+			int machineId=Integer.parseInt(request.getParameter("machine_id"+key));		
             System.out.println("machineId"+machineId);
 
-			String machineNo=request.getParameter("machine_no");
+			String machineNo=request.getParameter("machine_no"+key);
             System.out.println("machineNo"+machineNo);
 
-			String problemReported=request.getParameter("problem_reported");
+			String problemReported=request.getParameter("problem_reported"+key);
             System.out.println("problemReported"+problemReported);
 
-			String bdTimeLoss=request.getParameter("bd_time_loss");
+			int bdTimeLoss=Integer.parseInt(request.getParameter("bd_time_loss"+key));
             System.out.println("bdTimeLoss"+bdTimeLoss);
 
-			String engineLoss=request.getParameter("engine_loss");
+			String engineLoss=request.getParameter("engine_loss"+key);
             System.out.println("engineLoss"+engineLoss);
 
-			String partStatus=request.getParameter("part");
+			String partStatus=request.getParameter("part"+key);
             System.out.println("partStatus"+partStatus);
 
-			String partDesc=request.getParameter("part_desc");
+			String partDesc=request.getParameter("part_desc"+key);
             System.out.println("partDesc"+partDesc);
 
-			String bdMsPt=request.getParameter("bd_ms_pt");
+			String bdMsPt=request.getParameter("bd_ms_pt"+key);
             System.out.println("bdMsPt"+bdMsPt);
 
-			String action=request.getParameter("action");
+			String action=request.getParameter("action"+key);
             System.out.println("action"+action);
 
-			String why1=request.getParameter("why1");
+			String why1=request.getParameter("why1"+key);
             System.out.println("why1"+why1);
 
-			String why2=request.getParameter("why2");
+			String why2=request.getParameter("why2"+key);
             System.out.println("why2"+why2);
 
-			String why3=request.getParameter("why3");
+			String why3=request.getParameter("why3"+key);
             System.out.println("why3"+why3);
 
-			String why4=request.getParameter("why4");
+			String why4=request.getParameter("why4"+key);
             System.out.println("why4"+why4);
 
-			String why5=request.getParameter("why5");
+			String why5=request.getParameter("why5"+key);
             System.out.println("why5"+why5);
 
-			String rootCause=request.getParameter("root_cause");
+			String rootCause=request.getParameter("root_cause"+key);
             System.out.println("rootCause"+rootCause);
 
-			String clarificationOfCause=request.getParameter("clarification_cause");
+			String clarificationOfCause=request.getParameter("clarification_cause"+key);
             System.out.println("clarificationOfCause"+clarificationOfCause);
 
-			String failureCode=request.getParameter("failure_code");
+			String failureCode=request.getParameter("failure_code"+key);
             System.out.println("failureCode"+failureCode);
 
-			String counterMeasure=request.getParameter("counter_measure");
+			String counterMeasure=request.getParameter("counter_measure"+key);
             System.out.println("counterMeasure"+counterMeasure);
 
-			String category=request.getParameter("category");
+			String category=request.getParameter("category"+key);
             System.out.println("category"+category);
 
-			String recurNonRecurr=request.getParameter("recurnonrecurr");
+			String recurNonRecurr=request.getParameter("recurnonrecurr"+key);
             System.out.println("recurNonRecurr"+recurNonRecurr);
 
-			String linkageWith=request.getParameter("linkage_with");
+			String linkageWith=request.getParameter("linkage_with"+key);
             System.out.println("linkageWith"+linkageWith);
 
-			int status=Integer.parseInt(request.getParameter("status"));
+			int status=Integer.parseInt(request.getParameter("status"+key));
             System.out.println("status"+status);
 
-			String refNo=request.getParameter("ref_no");
+			String refNo=request.getParameter("ref_no"+key);
             System.out.println("refNo"+refNo);
 
-			String sapNotifNo=request.getParameter("sap_notif_no");
+			String sapNotifNo=request.getParameter("sap_notif_no"+key);
             System.out.println("sapNotifNo"+sapNotifNo);
 
 			WhyWhyF18 whyWhyF18=new WhyWhyF18();

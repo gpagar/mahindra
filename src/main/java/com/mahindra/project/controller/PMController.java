@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +43,8 @@ public class PMController {
 	
 	PaMaintananceDetails paMaintananceDetails = new PaMaintananceDetails();
 	List<GetPMData> paMaintainenceList=new ArrayList<>();
+	int machineType;
+	int machineId;
 	
 	@RequestMapping(value = "/addPredictiveMaintenance", method = RequestMethod.GET)
 	public ModelAndView predictiveMaintenance(HttpServletRequest request, HttpServletResponse response) {
@@ -90,14 +93,19 @@ public class PMController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/searchPaMaintainenceList", method = RequestMethod.POST)
+	@RequestMapping(value = "/searchPaMaintainenceList", method = RequestMethod.GET)
 	public ModelAndView searchPaMaintainenceList(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
 		try
-		{
-			int machineType = Integer.parseInt(request.getParameter("machineType"));
-			int machineId = Integer.parseInt(request.getParameter("machineId"));
+		{    try {
+			 machineType = Integer.parseInt(request.getParameter("machineType"));
+			 machineId = Integer.parseInt(request.getParameter("machineId"));
+		     }
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 
 			RestTemplate rest = new RestTemplate();
 			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
@@ -166,15 +174,15 @@ public class PMController {
 					System.out.println("pmList"+pmList.toString());
 			model.addObject("paMaintainenceList",pmList);
 			  Map<Integer,String> actType=new HashMap<Integer,String>();  
-			  actType.put(0,"Offline Electrical Activity");  
-			  actType.put(1,"Online Activty");  
-			  actType.put(2,"Other");  
+			  actType.put(0,"On Line Activity Points");  
+			  actType.put(1,"Offline Activty");  
+			  actType.put(2,"Safty Points");  
 			model.addObject("actTypes",actType);  
 			model.addObject("requiredValueList",requiredValueList);
 			model.addObject("machineType", machineType);
 			model.addObject("machineId", machineId);
-			model.addObject("url", "");
-
+			model.addObject("url",Constant.IMAGE_URL);
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -303,68 +311,73 @@ public class PMController {
 	}
 
 	@RequestMapping(value = "/insertPMRecord", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView insertPMaintananceDetails(HttpServletRequest request, HttpServletResponse response) {
+	public  String insertPMaintananceDetails(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "myFile1", required = false) List<MultipartFile> photo1,@RequestParam(value = "myFile2", required = false) List<MultipartFile> photo2,@RequestParam(value = "myFile3", required = false) List<MultipartFile> photo3) {
 		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
 		try
 		{  
-			int key = Integer.parseInt(request.getParameter("key"));
-		    System.err.println(key+"key");
-			int paMaintId = Integer.parseInt(request.getParameter("pa_maint_id"+key));
+			//int key = Integer.parseInt(request.getParameter("key"));
+		   // System.err.println(key+"key");
+			int paMaintId = Integer.parseInt(request.getParameter("pa_maint_id"));
 		     System.err.println(paMaintId);
 			int machinType = Integer.parseInt(request.getParameter("machine_type"));
-			System.err.println(machinType);
+			//System.err.println(machinType);
 			int machineId = Integer.parseInt(request.getParameter("machine_id"));
-			System.err.println(machineId);
-			int machinActivity = Integer.parseInt(request.getParameter("activity_id"+key));
-			System.err.println(machinActivity);
-			int machinItem = Integer.parseInt(request.getParameter("item_id"+key));
-			System.err.println(machinItem);
-			int machinCheckPoint = Integer.parseInt(request.getParameter("check_point_id"+key));
-			System.err.println(machinCheckPoint);
-			int methodId = Integer.parseInt(request.getParameter("method_id"+key));
-			System.err.println(methodId);
-			int requiredValueId = Integer.parseInt(request.getParameter("req_value"+key));
-			System.err.println(requiredValueId);
-			String date1=request.getParameter("date1"+key);
-			System.err.println(date1);
-			String observation1=request.getParameter("date1ob"+key);
-			System.err.println(observation1);
-			String remark=request.getParameter("remark"+key);
+			//System.err.println(machineId);
+			int machinActivity = Integer.parseInt(request.getParameter("activity_id"));
+			//System.err.println(machinActivity);
+			int machinItem = Integer.parseInt(request.getParameter("item_id"));
+			//System.err.println(machinItem);
+			int machinCheckPoint = Integer.parseInt(request.getParameter("check_point_id"));
+			//System.err.println(machinCheckPoint);
+			int methodId = Integer.parseInt(request.getParameter("method_id"));
+			//System.err.println(methodId);
+			int requiredValueId = Integer.parseInt(request.getParameter("req_value"));
+			//System.err.println(requiredValueId);
+			String date1=request.getParameter("date1");
+			//System.err.println(date1);
+			String observation1=request.getParameter("date1ob");
+			//System.err.println(observation1);
+			String remark=request.getParameter("remark");
 
-			//request.getParameter("photo1");
-			System.err.println(observation1);
-			String date2=request.getParameter("date2"+key);
-			String observation2=request.getParameter("date2ob"+key);
+			//String date1Photo=request.getParameter("myFile1");
+		    //System.err.println("QQ"+date1Photo);
+			String date2=request.getParameter("date2");
+			String observation2=request.getParameter("date2ob");
 			
 			
 			
-			//request.getParameter("photo2");
+		 //   String date2Photo=request.getParameter("myFile2");
 
-			String date3=request.getParameter("date3"+key);
-			String observation3=request.getParameter("date3ob"+key);
-			
-			//request.getParameter("photo3");
-
-			
-		/*	VpsImageUpload vpsImageUpload=new VpsImageUpload();
-			String imageName1=photo1.get(0).getOriginalFilename();
-			String imageName2=photo2.get(0).getOriginalFilename();
-			String imageName3=photo3.get(0).getOriginalFilename();
+			String date3=request.getParameter("date3");
+			String observation3=request.getParameter("date3ob");
+		//	String date3Photo=request.getParameter("myFile3");
+			String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+            System.out.println("llll"+photo1.get(0).getOriginalFilename());
+			VpsImageUpload vpsImageUpload=new VpsImageUpload();
+			String imageName1="";String imageName2="";String imageName3="";
+			if(photo1.get(0).getOriginalFilename()!="")
+				imageName1=timeStamp+""+photo1.get(0).getOriginalFilename();
+			if(photo2.get(0).getOriginalFilename()!="")
+				imageName2=timeStamp+""+photo2.get(0).getOriginalFilename();
+			if(photo3.get(0).getOriginalFilename()!="")
+				imageName3=timeStamp+""+photo3.get(0).getOriginalFilename();
 
 			try {
-				vpsImageUpload.saveUploadedFiles(photo1, 1, imageName1);
-				vpsImageUpload.saveUploadedFiles(photo2, 1, imageName2);
-				vpsImageUpload.saveUploadedFiles(photo3, 1, imageName3);
+				vpsImageUpload.saveUploadedFiles(photo1, 1,imageName1);
+				vpsImageUpload.saveUploadedFiles(photo2, 1,imageName2);
+				vpsImageUpload.saveUploadedFiles(photo3, 1,imageName3);
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
+			
 			System.err.println("date2" + date2);
 			System.err.println("date3 " + date3);
 			if(paMaintId!=0 && String.valueOf(paMaintId)!="")
 			{
 				System.out.println("in if for Edit ");
+				paMaintananceDetails.setPaMaintId(paMaintId);
 				paMaintananceDetails.setMachinId(machineId);
 				paMaintananceDetails.setActivityId(machinActivity);
 				paMaintananceDetails.setItemId(machinItem);
@@ -373,20 +386,21 @@ public class PMController {
 				paMaintananceDetails.setRquiredValure(requiredValueId);
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
-				paMaintananceDetails.setDate1Photo("");
+				paMaintananceDetails.setDate1Photo(imageName1);
 				paMaintananceDetails.setDate2(date2);
 				paMaintananceDetails.setDate2Obervation(observation2); 
-				paMaintananceDetails.setDate2Photo("");
+				paMaintananceDetails.setDate2Photo(imageName2);
 				paMaintananceDetails.setDate3(date3);
 				paMaintananceDetails.setDate3Obervation(observation3);
-				paMaintananceDetails.setDate3Photo("");
+				paMaintananceDetails.setDate3Photo(imageName3);
 				paMaintananceDetails.setType(machinType);
 				paMaintananceDetails.setRemark(remark);
-				if(date2==null || !date2.equals(""))
+				paMaintananceDetails.setStatus(1);
+				if(date2!=null || !date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
 				}
-				if(date3==null || !date3.equals(""))
+				if(date3!=null || !date3.equals(""))
 				{
 					paMaintananceDetails.setStatus(3);
 				}
@@ -408,14 +422,22 @@ public class PMController {
 				paMaintananceDetails.setRquiredValure(requiredValueId);
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
-		     	paMaintananceDetails.setDate1Photo("");
+		     	paMaintananceDetails.setDate1Photo(imageName1);
 				paMaintananceDetails.setDate2(date2);
 				paMaintananceDetails.setDate2Obervation(observation2); 
-				paMaintananceDetails.setDate2Photo("");
+				paMaintananceDetails.setDate2Photo(imageName2);
 				paMaintananceDetails.setDate3(date3);
 				paMaintananceDetails.setDate3Obervation(observation3);
-				paMaintananceDetails.setDate3Photo("");
+				paMaintananceDetails.setDate3Photo(imageName3);
 				paMaintananceDetails.setStatus(1);
+				if(date2!=null || !date2.equals(""))
+				{
+					paMaintananceDetails.setStatus(2);
+				}
+				if(date3!=null || !date3.equals(""))
+				{
+					paMaintananceDetails.setStatus(3);
+				}
 				paMaintananceDetails.setType(machinType);
 				paMaintananceDetails.setRemark(remark);
 
@@ -424,24 +446,23 @@ public class PMController {
 						PaMaintananceDetails.class);
 				System.out.println("paMaintananceDetails " + paMaintananceDetails);
 			}
-			RestTemplate rest = new RestTemplate();
-			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+			/*  RestTemplate rest = new RestTemplate();
+			  List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
 					List.class);
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("machinId",machineId);
+			  MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			  map.add("machinId",machineId);
 			
-			GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
+			  GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
 					GetPMData[].class);
 				ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
-
-			 map = new LinkedMultiValueMap<String, Object>();
-				map.add("machineId",machineId);
+               System.out.println("pmList"+pmList.toString());
+			   map = new LinkedMultiValueMap<String, Object>();
+			   map.add("machineId",machineId);
 				
 				GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
 						GetPaMaintainence[].class);
 				ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
 
-				
 				for(int i=0;i<pmDbList.size();i++)
 				{
 					for(int j=0;j<pmList.size();j++)
@@ -467,20 +488,20 @@ public class PMController {
 					}
 				}
 				model.addObject("paMaintainenceList",pmList);
-				  Map<Integer,String> actType=new HashMap<Integer,String>();  
-				  actType.put(0,"Offline Electrical Activity");  
-				  actType.put(1,"Online Activity");  
-				  actType.put(2,"Other");  
+				Map<Integer,String> actType=new HashMap<Integer,String>();  
+				actType.put(0,"On Line Activity Points");  
+				actType.put(1,"Offline Activty");  
+				actType.put(2,"Safty Points");    
 				model.addObject("actTypes",actType);  
 				model.addObject("requiredValueList",requiredValueList);
 				model.addObject("machineType", machinType);
 				model.addObject("machineId", machineId);
-				model.addObject("url", "");
+				model.addObject("url", "/home/ats-12/");*/
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		return model;
+		return "redirect:/searchPaMaintainenceList";
 		
 	//	return "gg";
 	}
