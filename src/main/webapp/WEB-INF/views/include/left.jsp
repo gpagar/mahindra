@@ -9,7 +9,7 @@
 										<li><a href="home"><i class="fa fa-tachometer"></i> <span>dashboard</span><div class="clearfix"></div></a></li>
 										
 										
-										 <li id="menu-academico" ><a href="addPredictiveMaintenance"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
+										 <li id="menu-academico" ><a href="showPmPlanList"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
 										 <li id="menu-academico" ><a href="addPredictiveMaintenance"><i class="fa fa-gear"></i><span>Predictive Maintenance </span><div class="clearfix"></div></a></li>
 									  <li id="menu-academico" ><a href="breakDown"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <br/><span>(WHY WHY Analysis) </span><div class="clearfix"></div></a></li>
 							

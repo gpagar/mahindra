@@ -61,7 +61,7 @@ table tr,
 table th,
 table td {
     border: none;
-    border-bottom: 1px solid #e8e8e8;
+    border: 1px solid #e8e8e8;
     font-size: .95em;
 }
 

@@ -3,9 +3,12 @@ package com.mahindra.project.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mahindra.project.constant.Constant;
 import com.mahindra.project.constant.VpsImageUpload;
+import com.mahindra.project.model.GetPMData;
+import com.mahindra.project.model.GetPaMaintainence;
 import com.mahindra.project.model.MachinDetails;
 import com.mahindra.project.model.MachinDetailsList;
 import com.mahindra.project.model.MachinMaintanaceSchedule;
@@ -36,7 +41,8 @@ import com.mahindra.project.model.PmRequiredValue;
 public class PMController {
 	
 	PaMaintananceDetails paMaintananceDetails = new PaMaintananceDetails();
-
+	List<GetPMData> paMaintainenceList=new ArrayList<>();
+	
 	@RequestMapping(value = "/addPredictiveMaintenance", method = RequestMethod.GET)
 	public ModelAndView predictiveMaintenance(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("pMaintanance/addPMaintanance");
@@ -54,13 +60,127 @@ public class PMController {
 
 		return model;
 	}
+	@RequestMapping(value = "/showPmPlanList", method = RequestMethod.GET)
+	public ModelAndView showPmPlanList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
+		try
+		{
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+			model.addObject("requiredValueList",requiredValueList);
+			
+			
 
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
 	@RequestMapping(value = "/showPmPlan", method = RequestMethod.GET)
 	public ModelAndView showPmPlan(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("pMaintanance/showPmPlan");
 		return model;
 	}
+	@RequestMapping(value = "/showWhyWhyf18", method = RequestMethod.GET)
+	public ModelAndView showWhyWhyf18(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
+		return model;
+	}
+	
+	@RequestMapping(value = "/searchPaMaintainenceList", method = RequestMethod.POST)
+	public ModelAndView searchPaMaintainenceList(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
+		try
+		{
+			int machineType = Integer.parseInt(request.getParameter("machineType"));
+			int machineId = Integer.parseInt(request.getParameter("machineId"));
 
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machinId",machineId);
+			/*
+			 paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
+					List.class);*/
+			
+		    /*PMActivityDetails[] pMActivityDetailsList = rest.postForObject(Constant.url + "getActivityByMachin", map,
+		    		PMActivityDetails[].class);
+			ArrayList<PMActivityDetails> pmActList=new ArrayList<PMActivityDetails>(Arrays.asList(pMActivityDetailsList));
+			
+			
+			PMItemDetails[] pMItemDetailsList = rest.getForObject(Constant.url + "getAllItems",PMItemDetails[].class);
+			ArrayList<PMItemDetails> itemList=new ArrayList<PMItemDetails>(Arrays.asList(pMItemDetailsList));
+			System.out.println("pMItemDetailsList"+itemList.toString());
+			
+			PMCheckPoints[] pMCheckPointsList = rest.getForObject(Constant.url + "getAllCheckPoints",PMCheckPoints[].class);
+			ArrayList<PMCheckPoints> checkpointList=new ArrayList<PMCheckPoints>(Arrays.asList(pMCheckPointsList));
+
+			System.out.println("pMCheckPointsList"+checkpointList.toString());*/
+
+			
+		/*	model.addObject("activityList",pmActList);
+			model.addObject("itemList",itemList);
+			model.addObject("checkpList",checkpointList);
+			*/
+				GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
+						GetPMData[].class);
+					ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
+
+				 map = new LinkedMultiValueMap<String, Object>();
+					map.add("machineId",machineId);
+					
+					GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
+							GetPaMaintainence[].class);
+					ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
+
+					
+					for(int i=0;i<pmDbList.size();i++)
+					{
+						for(int j=0;j<pmList.size();j++)
+						{
+							if(pmDbList.get(i).getCheckPointId()==pmList.get(j).getCheckPointId())
+							{
+								pmList.get(j).setPaMaintId(pmDbList.get(i).getPaMaintId());
+								pmList.get(j).setDate1(pmDbList.get(i).getDate1());
+								pmList.get(j).setDate1Obervation(pmDbList.get(i).getDate1Obervation());
+								pmList.get(j).setDate1Photo(pmDbList.get(i).getDate1Photo());
+								pmList.get(j).setDate2(pmDbList.get(i).getDate2());
+								pmList.get(j).setDate2Obervation(pmDbList.get(i).getDate2Obervation());
+								pmList.get(j).setDate2Photo(pmDbList.get(i).getDate2Photo());
+								pmList.get(j).setDate3(pmDbList.get(i).getDate3());
+								pmList.get(j).setDate3Photo(pmDbList.get(i).getDate3Photo());
+								pmList.get(j).setDate3Obervation(pmDbList.get(i).getDate3Obervation());
+								pmList.get(j).setRemark(pmDbList.get(i).getRemark());
+								pmList.get(j).setRquiredValure(pmDbList.get(i).getRquiredValure());
+								pmList.get(j).setStatus(pmDbList.get(i).getStatus());
+								pmList.get(j).setMethod(pmDbList.get(i).getMethod());
+							}
+							
+						}
+					}
+					System.out.println("pmList"+pmList.toString());
+			model.addObject("paMaintainenceList",pmList);
+			  Map<Integer,String> actType=new HashMap<Integer,String>();  
+			  actType.put(0,"Offline Electrical Activity");  
+			  actType.put(1,"Online Activty");  
+			  actType.put(2,"Other");  
+			model.addObject("actTypes",actType);  
+			model.addObject("requiredValueList",requiredValueList);
+			model.addObject("machineType", machineType);
+			model.addObject("machineId", machineId);
+			model.addObject("url", "");
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
 	@RequestMapping(value = "/getMonth", method = RequestMethod.GET)
 	@ResponseBody
 	public MachinMaintanaceSchedule getMonth(HttpServletRequest request, HttpServletResponse response) {
@@ -87,15 +207,20 @@ public class PMController {
 	@ResponseBody
 	public List<MachinDetails> getMachinByType(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Get MAchin By Type");
+		MachinDetailsList machinDetailsList=new MachinDetailsList();
+		try {
 		int type = Integer.parseInt(request.getParameter("machineType"));
 		System.out.println(type);
 		// List<MachinDetails> machinDetailsList=new ArrayList<>();
 		RestTemplate rest = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("type", "" + type);
-		MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByType", map,
+		 machinDetailsList = rest.postForObject(Constant.url + "getMachineByType", map,
 				MachinDetailsList.class);
-
+		}
+		 catch (Exception e) {
+			e.printStackTrace();
+		}
 		return machinDetailsList.getMachinDetailsList();
 	}
 
@@ -177,47 +302,67 @@ public class PMController {
 		return paMaintananceDetails;
 	}
 
-	@RequestMapping(value = "/insertPMaintananceDetails", method = RequestMethod.POST)
-	public String insertPMaintananceDetails(HttpServletRequest request, HttpServletResponse response, @RequestParam("photo1") List<MultipartFile> photo1) {
-
+	@RequestMapping(value = "/insertPMRecord", method = RequestMethod.POST)
+	public @ResponseBody ModelAndView insertPMaintananceDetails(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
 		try
-		{
-			int machinType = Integer.parseInt(request.getParameter("machineType"));
-			int machineId = Integer.parseInt(request.getParameter("machineId"));
-			int machinActivity = Integer.parseInt(request.getParameter("machinActivity"));
-			int machinItem = Integer.parseInt(request.getParameter("machinItem"));
-			int machinCheckPoint = Integer.parseInt(request.getParameter("machinCheckPoint"));
-			int methodId = Integer.parseInt(request.getParameter("methodId"));
-			int requiredValueId = Integer.parseInt(request.getParameter("requiredValueId"));
-			String date1=request.getParameter("date1");
-			String observation1=request.getParameter("observation1");
-			
-			request.getParameter("photo1");
+		{  
+			int key = Integer.parseInt(request.getParameter("key"));
+		    System.err.println(key+"key");
+			int paMaintId = Integer.parseInt(request.getParameter("pa_maint_id"+key));
+		     System.err.println(paMaintId);
+			int machinType = Integer.parseInt(request.getParameter("machine_type"));
+			System.err.println(machinType);
+			int machineId = Integer.parseInt(request.getParameter("machine_id"));
+			System.err.println(machineId);
+			int machinActivity = Integer.parseInt(request.getParameter("activity_id"+key));
+			System.err.println(machinActivity);
+			int machinItem = Integer.parseInt(request.getParameter("item_id"+key));
+			System.err.println(machinItem);
+			int machinCheckPoint = Integer.parseInt(request.getParameter("check_point_id"+key));
+			System.err.println(machinCheckPoint);
+			int methodId = Integer.parseInt(request.getParameter("method_id"+key));
+			System.err.println(methodId);
+			int requiredValueId = Integer.parseInt(request.getParameter("req_value"+key));
+			System.err.println(requiredValueId);
+			String date1=request.getParameter("date1"+key);
+			System.err.println(date1);
+			String observation1=request.getParameter("date1ob"+key);
+			System.err.println(observation1);
+			String remark=request.getParameter("remark"+key);
 
-			String date2=request.getParameter("date2");
-			String observation2=request.getParameter("observation2");
+			//request.getParameter("photo1");
+			System.err.println(observation1);
+			String date2=request.getParameter("date2"+key);
+			String observation2=request.getParameter("date2ob"+key);
 			
 			
 			
-			request.getParameter("photo2");
+			//request.getParameter("photo2");
 
-			String date3=request.getParameter("date3");
-			String observation3=request.getParameter("observation3");
+			String date3=request.getParameter("date3"+key);
+			String observation3=request.getParameter("date3ob"+key);
 			
-			request.getParameter("photo3");
+			//request.getParameter("photo3");
 
 			
-			VpsImageUpload vpsImageUpload=new VpsImageUpload();
-			String imageName=photo1.get(0).getOriginalFilename();
+		/*	VpsImageUpload vpsImageUpload=new VpsImageUpload();
+			String imageName1=photo1.get(0).getOriginalFilename();
+			String imageName2=photo2.get(0).getOriginalFilename();
+			String imageName3=photo3.get(0).getOriginalFilename();
+
 			try {
-				vpsImageUpload.saveUploadedFiles(photo1, 1, imageName);
+				vpsImageUpload.saveUploadedFiles(photo1, 1, imageName1);
+				vpsImageUpload.saveUploadedFiles(photo2, 1, imageName2);
+				vpsImageUpload.saveUploadedFiles(photo3, 1, imageName3);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			System.out.println("date2" + date2);
-			System.out.println("date3 " + date3);
-			if(paMaintananceDetails.getPaMaintId()!=0)
+			}*/
+			System.err.println("date2" + date2);
+			System.err.println("date3 " + date3);
+			if(paMaintId!=0 && String.valueOf(paMaintId)!="")
 			{
 				System.out.println("in if for Edit ");
 				paMaintananceDetails.setMachinId(machineId);
@@ -228,7 +373,7 @@ public class PMController {
 				paMaintananceDetails.setRquiredValure(requiredValueId);
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
-				paMaintananceDetails.setDate1Photo(imageName);
+				paMaintananceDetails.setDate1Photo("");
 				paMaintananceDetails.setDate2(date2);
 				paMaintananceDetails.setDate2Obervation(observation2); 
 				paMaintananceDetails.setDate2Photo("");
@@ -236,6 +381,7 @@ public class PMController {
 				paMaintananceDetails.setDate3Obervation(observation3);
 				paMaintananceDetails.setDate3Photo("");
 				paMaintananceDetails.setType(machinType);
+				paMaintananceDetails.setRemark(remark);
 				if(date2==null || !date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
@@ -262,7 +408,7 @@ public class PMController {
 				paMaintananceDetails.setRquiredValure(requiredValueId);
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
-				paMaintananceDetails.setDate1Photo(imageName);
+		     	paMaintananceDetails.setDate1Photo("");
 				paMaintananceDetails.setDate2(date2);
 				paMaintananceDetails.setDate2Obervation(observation2); 
 				paMaintananceDetails.setDate2Photo("");
@@ -271,18 +417,72 @@ public class PMController {
 				paMaintananceDetails.setDate3Photo("");
 				paMaintananceDetails.setStatus(1);
 				paMaintananceDetails.setType(machinType);
+				paMaintananceDetails.setRemark(remark);
+
 				RestTemplate rest = new RestTemplate();
 				paMaintananceDetails = rest.postForObject(Constant.url + "insertPMaintananceDetails", paMaintananceDetails,
 						PaMaintananceDetails.class);
 				System.out.println("paMaintananceDetails " + paMaintananceDetails);
 			}
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machinId",machineId);
 			
+			GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
+					GetPMData[].class);
+				ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
+
+			 map = new LinkedMultiValueMap<String, Object>();
+				map.add("machineId",machineId);
+				
+				GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
+						GetPaMaintainence[].class);
+				ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
+
+				
+				for(int i=0;i<pmDbList.size();i++)
+				{
+					for(int j=0;j<pmList.size();j++)
+					{
+						if(pmDbList.get(i).getCheckPointId()==pmList.get(j).getCheckPointId())
+						{
+							pmList.get(j).setPaMaintId(pmDbList.get(i).getPaMaintId());
+							pmList.get(j).setDate1(pmDbList.get(i).getDate1());
+							pmList.get(j).setDate1Obervation(pmDbList.get(i).getDate1Obervation());
+							pmList.get(j).setDate1Photo(pmDbList.get(i).getDate1Photo());
+							pmList.get(j).setDate2(pmDbList.get(i).getDate2());
+							pmList.get(j).setDate2Obervation(pmDbList.get(i).getDate2Obervation());
+							pmList.get(j).setDate2Photo(pmDbList.get(i).getDate2Photo());
+							pmList.get(j).setDate3(pmDbList.get(i).getDate3());
+							pmList.get(j).setDate3Photo(pmDbList.get(i).getDate3Photo());
+							pmList.get(j).setDate3Obervation(pmDbList.get(i).getDate3Obervation());
+							pmList.get(j).setRemark(pmDbList.get(i).getRemark());
+							pmList.get(j).setRquiredValure(pmDbList.get(i).getRquiredValure());
+							pmList.get(j).setStatus(pmDbList.get(i).getStatus());
+							pmList.get(j).setMethod(pmDbList.get(i).getMethod());
+						}
+						
+					}
+				}
+				model.addObject("paMaintainenceList",pmList);
+				  Map<Integer,String> actType=new HashMap<Integer,String>();  
+				  actType.put(0,"Offline Electrical Activity");  
+				  actType.put(1,"Online Activity");  
+				  actType.put(2,"Other");  
+				model.addObject("actTypes",actType);  
+				model.addObject("requiredValueList",requiredValueList);
+				model.addObject("machineType", machinType);
+				model.addObject("machineId", machineId);
+				model.addObject("url", "");
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		return model;
 		
-		return "redirect:/addPredictiveMaintenance";
+	//	return "gg";
 	}
 	
 	@RequestMapping(value = "/generateCalender", method = RequestMethod.POST)

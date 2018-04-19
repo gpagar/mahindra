@@ -1023,7 +1023,7 @@ header.widget-header h4 {
     margin-bottom: 0;
 }
 .table-bordered, .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-    border: 1px solid #F5F5F5;
+   /*  border: 1px solid #F5F5F5; */
 }
 .table {
     width: 100%;
@@ -1047,7 +1047,7 @@ table {
     padding: 12px;
 }
 .table>thead>tr>th {
-    background-color: #fff;
+    background-color: #fabf8f;
     vertical-align: middle;
     font-weight: 500;
     color: #333;
@@ -1060,7 +1060,7 @@ table {
     border-bottom-width: 2px;
 }
 .table-bordered, .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-    border: 1px solid #F5F5F5;
+  /*   border: 1px solid #F5F5F5; */
 }
 .table>thead>tr>th {
     vertical-align: bottom;
@@ -1072,6 +1072,11 @@ table {
     vertical-align: top;
     border-top: 1px solid #F5F5F5;
 }
+/*odd color of row specification*/
+.table tr:nth-child(odd) td {
+    background: none repeat scroll 0 0 #f0f0f0;
+}
+/*odd color of row specification end*/
 *, :active, :focus, :hover {
     outline: 0!important;
     -webkit-tap-highlight-color: transparent!important;
@@ -3971,7 +3976,7 @@ section#tables  p {
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	font-size: 0.9em;
-	color: #999;
+	color: #000000;
 	border-top: none !important;
 }
 .tab-content > .active {
