@@ -21,7 +21,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <style type="text/css">select {
      padding: 0rem 0rem; 
     text-transform: uppercase;
-}</style> 
+}
+
+</style> 
    <script>
   $( function() {
     $( ".dp2" ).datepicker({
@@ -36,7 +38,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body onload="setMachineSelected(${machineType},${machineId})">
          <c:url var="getMachinByType" value="/getMachinByType"></c:url>
-   
+         <c:url var="getMachineById" value="/getMachineById"></c:url>
    <!--/content-inner-->
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
@@ -62,7 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="box-content">
 				<form action="${pageContext.request.contextPath}/searchWhyWhyList"  class="form-horizontal"
 							 id="validation-form"
-										enctype="multipart/form-data" method="post">
+										enctype="multipart/form-data" method="get">
 							<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									 
@@ -98,7 +100,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+								class="form-control chosen" tabindex="6" id="machineId" onchange="onMachineChange(this.value)"
 								name="machineId" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
@@ -118,23 +120,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</form>
 		<form action="${pageContext.request.contextPath}/saveWhyWhy"  class="form-horizontal" name="breakdown_form"
 							 id="validation-form" enctype="multipart/form-data" method="post">	
-				        	<input type="hidden" name="machine_id" id="machine_id" value="1"/>
-                           <input type="hidden" name="machine_type" id="machine_type" value="1"/>			
+				        	<input type="hidden" name="machine_id-1" id="machine_id-1" value="${machineId}"/>
+                           <input type="hidden" name="machine_type-1" id="machine_type-1" value="${machineType}"/>			
                            <input type="hidden" name="key" id="key"/>
 			<div class="agile-grids" >	
 				<!-- tables -->
 				<div class="agile-tables">
-					<div class="w3l-table-info" style="overflow-x:auto;">
+					<div class="w3l-table-info" style="overflow-x:auto;height:400px;  ">
 					
-					    <table id="table"  style="border: 1px;"class="table table-inverse table-bordered">
+					    <table id="table"  style="border: 1px;" >
 						<thead>
 						  <tr>
 							<th>Sr.No</th>
 							<th>Month</th>
 							<th>Date</th>
 							<th>Dept.</th>
-							<th>cell/circle</th>
+							<th>Cell/Circle</th>
 							<th>M/c No.</th>
+							<th>Rank</th>
 							<th>Problem Reported</th>
 							<th>BD time Loss (Min)</th> 
 							<th>Engine Loss</th> 
@@ -154,6 +157,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Category</th>
 							<th>Recur /Non Recurr</th>
 							<th>Linkage with</th>
+							<th>Previous Occurrence Date</th>
+							<th>Repaired By</th>
+							<th>Repair Start Time</th>
+							<th>Repair Finish Time</th>
+							<th>Idea</th>
+							<th>Prepared By</th>
+							<th>PU Manager / Department Head </th>
+							<th>Pillar Subcommittee Members</th>
 							<th>Status</th>
 							<th>Ref NO.</th>
 							<th>SAP Notification Number</th>
@@ -162,26 +173,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</thead>
 						<tbody>
 						<tr>
-						  <input type="hidden" name="id1" id="id1" value=""/>			
+						  <input type="hidden" name="id-1" id="id-1" value="0"/>			
 						
-						<td>1</td>
-						<td><input id="month-1" type="month" name="month-1"/>
+						<td>Insert Breakdown</td>
+						<td><input id="month-1" type="month" name="month-1" />
 						</td>
-						<td><input id="date-1" type="date" name="date-1"/>
+						<td><input id="date-1" type="date" name="date-1" format="dd-MM-yyyy"/>
 						</td>
 						<td><textarea id="dept-1"   name="dept-1"></textarea>
 						</td>
-						<td><textarea id="cellcircle-1"   name="cellcircle-1"></textarea>
+						<td>
+						<select id="cellcircle-1" name="cellcircle-1" onchange="calculateEngineLoss(-1)" required>
+						 <option value="">Select Cell/Circle</option>
+                                 <option value="HL">HeadLine</option>
+                                 <option value="BL">BlockLine</option>
+                                <option value="CL">CamLine</option>
+                        </select>
 						</td>
-						<td><textarea id="machine_no-1"   name="machine_no-1"></textarea>
+						<td><textarea id="machine_no-1"   name="machine_no-1">${machinDetails.machinNo}</textarea>
 						</td>
+						<td><select id="rank-1" name="rank-1" required>
+						 <option value="">Select Rank</option>
+                                 <option value="1">A</option>
+                                 <option value="2">B</option>
+                                <option value="3">C</option>
+                        </select></td>
 						<td><textarea id="problem_reported-1"   name="problem_reported-1"></textarea>
 						</td>
-						<td><textarea id="bd_time_loss-1" name="bd_time_loss-1"></textarea>
+						<td><textarea id="bd_time_loss-1" name="bd_time_loss-1" onchange="calculateEngineLoss(-1)">0</textarea>
 						</td>
-						<td><textarea id="engine_loss-1"   name="engine_loss-1"></textarea>
+						<td><textarea id="engine_loss-1"   name="engine_loss-1">0</textarea>
 						</td>
-						<td><textarea id="part-1"   name="part-1"></textarea>
+						<td><select id="part-1" name="part-1">
+                                 <option value="Adjusted">Adjusted</option>
+                                 <option value="Corrected">Corrected</option>
+                                <option value="Replaced">Replaced</option>
+                        </select>
 						</td>
 						<td><textarea id="part_desc-1"   name="part_desc-1"></textarea>
 						</td>
@@ -274,12 +301,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 							<td><textarea id="linkage_with-1"   name="linkage_with-1"></textarea>
 						</td>
+						
+						<td><input id="prevOccDate-1" type="date" name="prevOccDate-1" format="dd-MM-yyyy"/>
+						</td>
+						<td><input id="repairedBy-1" type="text" name="repairedBy-1" />
+						</td>
+						<td><input id="repairStartTime-1" type="time" name="repairStartTime-1" />
+						</td>
+						<td><input id="repairFinishTime-1" type="time" name="repairFinishTime-1" />
+						</td>
+						<td><textarea id="idea-1"   name="idea-1"></textarea>
+						</td>
+						<td><input id="preparedBy-1" type="text" name="preparedBy-1" />
+						</td>
+						<td><input id="mgrorhead-1" type="text" name="mgrorhead-1" />
+						</td>
+						<td><input id="subcommMember-1" type="text" name="subcommMember-1" />
+						</td>
 						<td><select id="status-1" name="status-1">
                                  <option value="0">Closed</option>
                                  <option value="1">Open</option>
                         </select>
 						</td>
-						<td><textarea id="ref_no-1"   name="ref_no-1"></textarea>
+						<td><textarea id="ref_no-1"   name="ref_no-1">${refNo}</textarea>
 						</td>
 						<td><textarea id="sap_notif_no-1"   name="sap_notif_no-1"></textarea>
 						</td>
@@ -290,129 +334,243 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<c:forEach items="${whyWhyF18List}"  var="whyWhyF18" varStatus="count" >
 						
 						<tr>
-						  <input type="hidden" name="id1" id="id1" value="${whyWhyF18.id}"/>			
+						  <input type="hidden" name="id${count.index}" id="id${count.index}" value="${whyWhyF18.id}"/>			
+						<input type="hidden" name="machine_id${count.index}" id="machine_id${count.index}" value="${machineId}"/>
 						
 						<td>${count.index+1}</td>
-						<td><input id="month${count.index}" type="month" name="month${count.index}" value="${whyWhyF18.id}"/>
+						<td><input id="month${count.index}" type="month" name="month${count.index}" value="${whyWhyF18.month}"/>
 						</td>
-						<td><input id="date${count.index}" type="date" name="date${count.index}"/>
+						<td><input id="date${count.index}" type="date" name="date${count.index}" value="${whyWhyF18.date}"/>
 						</td>
-						<td><textarea id="dept${count.index}"   name="dept${count.index}"></textarea>
+						<td><textarea id="dept${count.index}"   name="dept${count.index}">${whyWhyF18.dept}</textarea>
 						</td>
-						<td><textarea id="cellcircle${count.index}"   name="cellcircle${count.index}"></textarea>
-						</td>
-						<td><textarea id="machine_no${count.index}"   name="machine_no${count.index}"></textarea>
-						</td>
-						<td><textarea id="problem_reported${count.index}"   name="problem_reported${count.index}"></textarea>
-						</td>
-						<td><textarea id="bd_time_loss${count.index}" name="bd_time_loss${count.index}"></textarea>
-						</td>
-						<td><textarea id="engine_loss${count.index}"   name="engine_loss${count.index}"></textarea>
-						</td>
-						<td><textarea id="part${count.index}"   name="part${count.index}"></textarea>
-						</td>
-						<td><textarea id="part_desc${count.index}"   name="part_desc${count.index}"></textarea>
-						</td>
-						<td><select id="bd_ms_pt${count.index}" name="bd_ms_pt${count.index}">
-                                 <option value="BD">BD</option>
-                                 <option value="MS">MS</option>
-                                <option value="PT">PT</option>
+						<td>
+						<select id="cellcircle${count.index}" name="cellcircle${count.index}" onchange="calculateEngineLoss(${count.index})" required>
+						 <option value="">Select Cell/Circle</option>
+						 <c:choose><c:when test="${whyWhyF18.cellCircle eq 'HL'}">
+						         <option value="HL" selected>HeadLine</option>
+                                 <option value="BL">BlockLine</option>
+                                 <option value="CL">CamLine</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'BL'}">
+						         <option value="HL" >HeadLine</option>
+                                 <option value="BL"selected>BlockLine</option>
+                                 <option value="CL">CamLine</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'CL'}">
+						         <option value="HL" >HeadLine</option>
+                                 <option value="BL">BlockLine</option>
+                                 <option value="CL"selected>CamLine</option>
+						 </c:when>
+						 <c:otherwise>
+						   <option value="HL" >HeadLine</option>
+                                 <option value="BL">BlockLine</option>
+                                 <option value="CL">CamLine</option>
+						 </c:otherwise>
+						 </c:choose>
+                                
                         </select>
 						</td>
-						<td><textarea id="action${count.index}"   name="action${count.index}"></textarea>
+						<td><textarea id="machine_no${count.index}"   name="machine_no${count.index}">${whyWhyF18.machineNo}</textarea>
 						</td>
-						<td><textarea id="why1${count.index}"   name="why1${count.index}"></textarea>
+						<td><select id="rank${count.index}" name="rank${count.index}" required>
+						 <option value="" >Select Rank</option>
+						        <c:choose>
+						        <c:when test="${whyWhyF18.rank==1}">
+						         <option value="1" selected>A</option>
+                                 <option value="2">B</option>
+                                <option value="3">C</option>
+						        </c:when>
+						         <c:when test="${whyWhyF18.rank==2}">
+						          <option value="1" >A</option>
+                                 <option value="2"selected>B</option>
+                                <option value="3">C</option>
+						         </c:when>
+						         <c:when test="${whyWhyF18.rank==3}">
+						          <option value="1" >A</option>
+                                 <option value="2">B</option>
+                                <option value="3"selected>C</option>
+						         </c:when>
+						         <c:otherwise>
+						         
+						         <option value="1" >A</option>
+                                 <option value="2">B</option>
+                                <option value="3">C</option>
+						         </c:otherwise>
+						        </c:choose>
+                                
+                        </select></td>
+						<td><textarea id="problem_reported${count.index}"   name="problem_reported${count.index}">${whyWhyF18.problemReported}</textarea>
 						</td>
-						<td><textarea id="why2${count.index}"   name="why2${count.index}"></textarea>
+						<td><textarea id="bd_time_loss${count.index}" name="bd_time_loss${count.index}" onchange="calculateEngineLoss(${count.index})">${whyWhyF18.bdTimeLoss}</textarea>
 						</td>
-						<td><textarea id="why3${count.index}"   name="why3${count.index}"></textarea>
+						<td><textarea id="engine_loss${count.index}"   name="engine_loss${count.index}">${whyWhyF18.engineLoss}</textarea>
 						</td>
-						<td><textarea id="why4${count.index}"   name="why4${count.index}"></textarea>
+						<td><select id="part${count.index}" name="part${count.index}">
+						         <c:choose>
+						         <c:when test="${whyWhyF18.partStatus eq 'Adjusted'}">
+						          <option value="Adjusted" selected>Adjusted</option>
+                                 <option value="Corrected">Corrected</option>
+                                <option value="Replaced">Replaced</option>
+						         </c:when>
+						          <c:when test="${whyWhyF18.partStatus eq 'Corrected'}">
+						          <option value="Adjusted" >Adjusted</option>
+                                 <option value="Corrected"selected>Corrected</option>
+                                <option value="Replaced">Replaced</option>
+						         </c:when>
+						          <c:when test="${whyWhyF18.partStatus eq 'Replaced'}">
+						          <option value="Adjusted" >Adjusted</option>
+                                 <option value="Corrected">Corrected</option>
+                                <option value="Replaced" selected>Replaced</option>
+						         </c:when>
+						         <c:otherwise>
+						           <option value="Adjusted">Adjusted</option>
+                                   <option value="Corrected">Corrected</option>
+                                   <option value="Replaced">Replaced</option>
+						         </c:otherwise>
+						         </c:choose>
+                               
+                        </select>
+					
 						</td>
-						<td><textarea id="why5${count.index}"   name="why5${count.index}"></textarea>
+						<td><textarea id="part_desc${count.index}"   name="part_desc${count.index}">${whyWhyF18.partDesc}</textarea>
 						</td>
-						<td><textarea id="root_cause${count.index}"   name="root_cause${count.index}"></textarea>
+						<td><select id="bd_ms_pt${count.index}" name="bd_ms_pt${count.index}">
+						         <c:choose>
+						         <c:when test="${whyWhyF18.bdMsPt eq 'BD'}">
+						            <option value="BD" selected>BD</option>
+						            <option value="MS">MS</option>
+						            <option value="PT">PT</option>
+						         </c:when>
+						           <c:when test="${whyWhyF18.bdMsPt eq 'MS'}">
+						             <option value="BD" >BD</option>
+						            <option value="MS" selected>MS</option>
+						             <option value="PT">PT</option>
+						         </c:when>
+						          <c:when test="${whyWhyF18.bdMsPt eq 'PT'}">
+						               <option value="BD" >BD</option>
+						            <option value="MS">MS</option>
+						            <option value="PT" selected>PT</option>
+						         </c:when>
+						         </c:choose>
+                              
+                        </select>
+						</td>
+						<td><textarea id="action${count.index}"   name="action${count.index}">${whyWhyF18.action}</textarea>
+						</td>
+						<td><textarea id="why1${count.index}"   name="why1${count.index}">${whyWhyF18.why1}</textarea>
+						</td>
+						<td><textarea id="why2${count.index}"   name="why2${count.index}">${whyWhyF18.why2}</textarea>
+						</td>
+						<td><textarea id="why3${count.index}"   name="why3${count.index}">${whyWhyF18.why3}</textarea>
+						</td>
+						<td><textarea id="why4${count.index}"   name="why4${count.index}">${whyWhyF18.why4}</textarea>
+						</td>
+						<td><textarea id="why5${count.index}"   name="why5${count.index}">${whyWhyF18.why5}</textarea>
+						</td>
+						<td><textarea id="root_cause${count.index}"   name="root_cause${count.index}">${whyWhyF18.rootCause}</textarea>
 						</td>
 						<td><select id="clarification_cause${count.index}" name="clarification_cause${count.index}">
-                             <option value="Inadequate Operating condition">Inadequate Operating condition</option>
-                             <option value="Neglect of completion of life">Neglect of completion of life</option>
-                             <option value="Design Flaws">Design Flaws</option>
-                             <option value="Skill up">Skill up</option>
-                             <option value="Inadequate basic condition">Inadequate basic condition</option>
-                             <option value="Open">Open</option>
+						        <c:forEach var="entry" items="${clarificationOfCauseList}">
+						        <c:choose>
+						        <c:when test="${entry.key eq whyWhyF18.clarificationOfCause}">
+                                <option value="${entry.key}" selected>${entry.value}</option>
+                                </c:when>
+                                <c:otherwise>
+                                <option value="${entry.key}">${entry.value}</option>
+                                </c:otherwise>
+                             </c:choose>
+                                
+                          </c:forEach>
                              
                              </select>
 						</td>
 						<td><select id="failure_code${count.index}" name="failure_code${count.index}">
-                             <option value="Power Failure">Power Failure</option>
-                             <option value="Clogged">Clogged</option>
-                             <option value="Broken">Broken</option>
-                             <option value="Leak">Leak</option>
-                             <option value="Lack of Lubrication">Lack of Lubrication</option>
-                             <option value="Abnormal Condition">Abnormal Condition</option>
-                             <option value="Irregular temp.">Irregular temp.</option> 
-                             <option value="Loose">Loose</option> 
-                             <option value="Wear">Wear</option> 
-                             <option value="Crack">Crack</option>
-                             <option value="Bend">Bend</option>
-                             <option value="Damaged">Damaged</option>
-                             <option value="Tight/Rusty/Jam">Tight/Rusty/Jam</option>
-                             <option value="Disengaged">Disengaged</option>
-                             <option value="Entangled">Entangled</option>
-                             <option value="Deteriation">Deteriation</option>
-                             <option value="Dry Solder">Dry Solder</option>
-                             <option value="PCB Failure">PCB Failure</option>
-                             <option value="Burnt">Burnt</option> 
-                             <option value="Setting Error">Setting Error</option> 
-                             <option value="Operating Error">Operating Error</option> 
-                             <option value="Misalignment">Misalignment</option> 
-                             <option value="Accident">Accident</option> 
-                             <option value="Short Circuit">Short Circuit</option> 
-                             <option value="Open Circuit">Open Circuit</option> 
-                             <option value="Pressure Drop">Pressure Drop</option> 
-                             <option value="Blown Off">Blown Off</option> 
-                             <option value="Program Currupt">Program Currupt</option> 
-                            <option value="Poor Contact">Poor Contact</option>
-                             <option value="Poor Insulation">Poor Insulation</option>
-                            <option value="Tripped">Tripped</option>
-                            <option value="Wire Broken">Wire Broken</option>
-                           <option value="Air Lock">Air Lock</option>
-                           <option value="Poor Adjustment">Poor Adjustment</option>
-                           <option value="Noisy">Noisy</option>
-                           <option value="Low Level">Low Level</option>
-                           <option value="Wrong Wiring">Wrong Wiring</option>
-                           <option value="Slip">Slip</option>
-                          <option value="Earthing">Earthing</option>
-                          <option value="M/c Level">M/c Level</option>
+						
+						<c:forEach var="entry" items="${failureCodeList}">
+                            <c:choose>
+						        <c:when test="${whyWhyF18.failureCode eq entry.key}">
+                                <option value="${entry.key}" selected>${entry.value}</option>
+                                </c:when>
+                                <c:otherwise>
+                                <option value="${entry.key}">${entry.value}</option>
+                                </c:otherwise>
+                       </c:choose>
+                               
+                        </c:forEach>
+
                       
                              </select>
 						</td>
-							<td><textarea id="counter_measure${count.index}"   name="counter_measure${count.index}"></textarea>
+							<td><textarea id="counter_measure${count.index}"   name="counter_measure${count.index}">${whyWhyF18.counterMeasure}</textarea>
 						</td>
 						<td><select id="category${count.index}" name="category${count.index}">
-                                 <option value="E">E</option>
+						   <c:choose>
+						        <c:when test="${whyWhyF18.category eq 'E'}">
+                                 <option value="E" selected>E</option>
                                  <option value="M">M</option>
+                                 </c:when>
+                                   <c:when test="${whyWhyF18.category eq 'M'}">
+                                   <option value="E" >E</option>
+                                   <option value="M" selected>M</option>
+                                 </c:when>
+                              
+                           </c:choose>
                              
                          </select>
 						</td>
 						<td><select id="recurnonrecurr${count.index}" name="recurnonrecurr${count.index}">
-                                 <option value="R">R</option>
+						   <c:choose>
+						        <c:when test="${whyWhyF18.recurNonRecurr eq 'R'}">
+                                 <option value="R" selected>R</option>
                                  <option value="NR">NR</option>
+                                 </c:when>
+                                  <c:when test="${whyWhyF18.recurNonRecurr eq 'NR'}">
+                                 <option value="R" >R</option>
+                                 <option value="NR" selected>NR</option>
+                                 </c:when>
+                                 
+                            </c:choose>     
                         </select>
 						</td>
-							<td><textarea id="linkage_with${count.index}"   name="linkage_with${count.index}"></textarea>
+							<td><textarea id="linkage_with${count.index}"   name="linkage_with${count.index}">${whyWhyF18.linkageWith}</textarea>
+						</td>
+								<td><input id="prevOccDate${count.index}" type="date" name="prevOccDate${count.index}" format="dd-MM-yyyy" value="${whyWhyF18.prevOccDate}"/>
+						</td>
+						<td><input id="repairedBy${count.index}" type="text" name="repairedBy${count.index}" value="${whyWhyF18.repairedBy}"/>
+						</td>
+						<td><input id="repairStartTime${count.index}" type="time" name="repairStartTime${count.index}" value="${whyWhyF18.repairStartTime}"/>
+						</td>
+						<td><input id="repairFinishTime${count.index}" type="time" name="repairFinishTime${count.index}" value="${whyWhyF18.repairFinishTime}"/>
+						</td>
+						<td><textarea id="idea${count.index}"   name="idea${count.index}">${whyWhyF18.idea}</textarea>
+						</td>
+						<td><input id="preparedBy${count.index}" type="text" name="preparedBy${count.index}" value="${whyWhyF18.preparedBy}" />
+						</td>
+						<td><input id="mgrorhead${count.index}" type="text" name="mgrorhead${count.index}" value="${whyWhyF18.mgrorhead}"/>
+						</td>
+						<td><input id="subcommMember${count.index}" type="text" name="subcommMember${count.index}" value="${whyWhyF18.subcommMember}"/>
 						</td>
 						<td><select id="status${count.index}" name="status${count.index}">
-                                 <option value="0">Closed</option>
+						   <c:choose>
+						         <c:when test="${whyWhyF18.status eq '0'}">
+                                 <option value="0" selected>Closed</option>
                                  <option value="1">Open</option>
+                                 </c:when>
+                                 <c:when test="${whyWhyF18.status eq '1'}">
+                                 <option value="0" >Closed</option>
+                                 <option value="1" selected>Open</option>
+                                 </c:when>
+                            </c:choose>     
                         </select>
 						</td>
-						<td><textarea id="ref_no${count.index}"   name="ref_no${count.index}"></textarea>
+						<td><textarea id="ref_no${count.index}"   name="ref_no${count.index}">${whyWhyF18.refNo}</textarea>
 						</td>
-						<td><textarea id="sap_notif_no${count.index}"   name="sap_notif_no${count.index}"></textarea>
+						<td><textarea id="sap_notif_no${count.index}"   name="sap_notif_no${count.index}">${whyWhyF18.sapNotifNo}</textarea>
 						</td>
 						 <td>   <a href="#" onclick="addBreakdown(${count.index})"><i class="fa fa-save" style="font-size:24px"></i></a>
-
+                               
+                               <a href="${pageContext.request.contextPath}/viewBreakdown/${whyWhyF18.id}/${machineType}"><i class="glyphicon glyphicon-file" style="font-size:18px"></i></a>
                           </td> 
 						</tr>
 						
@@ -516,12 +674,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript">
 function addBreakdown(key)
 {
-	 if (confirm("Do you want to Save this record?")) {
 	var isValid=validation(key);
-	document.getElementById('key').value=key;
-	
 	if(isValid==true)
-		{
+	{
+	 if (confirm("Do you want to Save this record?")) {
+	
+	    document.getElementById('key').value=key;
 		document.forms["breakdown_form"].submit();
 		}
 	 }
@@ -529,12 +687,13 @@ function addBreakdown(key)
 </script>
 <script type="text/javascript">
 function validation(key) {
-	var isValid = true;
-	/* var date = $("#date"+key).val();
+	var date = $("#date"+key).val();	
+
 	var month = $("#month"+key).val();
 	var dept = $("#dept"+key).val();
 	var cellCircle=$("#cellcircle"+key).val();
 	var machineNo=$("#machine_no"+key).val();
+	var rank=$("#rank"+key).val();
 	var problemReported=$("#problem_reported"+key).val();
 	var bdTimeLoss=$("#bd_time_loss"+key).val();
 	var engineLoss=$("#engine_loss"+key).val();
@@ -542,28 +701,40 @@ function validation(key) {
 	var partDesc=$("#part_desc"+key).val();
 	var bdMsPt=$("#bd_ms_pt"+key).val();
 	var action=$("#action"+key).val();
-	var why1=$("#why1"+key).val();
-	var why2=$("#why2"+key).val();
-	var why3=$("#why3"+key).val();
-	var why4=$("#why4"+key).val();
-	var why5=$("#why5"+key).val();
-	root_cause */
-/* 	
+	var refNo=$("#ref_no"+key).val();
+	
 	var isValid = true;
-	if (methodId==0) { 
+	if (month==""||month==null) { 
 		isValid = false;
-		alert("Please Select Method");
-	} else if (reqValue ==0) {
+		alert("Please Select Valid Month");
+	} else if ( date==""||date==null) {
 		isValid = false;
-		alert("Please Select Required Value");
-	} */
+		alert("Please Select Valid Date");
+	} else if ( dept==""||dept==null) {
+		isValid = false;
+		alert("Please Enter Valid Department");
+	} else if ( cellCircle==""||cellCircle==null) {
+		isValid = false;
+		alert("Please Enter Valid Cell Circle");
+	} else if (rank==""||rank==null) {
+		isValid = false;
+		alert("Please Select Rank");
+	} else if ( problemReported==""||problemReported==null) {
+		isValid = false;
+		alert("Please Enter Valid Problem Reported");
+	} else if (bdTimeLoss==""||bdTimeLoss==null||isNaN(bdTimeLoss)) {
+		isValid = false;
+		alert("Please Enter Valid BD/TIME/LOSS");
+	} else if (engineLoss==""||engineLoss==null||isNaN(engineLoss)) {
+		isValid = false;
+		alert("Please Enter Valid Engine Loss");
+	}
 	return isValid;
 }
 </script>
 
 <script type="text/javascript">
 function onMacTypeChange(machineType) {
-
 
 	$.getJSON('${getMachinByType}', {
 
@@ -575,7 +746,7 @@ function onMacTypeChange(machineType) {
 
 		var html = '<option value="" selected >Choose Machine</option>';
 
-	
+		
 
 		var len = data.length;
 
@@ -620,6 +791,108 @@ function onMacTypeChange(machineType) {
 
 
 </script>
+	<script type="text/javascript">
+	function setMachineSelected(machineType,machineId)
+	{
+		
+		$.getJSON('${getMachinByType}', {
+			machineType : machineType,
+			ajax : 'true'
+
+		}, function(data) {
+			var html = '<option value="" selected >Choose Machine</option>';
+
+			var len = data.length;
+
+			$('#machineId')
+
+		    .find('option')
+
+		    .remove()
+
+		    .end()
+
+		    $("#machineId").append(
+
+                       $("<option ></option>").attr(
+
+                           "value", "").text("Select Machine Name Or Number")
+
+                   );
+
+			for ( var i = 0; i < len; i++) {
+
+				if(data[i].machinId==machineId)
+					{
+				 $("#machineId").append(
+
+                           $("<option selected></option>").attr(
+
+                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+                       );
+					}else{
+					 $("#machineId").append(
+
+	                           $("<option ></option>").attr(
+
+	                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+	                       );
+					
+					}
+			} 
+			
+			$("#machineId").trigger("chosen:updated");
+
+		});
+		
+		
+	}
+	</script>
+	<script type="text/javascript">
+	 function onMachineChange(machineId)
+	{
+		$.getJSON('${getMachineById}', {
+
+			machineId : machineId,
+
+			ajax : 'true'
+
+		}, function(data) {
+			
+			document.getElementById('machine_no-1').value=data.machinNo;
+		});
+	} 
+	</script>
+	<script type="text/javascript">
+	
+	function calculateEngineLoss(key)
+	{
+		var cc=$("#cellcircle"+key).val();
+
+		var bdTimeLoss=parseInt($("#bd_time_loss"+key).val());
+		
+		if(cc=='HL')
+			{
+			   var engineLoss=parseFloat((bdTimeLoss/2.27)*0.23);
+			   document.getElementById('engine_loss'+key).value=engineLoss.toFixed(1);
+			}
+		else if(cc=='BL')
+			{
+			   var engineLoss=parseFloat((bdTimeLoss/2.30)*0.177);
+			   document.getElementById('engine_loss'+key).value=engineLoss.toFixed(1);
+
+			}
+		else if(cc=='CL')
+			{
+			   var engineLoss=parseFloat((bdTimeLoss/2)*0.015);
+			   document.getElementById('engine_loss'+key).value=engineLoss.toFixed(1);
+
+			}
+	
+	}
+	</script>
 </body>
 
 </html>

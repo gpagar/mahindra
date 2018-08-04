@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +24,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      padding: 0rem 0rem; 
     text-transform: uppercase;
 }
-
+textarea{
+overflow:auto;
+}
 </style> 
    <script>
   $( function() {
@@ -63,6 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<i class="fa fa-bars"></i>  Preventive Maintenance
 							</h3>
 							<div class="box-tool">
+						
 						</div>
 
 						<div class="box-content">
@@ -109,12 +114,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 					
 					<div class="row" align="center">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
+						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
+							
+						</div>
+						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-5">
+								<a href="${pageContext.request.contextPath}/showPmPlanHistory">	<button type="button" class="btn btn-success" >PM History</button> </a> 
+						
 						</div>
 					</div>
-					</form>
-			
+		</form>
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
@@ -123,15 +132,58 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					    <table id="table"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
 						 <tr  style="height: 5px;">
-                            <td colspan="6" bgcolor="#f3fafe"></td>
+                            <td colspan="5" bgcolor="#f3fafe"></td>
                             <td colspan="9"bgcolor="#f3fafe" style="text-align:center;">Frequency 4 Months</td>
                          
                          </tr>
-						 <tr  style="height: 5px;">
-                            <td colspan="6" bgcolor="#f3fafe"></td>
-                            <td colspan="3"bgcolor="#f3fafe" style="text-align:center;">Month</td>
-                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">Month</td>
-                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">Month</td>
+						 <tr style="height: 5px;">
+                            <td colspan="5" bgcolor="#f3fafe"></td>
+                           <c:choose>
+                           <c:when test="${status==1}">
+                            <td colspan="3"bgcolor="#f3fafe" style="text-align:center;">
+                            			
+			<fmt:parseDate value="${schedule.fMonth}" dateStyle="long" pattern="M" var="monthDate"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate}" pattern="MMMM"></fmt:formatDate>
+                            </td>
+                             <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">
+                             <fmt:parseDate value="${schedule.sMonth}" dateStyle="long" pattern="M" var="monthDate1"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate1}" pattern="MMMM"></fmt:formatDate>
+                             </td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">
+                             <fmt:parseDate value="${schedule.tMonth}" dateStyle="long" pattern="M" var="monthDate2"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate2}" pattern="MMMM"></fmt:formatDate>
+                            </td>
+                           </c:when>
+                             <c:when test="${status==2}">
+                            <td colspan="3"bgcolor="#f3fafe" style="text-align:center;">
+                             <fmt:parseDate value="${schedule.fMonth}" dateStyle="long" pattern="M" var="monthDate3"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate3}" pattern="MMMM"></fmt:formatDate>
+                            </td>
+                             <td colspan="3" bgcolor="#f3fafe" style="text-align:center;">
+                             <fmt:parseDate value="${schedule.sMonth}" dateStyle="long" pattern="M" var="monthDate4"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate4}" pattern="MMMM"></fmt:formatDate>
+                             </td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;"hidden>
+                              <fmt:parseDate value="${schedule.tMonth}" dateStyle="long" pattern="M" var="monthDate5"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate5}" pattern="MMMM"></fmt:formatDate>
+                            </td>
+                           </c:when>
+                             <c:when test="${status==3}">
+                            <td colspan="3"bgcolor="#f3fafe" style="text-align:center;">
+                             <fmt:parseDate value="${schedule.fMonth}" dateStyle="long" pattern="M" var="monthDate6"></fmt:parseDate> 
+<fmt:formatDate value="${monthDate6}" pattern="MMMM"></fmt:formatDate>
+                            </td>
+                             <td colspan="3" bgcolor="#f3fafe" style="text-align:center;"hidden>Month</td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;"hidden>Month</td>
+                           </c:when>
+                           <c:otherwise>
+                               <td colspan="3"bgcolor="#f3fafe" style="text-align:center;" hidden>Month</td>
+                             <td colspan="3" bgcolor="#f3fafe" style="text-align:center;" hidden>Month</td>
+                            <td colspan="3" bgcolor="#f3fafe" style="text-align:center;" hidden>Month</td>
+                         
+                           </c:otherwise>
+                           </c:choose>
+                          
                          </tr>
 						  <tr>
 							<th>Sr.No</th>
@@ -139,7 +191,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Item(What)</th>
 							<th>Checkpoints</th>
 							<th>Method(How)</th>
-							<th>Required Value</th>
+							<th hidden>Required Value</th>
+					 <c:choose>
+                           <c:when test="${status==1}">
 							<th>Date</th>
 							<th>Observation/Action</th> 
 							<th>Image1</th> 
@@ -149,6 +203,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Date</th>
 							<th>Observation/Action</th>
 							<th>Image3</th> 
+							</c:when>
+						 <c:when test="${status==2}">
+						    <th >Date</th>
+							<th >Observation/Action</th> 
+							<th >Image1</th> 
+							<th>Date</th>
+							<th>Observation/Action</th> 
+							<th>Image2</th> 
+							<th hidden>Date</th>
+							<th hidden>Observation/Action</th>
+							<th hidden>Image3</th> 
+						 </c:when>
+						 <c:when test="${status==3}">
+						    <th >Date</th>
+							<th >Observation/Action</th> 
+							<th >Image1</th> 
+							<th hidden>Date</th>
+							<th hidden>Observation/Action</th> 
+							<th hidden>Image2</th> 
+							<th hidden>Date</th>
+							<th hidden>Observation/Action</th>
+							<th hidden>Image3</th> 
+						 </c:when>
+						 <c:otherwise>
+						 <th hidden>Date</th>
+							<th hidden>Observation/Action</th> 
+							<th hidden>Image1</th> 
+							<th hidden>Date</th>
+							<th hidden>Observation/Action</th> 
+							<th hidden>Image2</th> 
+							<th hidden>Date</th>
+							<th hidden>Observation/Action</th>
+							<th hidden>Image3</th> 
+						 </c:otherwise>
+						 </c:choose>
 							<th>Remark</th>
 							<th>Action</th>
 						  </tr>
@@ -172,7 +261,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						    <input type="hidden" name="pa_maint_id" id="pa_maint_id" value="${paMaintainence.paMaintId}"/>
 						    <input type="hidden" name="activity_id" id="activity_id" value="${paMaintainence.activityId}"/>
 						    <input type="hidden" name="item_id" id="item_id" value="${paMaintainence.itemId}"/>
-						    
+						 <input type="hidden" name="ph1" id="ph1" value="${paMaintainence.date1Photo}"/>
+						 <input type="hidden" name="ph2" id="ph2" value="${paMaintainence.date2Photo}"/>
+						 <input type="hidden" name="ph3" id="ph3" value="${paMaintainence.date3Photo}"/>
+						   							   					    
 						  <tr>
 							<td><c:out value="${cnt1}" /></td>
 							<td width="300" > <c:out value="${paMaintainence.activityName}" /></td>
@@ -196,7 +288,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							    </c:choose>
                              </select></td>
 						
-							  <td><select name="req_value" id="req_value"  required>						
+							  <td hidden><select name="req_value" id="req_value"  >						
                         <option value="">Select Required Value</option>
 						<c:forEach items="${requiredValueList}" var="requiredValue" varStatus="cnt">
 					    <c:choose>
@@ -210,11 +302,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             
                        </c:forEach>
                              </select></td>
-                        <td><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+                             	 <c:choose>
+                           <c:when test="${status==1}">
+                        <td ><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
 							
-							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td ><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
 							</c:when>
@@ -239,8 +333,107 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
+							</c:when>
+							<c:when test="${status==2}">
+							  <td><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+							
+							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+</textarea></td>
+							<td><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
+							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							</c:when>
+							
+							</c:choose>
+</td>
+                             <td> <input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
+
+							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
+</textarea></td>
+							<td><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
+							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							</c:when>
+							</c:choose>
+							</td>
+						
+                             <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
+	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							</c:when></c:choose>
+							</td>
+							</c:when>
+							
+							<c:when test="${status==3}">
+							 <td ><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+							
+							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+</textarea></td>
+							<td ><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
+							<a href="${url}${paMaintainence.date1Photo}" data-lightbox="image-1"tabindex="-1">Image1</a>
+							</c:when>
+							
+							</c:choose>
+</td>
+                             <td hidden><input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
+
+							<td hidden><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
+							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							</c:when>
+							</c:choose>
+							</td>
+						
+                             <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
+	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							</c:when></c:choose>
+							</td>
+							</c:when>
+							<c:otherwise>
+							 <td hidden><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+							
+							<td hidden><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
+							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							</c:when>
+							
+							</c:choose>
+</td>
+                             <td hidden><input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
+
+							<td hidden><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
+							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							</c:when>
+							</c:choose>
+							</td>
+						
+                             <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
+	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
+</textarea></td>
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							</c:when></c:choose>
+							</td>
+							
+							</c:otherwise>
+							</c:choose>
+							
+							
 							<td><textarea rows="1" cols="18" name="remark" id="remark" >${paMaintainence.remark}
-</textarea></td>  <td> <input type="submit" value="Submit" name="submit"/>
+</textarea></td>  <td> <input type="submit" value="Submit" name="submit" class="btn btn-info"/>
 </td> 
 						</c:when>
 						</c:choose></form>
@@ -299,7 +492,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+							<!-- <script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -318,7 +511,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -358,7 +551,7 @@ function addNewPM(key)
 	}
 	return isValid;
 } */
-var tx = document.getElementsByTagName('textarea');
+/* var tx = document.getElementsByTagName('textarea');
 for (var i = 0; i < tx.length; i++) {
   tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
   tx[i].addEventListener("input", OnInput, false);
@@ -367,7 +560,7 @@ for (var i = 0; i < tx.length; i++) {
 function OnInput() {
   this.style.height = 'auto';
   this.style.height = (this.scrollHeight) + 'px';
-}
+} */
 </script>
 
 <script type="text/javascript">
@@ -426,8 +619,6 @@ function OnInput() {
 						$.getJSON('${getMachinByType}', {
 
 							machineType : machineType,
-
-							 
 
 							ajax : 'true'
 
