@@ -43,6 +43,7 @@ public class PMController {
 	
 	PaMaintananceDetails paMaintananceDetails = new PaMaintananceDetails();
 	List<GetPMData> paMaintainenceList=new ArrayList<>();
+	public static MachinDetailsList machinDetailsList;
 	int machineType;
 	int machineId;
 	
@@ -333,7 +334,7 @@ public class PMController {
 	@ResponseBody
 	public List<MachinDetails> getMachinByType(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Get MAchin By Type");
-		MachinDetailsList machinDetailsList=new MachinDetailsList();
+		  machinDetailsList=new MachinDetailsList();
 		try {
 		int type = Integer.parseInt(request.getParameter("machineType"));
 		System.out.println(type);
