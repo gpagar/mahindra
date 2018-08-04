@@ -29,8 +29,6 @@ public class GetPaMaintainence{
 
 	private int rquiredValure;
 
-	private String reqValName;
-
 	private String date1;
 
 	private String date1Obervation;
@@ -159,14 +157,6 @@ public class GetPaMaintainence{
 
 	public void setRquiredValure(int rquiredValure) {
 		this.rquiredValure = rquiredValure;
-	}
-
-	public String getReqValName() {
-		return reqValName;
-	}
-
-	public void setReqValName(String reqValName) {
-		this.reqValName = reqValName;
 	}
 
 	public String getDate1() {
@@ -311,7 +301,7 @@ public class GetPaMaintainence{
 				+ ", machinNo=" + machinNo + ", activityId=" + activityId + ", activityName=" + activityName
 				+ ", itemId=" + itemId + ", itemName=" + itemName + ", checkPointId=" + checkPointId
 				+ ", checkPointName=" + checkPointName + ", method=" + method + ", rquiredValure=" + rquiredValure
-				+ ", reqValName=" + reqValName + ", date1=" + date1 + ", date1Obervation=" + date1Obervation
+				+ ",  date1=" + date1 + ", date1Obervation=" + date1Obervation
 				+ ", date1Photo=" + date1Photo + ", date2=" + date2 + ", date2Obervation=" + date2Obervation
 				+ ", date2Photo=" + date2Photo + ", date3=" + date3 + ", date3Obervation=" + date3Obervation
 				+ ", date3Photo=" + date3Photo + ", status=" + status + ", type=" + type + ", delStatus=" + delStatus

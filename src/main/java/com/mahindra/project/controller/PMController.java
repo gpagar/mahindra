@@ -74,7 +74,22 @@ public class PMController {
 			model.addObject("requiredValueList",requiredValueList);
 			
 			
-
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showPmPlanHistory", method = RequestMethod.GET)
+	public ModelAndView showPmPlanHistory(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pMaintanance/showPmHistory");
+		try
+		{
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+			model.addObject("requiredValueList",requiredValueList);
+			
 			
 		}catch(Exception e)
 		{
@@ -90,6 +105,7 @@ public class PMController {
 	@RequestMapping(value = "/showWhyWhyf18", method = RequestMethod.GET)
 	public ModelAndView showWhyWhyf18(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
+	
 		return model;
 	}
 	
@@ -110,31 +126,69 @@ public class PMController {
 			RestTemplate rest = new RestTemplate();
 			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
 					List.class);
+		
+			
+			//-------------------------------------PM Schedule---------------------------------------
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machineId",machineId);
+			MachinMaintanaceSchedule machinMaintanaceSchedule = rest.postForObject(Constant.url + "getPmMaintenancePlan", map,
+					MachinMaintanaceSchedule.class);
+			System.out.println("MachinMaintanaceSchedule " + machinMaintanaceSchedule);
+			Calendar c = Calendar.getInstance();
+
+			int currentMonth=(c.get(Calendar.MONTH))+1;
+			int status=0;
+			if(machinMaintanaceSchedule.getMaintId()!=0)
+			{
+            if(currentMonth>=4)
+            {
+            	if(machinMaintanaceSchedule.getfMonth()<currentMonth&&machinMaintanaceSchedule.getsMonth()<currentMonth&&machinMaintanaceSchedule.gettMonth()==currentMonth)
+            	{
+            		status=1;	
+            	}else if(machinMaintanaceSchedule.getfMonth()<currentMonth&&machinMaintanaceSchedule.getsMonth()<=currentMonth)
+            	{
+            		status=2;
+            	}
+            	else if(machinMaintanaceSchedule.getfMonth()<=currentMonth)
+            	{
+            		status=3;
+            	}
+            }
+            else
+            {
+               if(currentMonth==3)
+               {
+            	    status=1;
+               }else if(currentMonth==2)
+               {
+            	   if(machinMaintanaceSchedule.gettMonth()<=2||machinMaintanaceSchedule.gettMonth()>=4)
+               	   {
+            		   status=1;
+               	   }
+            	   else
+            	   {
+            		   status=2;
+            	   }
+               }
+               else
+               {
+            	   if(machinMaintanaceSchedule.gettMonth()==1||machinMaintanaceSchedule.gettMonth()>=4)
+               	   {
+            		   status=1;
+               	   }
+            	   else
+            	   {
+            		   status=2;
+            	   }
+               }
+            }
+			}
+            System.err.println(status+"status"+currentMonth);
+			model.addObject("status", status);
+			model.addObject("schedule",machinMaintanaceSchedule);
+			//---------------------------------------------------------------------------------------
+			 map = new LinkedMultiValueMap<String, Object>();
 			map.add("machinId",machineId);
-			/*
-			 paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
-					List.class);*/
-			
-		    /*PMActivityDetails[] pMActivityDetailsList = rest.postForObject(Constant.url + "getActivityByMachin", map,
-		    		PMActivityDetails[].class);
-			ArrayList<PMActivityDetails> pmActList=new ArrayList<PMActivityDetails>(Arrays.asList(pMActivityDetailsList));
-			
-			
-			PMItemDetails[] pMItemDetailsList = rest.getForObject(Constant.url + "getAllItems",PMItemDetails[].class);
-			ArrayList<PMItemDetails> itemList=new ArrayList<PMItemDetails>(Arrays.asList(pMItemDetailsList));
-			System.out.println("pMItemDetailsList"+itemList.toString());
-			
-			PMCheckPoints[] pMCheckPointsList = rest.getForObject(Constant.url + "getAllCheckPoints",PMCheckPoints[].class);
-			ArrayList<PMCheckPoints> checkpointList=new ArrayList<PMCheckPoints>(Arrays.asList(pMCheckPointsList));
-
-			System.out.println("pMCheckPointsList"+checkpointList.toString());*/
-
-			
-		/*	model.addObject("activityList",pmActList);
-			model.addObject("itemList",itemList);
-			model.addObject("checkpList",checkpointList);
-			*/
 				GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
 						GetPMData[].class);
 					ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
@@ -189,6 +243,70 @@ public class PMController {
 		}
 		return model;
 	}
+	@RequestMapping(value = "/searchPaMaintainenceHistory", method = RequestMethod.GET)
+	public ModelAndView searchPaMaintainenceHistory(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("pMaintanance/showPmHistory");
+		try
+		{    try {
+			 machineType = Integer.parseInt(request.getParameter("machineType"));
+			 machineId = Integer.parseInt(request.getParameter("machineId"));
+		     }
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+		
+			
+			//-------------------------------------PM Schedule---------------------------------------
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machineId",machineId);
+			MachinMaintanaceSchedule machinMaintanaceSchedule = rest.postForObject(Constant.url + "getPmMaintenancePlan", map,
+					MachinMaintanaceSchedule.class);
+			System.out.println("MachinMaintanaceSchedule " + machinMaintanaceSchedule);
+			if(machinMaintanaceSchedule.getMaintId()==0)
+			{
+				machinMaintanaceSchedule.setfMonth(1);
+				machinMaintanaceSchedule.setsMonth(1);
+				machinMaintanaceSchedule.settMonth(1);
+			}
+			model.addObject("schedule",machinMaintanaceSchedule);
+			//---------------------------------------------------------------------------------------
+			 map = new LinkedMultiValueMap<String, Object>();
+			map.add("machinId",machineId);
+				GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
+						GetPMData[].class);
+					ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
+
+				 map = new LinkedMultiValueMap<String, Object>();
+					map.add("machineId",machineId);
+					
+					GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
+							GetPaMaintainence[].class);
+					ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
+
+					
+			model.addObject("paMaintainenceList",pmDbList);
+			  Map<Integer,String> actType=new HashMap<Integer,String>();  
+			  actType.put(0,"On Line Activity Points");  
+			  actType.put(1,"Offline Activty");  
+			  actType.put(2,"Safty Points");  
+			model.addObject("actTypes",actType);  
+			model.addObject("requiredValueList",requiredValueList);
+			model.addObject("machineType", machineType);
+			model.addObject("machineId", machineId);
+			model.addObject("url",Constant.IMAGE_URL);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
 	@RequestMapping(value = "/getMonth", method = RequestMethod.GET)
 	@ResponseBody
 	public MachinMaintanaceSchedule getMonth(HttpServletRequest request, HttpServletResponse response) {
@@ -219,7 +337,6 @@ public class PMController {
 		try {
 		int type = Integer.parseInt(request.getParameter("machineType"));
 		System.out.println(type);
-		// List<MachinDetails> machinDetailsList=new ArrayList<>();
 		RestTemplate rest = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("type", "" + type);
@@ -331,7 +448,7 @@ public class PMController {
 			//System.err.println(machinCheckPoint);
 			int methodId = Integer.parseInt(request.getParameter("method_id"));
 			//System.err.println(methodId);
-			int requiredValueId = Integer.parseInt(request.getParameter("req_value"));
+			//int requiredValueId = Integer.parseInt(request.getParameter("req_value"));
 			//System.err.println(requiredValueId);
 			String date1=request.getParameter("date1");
 			//System.err.println(date1);
@@ -339,28 +456,34 @@ public class PMController {
 			//System.err.println(observation1);
 			String remark=request.getParameter("remark");
 
-			//String date1Photo=request.getParameter("myFile1");
+			String date1Photo=request.getParameter("ph1");
 		    //System.err.println("QQ"+date1Photo);
 			String date2=request.getParameter("date2");
 			String observation2=request.getParameter("date2ob");
 			
 			
 			
-		 //   String date2Photo=request.getParameter("myFile2");
+		  String date2Photo=request.getParameter("ph2");
 
 			String date3=request.getParameter("date3");
 			String observation3=request.getParameter("date3ob");
-		//	String date3Photo=request.getParameter("myFile3");
+			String date3Photo=request.getParameter("ph3");
 			String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
             System.out.println("llll"+photo1.get(0).getOriginalFilename());
 			VpsImageUpload vpsImageUpload=new VpsImageUpload();
 			String imageName1="";String imageName2="";String imageName3="";
 			if(photo1.get(0).getOriginalFilename()!="")
 				imageName1=timeStamp+""+photo1.get(0).getOriginalFilename();
+			else
+				imageName1=date1Photo;
 			if(photo2.get(0).getOriginalFilename()!="")
 				imageName2=timeStamp+""+photo2.get(0).getOriginalFilename();
+			else
+				imageName2=date2Photo;
 			if(photo3.get(0).getOriginalFilename()!="")
 				imageName3=timeStamp+""+photo3.get(0).getOriginalFilename();
+			else
+				imageName3=date3Photo;
 
 			try {
 				vpsImageUpload.saveUploadedFiles(photo1, 1,imageName1);
@@ -383,7 +506,7 @@ public class PMController {
 				paMaintananceDetails.setItemId(machinItem);
 				paMaintananceDetails.setCheckPointId(machinCheckPoint);
 				paMaintananceDetails.setMethod(methodId);
-				paMaintananceDetails.setRquiredValure(requiredValueId);
+				paMaintananceDetails.setRquiredValure(1);//hardcoded
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
 				paMaintananceDetails.setDate1Photo(imageName1);
@@ -419,7 +542,7 @@ public class PMController {
 				paMaintananceDetails.setItemId(machinItem);
 				paMaintananceDetails.setCheckPointId(machinCheckPoint);
 				paMaintananceDetails.setMethod(methodId);
-				paMaintananceDetails.setRquiredValure(requiredValueId);
+				paMaintananceDetails.setRquiredValure(1);//hardcoded
 				paMaintananceDetails.setDate1(date1);
 				paMaintananceDetails.setDate1Obervation(observation1);
 		     	paMaintananceDetails.setDate1Photo(imageName1);

@@ -27,9 +27,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam; 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;  
+import org.springframework.web.servlet.ModelAndView;
+
+import com.mahindra.project.constant.Constant;
+import com.mahindra.project.model.DailyGraphData;
 import com.mahindra.project.model.MaintenanceData;
 import com.mahindra.project.model.SocData;
+import com.mahindra.project.model.calibration.EqCalDetails;
  
 @Controller
 public class DataUploadController {
@@ -238,7 +242,60 @@ public class DataUploadController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/importExcelCal", method = RequestMethod.POST) 
+	public ModelAndView importExcelCal( @RequestParam("file") MultipartFile excelfile,HttpServletRequest request, HttpServletResponse response) 
+	{	
+		ModelAndView model= new ModelAndView("calibration/calibration");
+		
+		try {
+ 
+			int i = 1; 
+			System.out.println("Excel File name "+excelfile.getOriginalFilename()); 
+			XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream()); 
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			 
+			 
+		    List<EqCalDetails>	dataLists=new ArrayList<EqCalDetails>();
+			while (i <= worksheet.getLastRowNum()) {
+				
+				
+				EqCalDetails data =new EqCalDetails();
+				 
+				XSSFRow row = worksheet.getRow(i++); 
+				data.setId(0);     
+				
+				data.setEqName(row.getCell(0).getStringCellValue());
+				data.setSrNo(row.getCell(1).getStringCellValue());
+				System.out.println("row.getCell(2)  "+row.getCell(2).getStringCellValue());
+				//System.out.println("1st "+row.getCell(3).getStringCellValue());
+				data.setCardNo(""+row.getCell(2).getStringCellValue());
+				//System.out.println("1st "+row.getCell(4).getStringCellValue());
+				data.setMachineNo(""+row.getCell(3).getNumericCellValue());
+				//System.out.println("1st "+row.getCell(5).getStringCellValue());
+				data.setLine(row.getCell(4).getStringCellValue());
+				//System.out.println("1st "+row.getCell(6).getStringCellValue());
+				data.setFrequency((int)row.getCell(3).getNumericCellValue());
+				//System.out.println("1st "+row.getCell(7).getStringCellValue());
+				data.setLastCalDate(row.getCell(5).getDateCellValue());
+
+				dataLists.add(data);
+			}			
+			workbook.close(); 
+			RestTemplate rest = new RestTemplate();
+
+			System.out.println("Excel File Arraylist "+dataLists.toString());
+			  List<EqCalDetails> calDetails= rest.postForObject(Constant.url + "/insertMachineEqCal",
+					  dataLists,List.class);
+				System.out.println("Excel File Arraylist "+calDetails.toString());
+
+			model.addObject("dataLists", dataLists);
+		    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	 
+		return model;
+	}
 	
 	
 	@RequestMapping(value = "/mail", method = RequestMethod.POST)

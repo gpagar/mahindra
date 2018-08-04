@@ -1,8 +1,6 @@
 package com.mahindra.project.model;
 
-
-public class WhyWhyF18{
-
+public class GetBreakdown {
 
 	private int id;
 	
@@ -10,7 +8,7 @@ public class WhyWhyF18{
 	
 	private String machineNo;
 	
-	private int rank;
+	private String machineName;
 
 	private String month;
 
@@ -66,31 +64,23 @@ public class WhyWhyF18{
 	
 	private int delStatus;
 
-    private String repairedBy;
-	
+	private String repairedBy;
+
 	private String repairStartTime;
-	
+
 	private String repairFinishTime;
-	
+
 	private String idea;
-	
+
 	private String preparedBy;
-	
+
 	private String mgrorhead;
-	
+
 	private String subcommMember;
-	
+
 	private String prevOccDate;
-
 	
-	public int getRank() {
-		return rank;
-	}
-
-	public void setRank(int rank) {
-		this.rank = rank;
-	}
-
+	
 	public String getRepairedBy() {
 		return repairedBy;
 	}
@@ -155,14 +145,6 @@ public class WhyWhyF18{
 		this.prevOccDate = prevOccDate;
 	}
 
-	public int getMachineId() {
-		return machineId;
-	}
-
-	public void setMachineId(int machineId) {
-		this.machineId = machineId;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -171,12 +153,28 @@ public class WhyWhyF18{
 		this.id = id;
 	}
 
+	public int getMachineId() {
+		return machineId;
+	}
+
+	public void setMachineId(int machineId) {
+		this.machineId = machineId;
+	}
+
 	public String getMachineNo() {
 		return machineNo;
 	}
 
 	public void setMachineNo(String machineNo) {
 		this.machineNo = machineNo;
+	}
+
+	public String getMachineName() {
+		return machineName;
+	}
+
+	public void setMachineName(String machineName) {
+		this.machineName = machineName;
 	}
 
 	public String getMonth() {
@@ -397,15 +395,19 @@ public class WhyWhyF18{
 
 	@Override
 	public String toString() {
-		return "WhyWhyF18 [id=" + id + ", machineId=" + machineId + ", machineNo=" + machineNo + ", month=" + month
-				+ ", date=" + date + ", dept=" + dept + ", cellCircle=" + cellCircle + ", problemReported="
-				+ problemReported + ", bdTimeLoss=" + bdTimeLoss + ", engineLoss=" + engineLoss + ", partStatus="
-				+ partStatus + ", partDesc=" + partDesc + ", bdMsPt=" + bdMsPt + ", action=" + action + ", why1=" + why1
-				+ ", why2=" + why2 + ", why3=" + why3 + ", why4=" + why4 + ", why5=" + why5 + ", rootCause=" + rootCause
-				+ ", clarificationOfCause=" + clarificationOfCause + ", failureCode=" + failureCode
-				+ ", counterMeasure=" + counterMeasure + ", category=" + category + ", recurNonRecurr=" + recurNonRecurr
-				+ ", linkageWith=" + linkageWith + ", status=" + status + ", refNo=" + refNo + ", sapNotifNo="
-				+ sapNotifNo + ", delStatus=" + delStatus + "]";
+		return "GetBreakdown [id=" + id + ", machineId=" + machineId + ", machineNo=" + machineNo + ", machineName="
+				+ machineName + ", month=" + month + ", date=" + date + ", dept=" + dept + ", cellCircle=" + cellCircle
+				+ ", problemReported=" + problemReported + ", bdTimeLoss=" + bdTimeLoss + ", engineLoss=" + engineLoss
+				+ ", partStatus=" + partStatus + ", partDesc=" + partDesc + ", bdMsPt=" + bdMsPt + ", action=" + action
+				+ ", why1=" + why1 + ", why2=" + why2 + ", why3=" + why3 + ", why4=" + why4 + ", why5=" + why5
+				+ ", rootCause=" + rootCause + ", clarificationOfCause=" + clarificationOfCause + ", failureCode="
+				+ failureCode + ", counterMeasure=" + counterMeasure + ", category=" + category + ", recurNonRecurr="
+				+ recurNonRecurr + ", linkageWith=" + linkageWith + ", status=" + status + ", refNo=" + refNo
+				+ ", sapNotifNo=" + sapNotifNo + ", delStatus=" + delStatus + ", repairedBy=" + repairedBy
+				+ ", repairStartTime=" + repairStartTime + ", repairFinishTime=" + repairFinishTime + ", idea=" + idea
+				+ ", preparedBy=" + preparedBy + ", mgrorhead=" + mgrorhead + ", subcommMember=" + subcommMember
+				+ ", prevOccDate=" + prevOccDate + "]";
 	}
     
+	
 }

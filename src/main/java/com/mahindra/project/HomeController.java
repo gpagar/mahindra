@@ -95,7 +95,7 @@ public class HomeController {
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView model=new ModelAndView("home/index");
+		ModelAndView model=new ModelAndView("home");
 		return model;
 	}
 	
