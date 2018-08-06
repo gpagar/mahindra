@@ -284,7 +284,7 @@ public class DataUploadController {
 			RestTemplate rest = new RestTemplate();
 
 			System.out.println("Excel File Arraylist "+dataLists.toString());
-			  List<EqCalDetails> calDetails= rest.postForObject(Constant.url + "/insertMachineEqCal",
+	 		  List<EqCalDetails> calDetails= rest.postForObject(Constant.url + "/insertMachineEqCal",
 					  dataLists,List.class);
 				System.out.println("Excel File Arraylist "+calDetails.toString());
 
