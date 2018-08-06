@@ -35,6 +35,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   </script>
 </head>
 <body>
+     <div class="page-container">
    <!--/content-inner-->
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
@@ -232,9 +233,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <!--inner block end here-->
 <!--copy rights start here-->
-<div class="copyrights">
+<!-- <div class="copyrights">
 		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
-</div>	
+</div>	 -->
 <!--COPY rights end here-->
 </div>
 </div>
@@ -243,12 +244,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				
  <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
 
-
+</div>
 
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+							<!-- <script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -267,7 +268,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
@@ -281,7 +282,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script type="text/javascript">
 $(document).ready(function() {
-	var yearsel=parseInt($("#yearselected").val());
+	var yearsel=parseInt($("#yearselected").val()); 
 	var year=new Date().getFullYear();
 	if((new Date().getMonth()+1)>3)
 	{

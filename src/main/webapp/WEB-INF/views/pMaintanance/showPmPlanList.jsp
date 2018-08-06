@@ -41,6 +41,7 @@ overflow:auto;
   </script>
 </head>
 <body onload="setMachineSelected(${machineType},${machineId})">
+     <div class="page-container">
    
    <!--/content-inner-->
 <div class="left-content">
@@ -432,9 +433,12 @@ overflow:auto;
 							</c:choose>
 							
 							
-							<td><textarea rows="1" cols="18" name="remark" id="remark" >${paMaintainence.remark}
-</textarea></td>  <td> <input type="submit" value="Submit" name="submit" class="btn btn-info"/>
-</td> 
+							<td>
+						<textarea rows="1" cols="18" name="remark" id="remark" >${paMaintainence.remark}
+</textarea></td>  	<td> <c:choose>
+							<c:when test="${status==1 or status==2 or status==3}"><input type="submit" value="Submit" name="submit" class="btn btn-info"/>
+</c:when><c:otherwise><input type="submit" value="Submit" name="submit" class="btn btn-info" disabled/>
+</c:otherwise></c:choose></td> 
 						</c:when>
 						</c:choose></form>
 						 </c:forEach>
@@ -458,7 +462,7 @@ overflow:auto;
  
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -471,7 +475,7 @@ overflow:auto;
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -995,8 +999,8 @@ function OnInput() {
 		
 	}
 	</script>
-<script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-<%-- <script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
+<%-- <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
 <script>
 $('#action').on('click', function() {
   $("#table").rowspanizer({vertical_align: 'middle'});

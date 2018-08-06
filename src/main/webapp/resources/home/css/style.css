@@ -8,7 +8,7 @@ html, body{
 	font-family: 'Roboto', sans-serif;
     font-size: 100%;
   	overflow-x: hidden;
-	background-color: #edecec;
+	background-color: #dee8ce;
 }
 body a{
 	transition:0.5s all;
@@ -189,17 +189,17 @@ label.col-sm-2.control-label {
     color: #fff;
     white-space: nowrap;
     z-index: 2;
-    background-color: #333333;
+    background-color: #6a9a6e;
     font-size:0.9em;
     font-family: 'Roboto', sans-serif;
 	border:none;
-	border-left: 4px solid #333333;
+	border-left: 4px solid #6a9a6e;
 }
 #menu li a:hover {
   color: #ffffff;
-  background-color:#1b93e1;
+  background-color:#748852;
   transition: color 250ms ease-in-out, background-color 250ms ease-in-out;
-   border-left: 4px solid #4A4A4A;
+   border-left: 4px solid #748852;
 }
 #menu li.active > a {
   background-color: #2b303a;
@@ -249,7 +249,7 @@ background-color:#00C6D7!important;
     width: 100%;
     padding: 15px 14px 15px;
     box-sizing: border-box;
-    background: #1b93e1;
+    background: #7d9a4d;
     text-align: center;
 }
 .sidebar-icon {
@@ -304,7 +304,7 @@ li#menu-academico{
 /*--header --*/
 .header-main {
    /*  padding:1em;
-	 */background:#fff;
+	 */background:#cbdab1;
 	 box-shadow: 0 1px 1px rgba(0,0,0,.05);
     -o-box-shadow: 0 1px 1px rgba(0,0,0,.05);
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -313,7 +313,7 @@ li#menu-academico{
 .w3layouts-right {
     float: left;
     width: 24.25%;
-    background: #e74c3c;
+    background: #cddab7;
     text-align: center;
     padding: 1.3em 1em 0.1em;
     margin: 0 1%;
@@ -323,25 +323,25 @@ li#menu-academico{
     font-size: 35px;
 }
 .logo-w3-agile h1 a {
-    color: #fff;
+    color: #ec4545;
     text-transform: uppercase;
     display: inline-block;
 }
 .w3layouts-left {
     float: left;
     width: 24.25%;
-    background: #ffffff;
+    background: #cbdab1;
     padding: 1em;
 }
 .profile_details {
     float: left;
     width: 24.25%;
-    background: #1b93e1;
+    background: #82a1a9;
     text-align: center;
     padding: 1.0em 1em 0.1em;
 }
 .logo-w3-agile {
-    background: #e74c3c;
+    background: #b2bd9e;
     float: left;
     width: 24.25%;
     text-align: center;
@@ -903,17 +903,17 @@ ul.dropdown-menu.drp-mnu li {
 /*--header --*/
 /*---four-grids-----*/ 
 .four-agileits {
-    background: #ff4a43;
+    background: #6ac35a94;
     text-align: center;
     padding: 2em 0;
 }
 .four-agileinfo {
-    background: #22beef;
+    background: #7cb7ca;
     padding: 2em 0;
     text-align: center;
 }
 .four-w3ls {
-    background: #a2d200;
+    background: #c0d08a;
     padding: 2em 0;
     text-align: center;
 }
@@ -4471,9 +4471,9 @@ label.control-label {
 	padding: 0 0 1.5em;
 }
 .agile-tables {
-    background: #fff;
-    padding: 2em;
-    margin: 2em 0;
+    background: #f3f3f3;
+   /*  padding: 2em;
+    margin: 2em 0; */
 }
 .w3l-calendar-left {
     background: #fff;

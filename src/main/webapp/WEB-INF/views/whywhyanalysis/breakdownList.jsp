@@ -37,7 +37,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body onload="setMachineSelected(${machineType},${machineId})">
          <c:url var="getMachinByType" value="/getMachinByType"></c:url>
          <c:url var="getMachineById" value="/getMachineById"></c:url>
-   <!--/content-inner-->
+   <!--/content-inner-->   <div class="page-container">
+   
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>

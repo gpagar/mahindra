@@ -39,7 +39,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   </script>
 </head>
 <body onload="setMachineSelected(${machineType},${machineId})">
-   
+       <div class="page-container">
    <!--/content-inner-->
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
@@ -305,7 +305,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+							<!-- <script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -324,7 +324,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>

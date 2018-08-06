@@ -64,6 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <div id="overlay" >  <div id="text"> Saving TBM,Please Wait...
  <img id="loading-image1" src="${pageContext.request.contextPath}/resources/images/loader1.gif" alt="Loading..." />
 </div></div>  
+ <div class="page-container">
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -182,7 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -195,7 +196,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">

@@ -674,7 +674,7 @@ public class WhyWhyAnalysisController {
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
             System.out.println("whyWhyF18List"+whyWhyF18List.toString());
 			model.addObject("whyWhyF18List",whyWhyF18List);
-	    	
+			model.addObject("year", year);
 	    }catch(Exception e)
 	    {
 	    	e.printStackTrace();

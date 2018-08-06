@@ -12,6 +12,20 @@
 <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
+<link href="resources/home/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="resources/home/css/style.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="resources/home/css/morris.css" type="text/css"/>
+<!-- Graph CSS -->
+<link href="resources/home/css/font-awesome.css" rel="stylesheet"> 
+<!-- jQuery -->
+<script src="resources/home/js/jquery-2.1.4.min.js"></script>
+<!-- //jQuery -->
+<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<!-- lined-icons -->
+<link rel="stylesheet" href="resources/home/css/icon-font.min.css" type='text/css' />
+<!-- //lined-icons -->
 
   
 </head>
@@ -353,26 +367,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
-							var toggle = true;
-										
-							$(".sidebar-icon").click(function() {                
-							  if (toggle)
-							  {
-								$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-								$("#menu span").css({"position":"absolute"});
-							  }
-							  else
-							  {
-								$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
-								setTimeout(function() {
-								  $("#menu span").css({"position":"relative"});
-								}, 400);
-							  }
-											
-											toggle = !toggle;
-										});
-							</script>
+					
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>

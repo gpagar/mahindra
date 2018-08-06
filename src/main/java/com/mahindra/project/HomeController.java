@@ -6,7 +6,9 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.formula.udf.UDFFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,7 @@ import com.mahindra.project.model.UserDetails;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+	UserDetails userDetail=null;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -65,13 +67,15 @@ public class HomeController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("email",username);
 			map.add("password",password);
-			UserDetails login  = rest.postForObject(Constant.url + "login", map,
+			userDetail  = rest.postForObject(Constant.url + "login", map,
 					UserDetails.class);
-			System.out.println("login " + login);
-			if(login!=null)
+			System.out.println("login " + userDetail);
+			if(userDetail!=null)
 			{
 				//model=new ModelAndView("home/index");
 				 model=new ModelAndView("primitiveMaintenance");
+				 HttpSession session = request.getSession();
+				 session.setAttribute("userDetail", userDetail);
 				 maping="home";
 			}
 			else
@@ -96,6 +100,14 @@ public class HomeController {
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView model=new ModelAndView("home");
+		try
+		{
+			HttpSession session = request.getSession();
+			UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
+			 model.addObject("userDetail", userDetail);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return model;
 	}
 	
@@ -130,10 +142,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)
+	public String logout(HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAndView model=new ModelAndView("login");
-		return model;
+		ModelAndView model=new ModelAndView("login2");
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "mail", method = RequestMethod.GET)
