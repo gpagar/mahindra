@@ -452,7 +452,7 @@ public class PMController {
 			//int requiredValueId = Integer.parseInt(request.getParameter("req_value"));
 			//System.err.println(requiredValueId);
 			String date1=request.getParameter("date1");
-			//System.err.println(date1);
+			System.err.println("date1"+date1);
 			String observation1=request.getParameter("date1ob");
 			//System.err.println(observation1);
 			String remark=request.getParameter("remark");
@@ -460,6 +460,8 @@ public class PMController {
 			String date1Photo=request.getParameter("ph1");
 		    //System.err.println("QQ"+date1Photo);
 			String date2=request.getParameter("date2");
+			System.err.println("date2"+date2);
+
 			String observation2=request.getParameter("date2ob");
 			
 			
@@ -467,6 +469,7 @@ public class PMController {
 		  String date2Photo=request.getParameter("ph2");
 
 			String date3=request.getParameter("date3");
+			System.err.println("date3"+date3);
 			String observation3=request.getParameter("date3ob");
 			String date3Photo=request.getParameter("ph3");
 			String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
@@ -520,11 +523,11 @@ public class PMController {
 				paMaintananceDetails.setType(machinType);
 				paMaintananceDetails.setRemark(remark);
 				paMaintananceDetails.setStatus(1);
-				if(date2!=null || !date2.equals(""))
+				if(!date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
 				}
-				if(date3!=null || !date3.equals(""))
+				if(!date3.equals(""))
 				{
 					paMaintananceDetails.setStatus(3);
 				}
@@ -554,11 +557,11 @@ public class PMController {
 				paMaintananceDetails.setDate3Obervation(observation3);
 				paMaintananceDetails.setDate3Photo(imageName3);
 				paMaintananceDetails.setStatus(1);
-				if(date2!=null || !date2.equals(""))
+				if(!date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
 				}
-				if(date3!=null || !date3.equals(""))
+				if(!date3.equals(""))
 				{
 					paMaintananceDetails.setStatus(3);
 				}

@@ -76,6 +76,7 @@ public class HomeController {
 				 model=new ModelAndView("primitiveMaintenance");
 				 HttpSession session = request.getSession();
 				 session.setAttribute("userDetail", userDetail);
+				 session.setAttribute("deptId", 1);
 				 maping="home";
 			}
 			else
