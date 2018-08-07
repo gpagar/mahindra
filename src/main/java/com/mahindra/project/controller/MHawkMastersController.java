@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Scope("session")
 
 public class MHawkMastersController {
-
+/*
 	@RequestMapping(value = "/addPredictiveMaintenance", method = RequestMethod.GET)
 	public ModelAndView predictiveMaintenance(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("pMaintanance/addPMaintanance");
@@ -27,6 +27,6 @@ public class MHawkMastersController {
 		}
 		
 		return model; 
-	}
+	}*/
 	
 }
