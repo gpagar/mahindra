@@ -12,10 +12,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +39,7 @@ import com.mahindra.project.model.PMCheckPoints;
 import com.mahindra.project.model.PMItemDetails;
 import com.mahindra.project.model.PaMaintananceDetails;
 import com.mahindra.project.model.PmRequiredValue;
+import com.mahindra.project.model.UserDetails;
 
 @Controller
 public class PMController {
@@ -44,6 +47,7 @@ public class PMController {
 	PaMaintananceDetails paMaintananceDetails = new PaMaintananceDetails();
 	List<GetPMData> paMaintainenceList=new ArrayList<>();
 	public static MachinDetailsList machinDetailsList;
+	ArrayList<GetPMData> pmList=new ArrayList<GetPMData>();
 	int machineType;
 	int machineId;
 	
@@ -192,7 +196,7 @@ public class PMController {
 			map.add("machinId",machineId);
 				GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
 						GetPMData[].class);
-					ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
+					pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
 
 				 map = new LinkedMultiValueMap<String, Object>();
 					map.add("machineId",machineId);
@@ -222,6 +226,9 @@ public class PMController {
 								pmList.get(j).setRquiredValure(pmDbList.get(i).getRquiredValure());
 								pmList.get(j).setStatus(pmDbList.get(i).getStatus());
 								pmList.get(j).setMethod(pmDbList.get(i).getMethod());
+								pmList.get(j).setType(pmDbList.get(i).getType());
+								pmList.get(j).setInt1(pmDbList.get(i).getInt1());
+								pmList.get(j).setInt2(pmDbList.get(i).getInt2());
 							}
 							
 						}
@@ -238,12 +245,118 @@ public class PMController {
 			model.addObject("machineId", machineId);
 			model.addObject("url",Constant.IMAGE_URL);
 			
+			if(pmList.get(0).getInt1()==0)
+			{
+				System.out.println("in if   "  +pmList.get(0).getInt1());
+				int pmStatus = 1;
+				for(int i = 0 ; i<pmList.size() ; i++)
+				{
+					if(pmList.get(i).getStatus()<1)
+					{
+						pmStatus=0;
+						break;
+					}
+				}
+				System.out.println("pmStatus  "  +pmStatus);
+				model.addObject("approveStatus", pmList.get(0).getInt1());
+				model.addObject("pmStatus", pmStatus);
+			}
+			else if(pmList.get(0).getInt1()==1)
+			{
+				System.out.println("in if else 1  "  +pmList.get(0).getInt1()); 
+				model.addObject("approveStatus", pmList.get(0).getInt1()); 
+			}
+			else if(pmList.get(0).getInt1()==2)
+			{
+				System.out.println("in if else 2  "  +pmList.get(0).getInt1());
+				int pmStatus = 2;
+				for(int i = 0 ; i<pmList.size() ; i++)
+				{
+					if(pmList.get(i).getStatus()<2)
+					{
+						pmStatus=0;
+						break;
+					}
+				}
+				model.addObject("approveStatus", pmList.get(0).getInt1());
+				model.addObject("pmStatus", pmStatus);
+			}
+			else if(pmList.get(0).getInt1()==3)
+			{
+				System.out.println("in if else 3  "  +pmList.get(0).getInt1()); 
+				model.addObject("approveStatus", pmList.get(0).getInt1()); 
+			}
+			
+			else if(pmList.get(0).getInt1()==4)
+			{
+				System.out.println("in if else 4  "  +pmList.get(0).getInt1());
+				int pmStatus = 3;
+				for(int i = 0 ; i<pmList.size() ; i++)
+				{
+					if(pmList.get(i).getStatus()<3)
+					{
+						pmStatus=0;
+						break;
+					}
+				}
+				model.addObject("approveStatus", pmList.get(0).getInt1());
+				model.addObject("pmStatus", pmStatus);
+			}
+			else if(pmList.get(0).getInt1()==5)
+			{
+				System.out.println("in if else 5  "  +pmList.get(0).getInt1()); 
+				model.addObject("approveStatus", pmList.get(0).getInt1()); 
+			}
+			else if(pmList.get(0).getInt1()==6)
+			{
+				System.out.println("in if else 6  "  +pmList.get(0).getInt1()); 
+				model.addObject("approveStatus", pmList.get(0).getInt1()); 
+			}
+			
+			
 		}catch(Exception e)
 		{
+			e.printStackTrace();
 			e.printStackTrace();
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/approveList/{status}", method = RequestMethod.GET)
+	public String approveList(@PathVariable int status, HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
+		RestTemplate rest = new RestTemplate();
+		
+		try
+		{    try {
+			 machineType = Integer.parseInt(request.getParameter("machineType"));
+			 machineId = Integer.parseInt(request.getParameter("machineId"));
+		     }
+		catch (Exception e) {
+			// TODO: handle exception
+		} 
+		
+		for(int i = 0 ; i<pmList.size() ; i++)
+		{
+			pmList.get(i).setInt1(status);
+		}
+		
+		System.out.println("pmList " + pmList.toString());
+		
+		GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "updatePmDetailList",pmList,
+				GetPMData[].class);
+			pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
+		
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			e.printStackTrace();
+		}
+		return "redirect:/searchPaMaintainenceList";
+	}
+	
+	
 	@RequestMapping(value = "/searchPaMaintainenceHistory", method = RequestMethod.GET)
 	public ModelAndView searchPaMaintainenceHistory(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -523,6 +636,10 @@ public class PMController {
 				paMaintananceDetails.setType(machinType);
 				paMaintananceDetails.setRemark(remark);
 				paMaintananceDetails.setStatus(1);
+				HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId"); 
+				paMaintananceDetails.setInt2(deptId);
+				
 				if(!date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
@@ -557,6 +674,10 @@ public class PMController {
 				paMaintananceDetails.setDate3Obervation(observation3);
 				paMaintananceDetails.setDate3Photo(imageName3);
 				paMaintananceDetails.setStatus(1);
+				 
+				HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId"); 
+				paMaintananceDetails.setInt2(deptId);
 				if(!date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);

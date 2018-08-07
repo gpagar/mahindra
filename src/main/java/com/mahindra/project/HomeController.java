@@ -31,7 +31,7 @@ import com.mahindra.project.model.UserDetails;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	UserDetails userDetail=null;
+	UserDetails userDetail=new UserDetails();
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -97,6 +97,27 @@ public class HomeController {
 		return "redirect:/"+maping;
 	}
 	
+	@RequestMapping(value = "/sessionTimeOut" , method = RequestMethod.GET)
+	public ModelAndView displayLoginAgain(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("login2");
+
+		logger.info("/sessionTimeOut request mapping.");
+
+		model.addObject("loginResponseMessage", "Session timeout ! Please login again . . .");
+
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -141,13 +162,7 @@ public class HomeController {
 		ModelAndView model=new ModelAndView("graph");
 		return model;
 	}
-	
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request, HttpServletResponse response)
-	{
-		ModelAndView model=new ModelAndView("login2");
-		return "redirect:/";
-	}
+	 
 	
 	@RequestMapping(value = "mail", method = RequestMethod.GET)
 	public ModelAndView mail(HttpServletRequest request, HttpServletResponse response)

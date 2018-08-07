@@ -444,10 +444,106 @@ overflow:auto;
 						 </c:forEach>
 						 </c:forEach>
 							</tbody>
-					  </table>
+					  </table><br><br><br>
 					</div>
-				
-
+					
+					
+					<c:choose>
+						<c:when test="${sessionScope.userDetail.type==1}">
+							<c:choose>
+								<c:when test="${approveStatus==0}">
+									<c:choose>
+										<c:when test="${pmStatus==1}">
+											<a href="${pageContext.request.contextPath}/approveList/1"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>1
+										</c:when>
+										<c:otherwise>
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+										</c:otherwise>
+									
+									</c:choose> 
+								</c:when>
+								
+								<c:when test="${approveStatus==1}">
+									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+								</c:when>
+								
+								<c:when test="${approveStatus==2}">
+									<c:choose>
+										<c:when test="${pmStatus==2}">
+											<a href="${pageContext.request.contextPath}/approveList/3"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>3
+										</c:when>
+										<c:otherwise>
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+										</c:otherwise>
+									
+									</c:choose> 
+								</c:when>
+								
+								<c:when test="${approveStatus==3}">
+									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+								</c:when>
+								
+								<c:when test="${approveStatus==4}">
+									<c:choose>
+										<c:when test="${pmStatus==3}">
+											<a href="${pageContext.request.contextPath}/approveList/5"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>5
+										</c:when>
+										<c:otherwise>
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+										</c:otherwise>
+									
+									</c:choose> 
+								</c:when>
+								
+								<c:when test="${approveStatus==5}">
+									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+								</c:when>
+								
+								<c:when test="${approveStatus==6}">
+									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+								</c:when>
+							
+							</c:choose>
+						
+						</c:when>
+						
+						
+						<c:when test="${sessionScope.userDetail.type==2}">
+							<c:choose>
+								<c:when test="${approveStatus==0}"> 
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
+								</c:when>
+								
+								<c:when test="${approveStatus==1}"> 
+											<a href="${pageContext.request.contextPath}/approveList/2"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>2 
+								</c:when>
+								
+								<c:when test="${approveStatus==2}"> 
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
+								</c:when>
+								
+								<c:when test="${approveStatus==3}">
+									 <a href="${pageContext.request.contextPath}/approveList/4"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>4
+								</c:when>
+								
+								<c:when test="${approveStatus==4}"> 
+											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
+								</c:when>
+								
+								<c:when test="${approveStatus==5}">
+									 <a href="${pageContext.request.contextPath}/approveList/6"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>6
+								</c:when>
+								
+								<c:when test="${approveStatus==6}">
+									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+								</c:when>
+							
+							</c:choose>
+						
+						</c:when>
+						
+					</c:choose>
+					 
 				</div>
 			</div>			     
 				</div>
