@@ -721,7 +721,7 @@ public class WhyWhyAnalysisController {
    				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
    				 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
 
-   				 Date date = new Date();
+   		 		 Date date = new Date();
    				 date = df1.parse(whyWhyF18.getDate());
    				 whyWhyF18.setDate(df.format(date));
    				date = df1.parse(whyWhyF18.getPrevOccDate());
