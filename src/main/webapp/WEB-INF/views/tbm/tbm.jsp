@@ -179,8 +179,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                <c:set var="lastDate" value="${tbmDataList.nextObDate}"/>
                               </c:when>
                               </c:choose>
-                                <td><p id="date1${count.index}"><input type="date" name="lastObDate${count.index}" id="lastObDate${count.index}" value="${lastDate}"/><%-- ${tbmDataList.lastDate} --%></p></td>
-                                <td><p id="ob1${count.index}"><textarea name="lastObservation${count.index}" id="lastObservation${count.index}">${tbmDataList.nextObservation}<%-- ${tbmDataList.lastObservation} --%></textarea></p></td>
+                                <td><p id="date1${count.index}"><input type="date" name="lastObDate${count.index}" id="lastObDate${count.index}" value="${lastDate}" readonly/><%-- ${tbmDataList.lastDate} --%></p></td>
+                                <td><p id="ob1${count.index}"><textarea name="lastObservation${count.index}" id="lastObservation${count.index}" readonly>${tbmDataList.nextObservation}   </textarea></p></td>
                                 <td><p id="date2${count.index}">
                                 <c:choose>
                                 <c:when test="${currD ge nextD}">
@@ -235,7 +235,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -248,7 +248,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">

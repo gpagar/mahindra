@@ -30,10 +30,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <c:url var="importExcel2" value="/importExcel2"></c:url>
       <c:url var="getMachinByType" value="/getMachinByType"></c:url>
          <c:url var="getActivityByMachin" value="/getActivityByMachin"></c:url>
-              <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
-                 <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
-                 <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
-                 
+             <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
+             <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
+            <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
+            <c:url var="getScheduleById" value="/getScheduleById"></c:url>
                  <script>
   $( function() {
     $( ".dp2" ).datepicker({
@@ -99,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
 							
-
+                    <input type="hidden" name="maintId" id="maintId" value="0"/>
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									 
@@ -126,7 +126,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
 								class="form-control chosen" tabindex="6" id="machineId"
-								name="machineId" required>
+								name="machineId" onchange="onMachineChange(this.value)" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
 
@@ -145,7 +145,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								class="form-control chosen" tabindex="6" id="rank"
 								name="rank" required>
 
-									<option value="0"selected  >Rank A</option>
+									<option value="0" selected  >Rank A</option>
 								<option value="1"   >Rank B</option>
 								<option value="1"   >Rank C</option>
  
@@ -320,7 +320,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -333,7 +333,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -341,9 +341,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <!--inner block end here-->
 <!--copy rights start here-->
-<div class="copyrights">
+<!-- <div class="copyrights">
 		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
-</div>	
+</div>	 -->
 <!--COPY rights end here-->
 </div>
 </div>
@@ -358,7 +358,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+					<!-- 		<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -377,7 +377,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -464,9 +464,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			$('#machineId').change(
 
 					function() {
-
-						alert("hh");
-
 						 
 
 						$.getJSON('${getActivityByMachin}', {
@@ -662,6 +659,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		
 	 
 		 
+	</script>
+	
+	<script type="text/javascript">
+	function onMachineChange(machineId)
+	{
+		
+		document.getElementById("rank").value="0";
+		document.getElementById("fmonth").value="";
+		document.getElementById("fweek").value="";
+		document.getElementById("smonth").value="";
+		document.getElementById("sweek").value="";
+		document.getElementById("tmonth").value="";
+		document.getElementById("tweek").value="";
+		document.getElementById("maintId").value="";
+		$.getJSON('${getScheduleById}', {
+			machineId : machineId,
+			ajax : 'true'
+
+		}, function(data) {
+			document.getElementById("rank").value=data.int1;
+			document.getElementById("fmonth").value=data.fMonth;
+			document.getElementById("fweek").value=data.fWeek;
+			document.getElementById("smonth").value=data.sMonth;
+			document.getElementById("sweek").value=data.sWeek;
+			document.getElementById("tmonth").value=data.tMonth;
+			document.getElementById("tweek").value=data.tweek;
+			document.getElementById("maintId").value=data.maintId;
+		});
+		
+	}
 	</script>
 </body>
 

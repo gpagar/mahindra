@@ -13,6 +13,12 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
+
   
 </head>
 <body>
@@ -73,23 +79,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						
 						<div class="form-group">
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddMachine">Add Machine
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls" style="text-decoration: underline;font-size: 20px;">
+						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddItem">Add Item
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Checkpoints
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+							<a href="${pageContext.request.contextPath}/showAllMachines">All PM Machines
+
 						
 						</a>
 						</div>
@@ -107,7 +124,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machineType"
+								 tabindex="6" id="machineType" style="width:99% !important;"
+								class="chosen-select" 
 								name="machineType" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Type</option>
@@ -126,8 +144,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine name</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+										<select data-placeholder="Choose Machine" style="width:99% !important;"
+								class="chosen-select"  tabindex="6" id="machineId"
 								name="machineId" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
@@ -200,7 +218,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -213,7 +231,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -238,7 +256,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+						<!-- 	<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -257,7 +275,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -386,6 +404,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		
 		 
 	</script>
+	
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

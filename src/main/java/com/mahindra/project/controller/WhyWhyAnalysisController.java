@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -49,12 +50,14 @@ import com.mahindra.project.model.GetPMData;
 import com.mahindra.project.model.GetPaMaintainence;
 import com.mahindra.project.model.GraphBCData;
 import com.mahindra.project.model.GraphData;
+import com.mahindra.project.model.GraphType;
 import com.mahindra.project.model.Info;
 import com.mahindra.project.model.MachinDetails;
 import com.mahindra.project.model.MachinDetailsList;
 import com.mahindra.project.model.PaMaintananceDetails;
 import com.mahindra.project.model.PmRequiredValue;
 import com.mahindra.project.model.TSetting;
+import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.WhyWhyF18;
 import com.mahindra.project.model.YearlyMachinBreakdownList;
 import com.mahindra.project.model.YearlyMachineBdTimeList;
@@ -105,23 +108,82 @@ public class WhyWhyAnalysisController {
 			int refValue=tSettingRes.getSettingValue()+1;
 			refNo=refNo+""+actYear+"/"+refValue;
 			System.err.println(refNo);
+			
+			  Map<String,String> clarificationOfCause=new HashMap<String,String>();  
+			  clarificationOfCause.put("Inadequate Operating condition","Inadequate Operating condition");  
+			  clarificationOfCause.put("Deterioration","Deterioration");  
+			  clarificationOfCause.put("Inadequate Design","Inadequate Design");  
+			  clarificationOfCause.put("Inadequate Skill","Inadequate Skill");  
+			  clarificationOfCause.put("Inadequate Basic Condition","Inadequate Basic Condition");  
+			  clarificationOfCause.put("Open","Open");  
+	          model.addObject("clarificationOfCauseList", clarificationOfCause);
+	          Map<String,String> failureCodeList=new HashMap<String,String>(); 
+	          failureCodeList.put("Power Failure", "Power Failure");
+	          failureCodeList.put("Clogged", "Clogged");
+	          failureCodeList.put("Broken", "Broken");
+	          failureCodeList.put("Leak", "Leak");
+	          failureCodeList.put("Lack of Lubrication", "Lack of Lubrication");
+	          failureCodeList.put("Abnormal Condition", "Abnormal Condition");
+	          failureCodeList.put("Irregular temp.", "Irregular temp.");
+	          failureCodeList.put("Loose", "Loose");
+	          failureCodeList.put("Wear", "Wear");
+	          failureCodeList.put("Crack", "Crack");
+	          failureCodeList.put("Bend", "Bend");
+	          failureCodeList.put("Damaged", "Damaged");
+	          failureCodeList.put("Tight/Rusty/Jam", "Tight/Rusty/Jam");
+	          failureCodeList.put("Disengaged", "Disengaged");
+	          failureCodeList.put("Entangled", "Entangled");
+	          failureCodeList.put("Deteriation", "Deteriation");
+	          failureCodeList.put("Dry Solder", "Dry Solder");
+	          failureCodeList.put("PCB Failure", "PCB Failure");
+	          failureCodeList.put("Burnt", "Burnt");
+	          failureCodeList.put("Setting Error", "Setting Error");
+	          failureCodeList.put("Operating Error", "Operating Error");
+	          failureCodeList.put("Misalignment", "Misalignment");
+	          failureCodeList.put("Accident", "Accident");
+	          failureCodeList.put("Short Circuit", "Short Circuit");
+	          failureCodeList.put("Open Circuit", "Open Circuit");
+	          failureCodeList.put("Pressure Drop", "Pressure Drop");
+	          failureCodeList.put("Blown Off", "Blown Off");
+	          failureCodeList.put("Program Currupt", "Program Currupt");
+	          failureCodeList.put("Poor Contact", "Poor Contact");
+	          failureCodeList.put("Poor Insulation", "Poor Insulation");
+	          failureCodeList.put("Tripped", "Tripped");
+	          failureCodeList.put("Wire Broken", "Wire Broken");
+	          failureCodeList.put("Air Lock", "Air Lock");
+	          failureCodeList.put("Poor Adjustment", "Poor Adjustment");
+	          failureCodeList.put("Noisy", "Noisy");
+	          failureCodeList.put("Low Level", "Low Level");
+	          failureCodeList.put("Wrong Wiring", "Wrong Wiring");
+	          failureCodeList.put("Slip", "Slip");
+	          failureCodeList.put("Earthing", "Earthing");
+	          failureCodeList.put("M/c Level", "M/c Level");
+	          model.addObject("failureCodeList", failureCodeList);	
+	          
 			map1 = new LinkedMultiValueMap<String,Object>();
 			map1.add("machineId", machineId);
 			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
 
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+					MachinDetailsList.class);
+			 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+			
+			 map = new LinkedMultiValueMap<String, Object>();
 			map.add("machineId",machineId);
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
             System.out.println("whyWhyF18List"+whyWhyF18List.toString());
 			model.addObject("whyWhyF18List",whyWhyF18List);
-
+			model.addObject("deptId", deptId);
 			model.addObject("machineType", machineType);
 			model.addObject("machineId", machineId);
 			
-			  Map<String,String> clarificationOfCause=new HashMap<String,String>();  
+		/*	  Map<String,String> clarificationOfCause=new HashMap<String,String>();  
 			  clarificationOfCause.put("Inadequate Operating condition","Inadequate Operating condition");  
 			  clarificationOfCause.put("Deterioration","Deterioration");  
 			  clarificationOfCause.put("Inadequate Design","Inadequate Design");  
@@ -170,7 +232,7 @@ public class WhyWhyAnalysisController {
               failureCodeList.put("Slip", "Slip");
               failureCodeList.put("Earthing", "Earthing");
               failureCodeList.put("M/c Level", "M/c Level");
-              model.addObject("failureCodeList", failureCodeList);	
+              model.addObject("failureCodeList", failureCodeList);	*/
               
               model.addObject("refNo", refNo);
               model.addObject("machinDetails", machinDetails);
@@ -187,6 +249,9 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		try
 		{ 
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			int year=Integer.parseInt(request.getParameter("yearpicker"));
 			int l3Target=Integer.parseInt(request.getParameter("l3Target"));
 			int l5Target=Integer.parseInt(request.getParameter("l5Target"));
@@ -199,6 +264,7 @@ public class WhyWhyAnalysisController {
             brTarget.setTargetL3(l3Target);
             brTarget.setTargetL5(l5Target);
             brTarget.setStatus(1);
+            brTarget.setExInt(deptId);
 			BreakdownTarget breakdownTargetRes=rest.postForObject(Constant.url + "/insertBreakdownTarget",brTarget, BreakdownTarget.class);
 			System.err.println(breakdownTargetRes.toString());
 		}
@@ -234,6 +300,8 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
 		try
 		{ 
+			RestTemplate rest = new RestTemplate();
+
 			int key=Integer.parseInt(request.getParameter("key"));		
 
 			int id=0;
@@ -261,8 +329,13 @@ public class WhyWhyAnalysisController {
 
 			int machineId=Integer.parseInt(request.getParameter("machine_id"+key));		
             System.out.println("machineId"+machineId);
-
-			String machineNo=request.getParameter("machine_no"+key);
+            
+            MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+			map1.add("machineId", machineId);
+			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
+           int type=machinDetails.getType();
+			
+			String machineNo=machinDetails.getMachinNo();/*request.getParameter("machine_no"+key);*/
             System.out.println("machineNo"+machineNo);
             
             int rank=Integer.parseInt(request.getParameter("rank"+key));
@@ -270,7 +343,7 @@ public class WhyWhyAnalysisController {
 			String problemReported=request.getParameter("problem_reported"+key);
             System.out.println("problemReported"+problemReported);
 
-			int bdTimeLoss=Integer.parseInt(request.getParameter("bd_time_loss"+key));
+            String bdTimeLoss=request.getParameter("bd_time_loss"+key);
             System.out.println("bdTimeLoss"+bdTimeLoss);
 
 			String engineLoss=request.getParameter("engine_loss"+key);
@@ -344,6 +417,7 @@ public class WhyWhyAnalysisController {
 
 			WhyWhyF18 whyWhyF18=new WhyWhyF18();
 			whyWhyF18.setId(id);
+			whyWhyF18.setMachineType(type);
 			whyWhyF18.setMachineId(machineId);
 			whyWhyF18.setRank(rank);
 			whyWhyF18.setAction(action);
@@ -383,7 +457,6 @@ public class WhyWhyAnalysisController {
 			whyWhyF18.setIdea(idea);
 			whyWhyF18.setMgrorhead(mgrorhead);
 			
-			RestTemplate rest = new RestTemplate();
 			if(key==-1)
 			{
 				MultiValueMap<String, Object>  map = new LinkedMultiValueMap<String,Object>();
@@ -403,7 +476,7 @@ public class WhyWhyAnalysisController {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/searchWhyWhyList";
+		return "redirect:/showWhyWhyf18";
 	}
 	@RequestMapping(value = "/getMachineById", method = RequestMethod.GET)
 	@ResponseBody
@@ -427,20 +500,62 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showPmPlan(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhygraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",1);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
+	@RequestMapping(value = "/updateGraphOwner", method = RequestMethod.GET)
+    public @ResponseBody Info updateGraphOwner(HttpServletRequest request, HttpServletResponse response) {
+	
+		Info infoRes=new Info();
+		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			int graphType=Integer.parseInt(request.getParameter("graphType"));
+			int userId=Integer.parseInt(request.getParameter("userId"));
+			
+			RestTemplate rest = new RestTemplate();
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("deptId", deptId);
+			map.add("graphType",graphType);
+			map.add("userId", userId);
+			 infoRes = rest.postForObject(Constant.url + "/updateGraphOwner",
+					map,Info.class);
+			System.err.println(infoRes.toString());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}	
+			
+		return infoRes;
+		}
 	//Minor stoppage Graph
 	@RequestMapping(value = "/searchDailyGraph", method = RequestMethod.GET)
      public @ResponseBody DailyGraphData searchDailyGraph(HttpServletRequest request, HttpServletResponse response) {
 	
 		DailyGraphData dailyBreakdownsRes=new DailyGraphData();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			String month=request.getParameter("month");
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
 			map.add("month", month);
 			map.add("graphType", 1);
+			map.add("deptId", deptId);
 			 dailyBreakdownsRes = rest.postForObject(Constant.url + "/getDailyBreakdowns",
 					map,DailyGraphData.class);
 			System.err.println(dailyBreakdownsRes.toString());
@@ -461,7 +576,8 @@ public class WhyWhyAnalysisController {
 			
 			
 			RestTemplate rest = new RestTemplate();
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
@@ -499,7 +615,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getMonthwiseBreakdowns",
 					map,BreakdownMonthwise.class);
@@ -515,6 +631,7 @@ public class WhyWhyAnalysisController {
             map.add("graphType", 1);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachinBreakdownList breakdownYearlyList = rest.postForObject(Constant.url + "/getYearwiseBreakdowns",
 					map,YearlyMachinBreakdownList.class);
 			
@@ -564,6 +681,7 @@ public class WhyWhyAnalysisController {
 			 }
 			model.addObject("whyWhyF18", whyWhyF18);
 			model.addObject("breakdownDetail", breakdownDetail);
+			model.addObject("machineType", machineType);
 	    }
 	    catch (Exception e) {
 			e.printStackTrace();
@@ -607,12 +725,13 @@ public class WhyWhyAnalysisController {
 	@RequestMapping(value = "/saveBreakdown", method = RequestMethod.POST)
 	public  String saveBreakdown(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownReport");
-		int id=0;
+		int id=0;int mcType=0;
 		try
 		{ 
 			RestTemplate rest = new RestTemplate();
 
 			id=Integer.parseInt(request.getParameter("id"));	
+		 mcType=Integer.parseInt(request.getParameter("mcType"));	
 			String hdp=request.getParameter("hdp");	
 			String breakdownPhenomenon=request.getParameter("breakdownPhenomenon");
 			String prevenReccur=request.getParameter("prevenReccur");
@@ -647,13 +766,15 @@ public class WhyWhyAnalysisController {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/viewBreakdown/"+id+"/0";
+		return "redirect:/viewBreakdown/"+id+"/"+mcType;
 	}
 	@RequestMapping(value = "/showBreakdownHistory", method = RequestMethod.GET)
 	public ModelAndView showBreakdownHistory(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownHistory");
 	    try {
 	    	RestTemplate rest = new RestTemplate();
+	    	HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 	    	DateFormat df = new SimpleDateFormat("yyyy"); // Just the year, with 2 digits
 			String year = df.format(Calendar.getInstance().getTime());
 			java.util.Date date= new Date();
@@ -669,6 +790,7 @@ public class WhyWhyAnalysisController {
 
 			MultiValueMap<String, Object>  map = new LinkedMultiValueMap<String,Object>();
 			map.add("year", Integer.parseInt(year));
+			map.add("deptId", deptId);
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllBreakdownHistory",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
@@ -688,9 +810,12 @@ public class WhyWhyAnalysisController {
 		try
 		{
 			    String year =request.getParameter("yearpicker");
+			    HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId"); 
 				RestTemplate rest = new RestTemplate();
 				MultiValueMap<String, Object>  map = new LinkedMultiValueMap<String,Object>();
 				map.add("year", Integer.parseInt(year));
+				map.add("deptId", deptId);
 				WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllBreakdownHistory",map,
 						WhyWhyF18[].class);
 				ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
@@ -704,7 +829,7 @@ public class WhyWhyAnalysisController {
 	return model;
 	
 	}		
-	@RequestMapping(value = "/showWhyWhyPdf/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "pdf/showWhyWhyPdf/{id}", method = RequestMethod.GET)
 	public ModelAndView showBillsPdf(@PathVariable("id")int id,HttpServletRequest request, HttpServletResponse response) {
       System.out.println("IN Show  PDF Method :/");
 		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownPdf");
@@ -747,9 +872,11 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",1);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -766,9 +893,11 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",2);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -785,9 +914,11 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",3);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -804,9 +935,11 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
-			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",4);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -823,9 +956,12 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",5);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -842,9 +978,12 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",6);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -861,9 +1000,12 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
 		RestTemplate rest=new RestTemplate();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",7);
+			map.add("deptId", deptId);
 			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
 					List.class);		
 			model.addObject("brTargetList", brTargetList);
@@ -879,6 +1021,22 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showArankBreakdownGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/aRankGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",2);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -886,6 +1044,21 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showAllBreakdownGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/allBreakdownsGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",3);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -893,6 +1066,21 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showBreakdownTimeGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownTimeGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",4);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -900,6 +1088,21 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showMtbfGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/mtbfGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",5);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -907,6 +1110,21 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showMttrGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/mttrGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",6);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -914,6 +1132,21 @@ public class WhyWhyAnalysisController {
 	public ModelAndView showEngineLossGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/engineLossGraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",7);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
         model.addObject("currentMonth", currentMonth);
 		return model;
 	}
@@ -925,6 +1158,8 @@ public class WhyWhyAnalysisController {
 		try
 		{  
 			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
@@ -963,7 +1198,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getARankMonthwiseBreakdowns",
 					map,BreakdownMonthwise.class);
@@ -979,6 +1214,7 @@ public class WhyWhyAnalysisController {
             map.add("graphType",2);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachinBreakdownList breakdownYearlyList = rest.postForObject(Constant.url + "/getARankYearwiseBreakdowns",
 					map,YearlyMachinBreakdownList.class);
 			
@@ -1002,6 +1238,8 @@ public class WhyWhyAnalysisController {
 		try
 		{  
 			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
@@ -1040,7 +1278,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdowns",
 					map,BreakdownMonthwise.class);
@@ -1056,6 +1294,7 @@ public class WhyWhyAnalysisController {
             map.add("graphType",3);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachinBreakdownList breakdownYearlyList = rest.postForObject(Constant.url + "/getAllBrekYearwiseBreakdowns",
 					map,YearlyMachinBreakdownList.class);
 			
@@ -1078,6 +1317,9 @@ public class WhyWhyAnalysisController {
 		
 		try
 		{  
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			RestTemplate rest = new RestTemplate();
 			int graphType=Integer.parseInt(request.getParameter("graphType"));
 			java.util.Date date= new Date();
@@ -1117,7 +1359,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownTimeMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 					map,BreakdownTimeMonthwise.class);
@@ -1133,6 +1375,7 @@ public class WhyWhyAnalysisController {
             map.add("graphType",graphType);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachineBdTimeList yearlyMachinBreakdownList = rest.postForObject(Constant.url + "/getYearwiseBreakdownTime",
 					map,YearlyMachineBdTimeList.class);
 			
@@ -1156,6 +1399,8 @@ public class WhyWhyAnalysisController {
 		try
 		{  
 			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
@@ -1194,7 +1439,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownTimeMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownELoss",
 					map,BreakdownTimeMonthwise.class);
@@ -1210,6 +1455,7 @@ public class WhyWhyAnalysisController {
             map.add("graphType",7);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachineBdTimeList yearlyMachinBreakdownList = rest.postForObject(Constant.url + "/getYearwiseBreakdownELoss",
 					map,YearlyMachineBdTimeList.class);
 			
@@ -1233,6 +1479,8 @@ public class WhyWhyAnalysisController {
 		try
 		{  
 			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
@@ -1271,7 +1519,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth+"-01");
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
-
+            map.add("deptId", deptId);  
 			
 			BreakdownTimeMonthwise breakdownMothwiseList = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 					map,BreakdownTimeMonthwise.class);
@@ -1292,7 +1540,7 @@ public class WhyWhyAnalysisController {
 			map.add("tenth", toMonth1+"-01");
 			map.add("eleventh", toMonth1+"-02");
 			map.add("twelvth", toMonth1+"-03");
-
+            map.add("deptId", deptId);
 			
 			BreakdownTimeMonthwise breakdownMothwiseList1 = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 					map,BreakdownTimeMonthwise.class);
@@ -1313,7 +1561,7 @@ public class WhyWhyAnalysisController {
 				map.add("tenth", toMonth2+"-01");
 				map.add("eleventh", toMonth2+"-02");
 				map.add("twelvth", toMonth2+"-03");
-
+                map.add("deptId", deptId);
 				
 				BreakdownTimeMonthwise breakdownMothwiseList2 = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 						map,BreakdownTimeMonthwise.class);
@@ -1335,11 +1583,14 @@ public class WhyWhyAnalysisController {
 					map.add("tenth", toMonth3+"-01");
 					map.add("eleventh", toMonth3+"-02");
 					map.add("twelvth", toMonth3+"-03");
-
+                    map.add("deptId", deptId);
 					
 					BreakdownTimeMonthwise breakdownMothwiseList3 = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 							map,BreakdownTimeMonthwise.class);
 		            System.err.println("breakdownMothwiseList3:"+breakdownMothwiseList3.toString());
+		            
+		            int monthNo = cal.get(Calendar.MONTH);
+		            int[] myMonthArray = {10,11,12,1,2,3,4,5,6,7,8,9};
 
 					float breakdownListCount1=0;
 					try {
@@ -1413,7 +1664,7 @@ public class WhyWhyAnalysisController {
 					}catch (Exception e) {
 						// TODO: handle exception
 					}
-                    float year4=roundUp((breakdownListCount1+breakdownListCount2+breakdownListCount3+breakdownListCount4+breakdownListCount5+breakdownListCount6+breakdownListCount7+breakdownListCount8+breakdownListCount9+breakdownListCount10+breakdownListCount11+breakdownListCount12)/12);
+                    float year4=roundUp((breakdownListCount1+breakdownListCount2+breakdownListCount3+breakdownListCount4+breakdownListCount5+breakdownListCount6+breakdownListCount7+breakdownListCount8+breakdownListCount9+breakdownListCount10+breakdownListCount11+breakdownListCount12)/(myMonthArray[monthNo]));
 					
 					float breakdownList1Count1 = 0;
 					try {
@@ -1487,7 +1738,7 @@ public class WhyWhyAnalysisController {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-                    float year3=roundUp((breakdownList1Count1+breakdownList1Count2+breakdownList1Count3+breakdownList1Count4+breakdownList1Count5+breakdownList1Count6+breakdownList1Count7+breakdownList1Count8+breakdownList1Count9+breakdownList1Count10+breakdownList1Count11+breakdownList1Count12)/12);
+                    float year3=roundUp((breakdownList1Count1+breakdownList1Count2+breakdownList1Count3+breakdownList1Count4+breakdownList1Count5+breakdownList1Count6+breakdownList1Count7+breakdownList1Count8+breakdownList1Count9+breakdownList1Count10+breakdownList1Count11+breakdownList1Count12)/(myMonthArray[monthNo]));
 					
                      
                     float breakdownList2Count1=0;
@@ -1562,7 +1813,7 @@ public class WhyWhyAnalysisController {
 					} catch (Exception e) {
 						breakdownList2Count12=0;
 					}
-                    float year2=roundUp((breakdownList2Count1+breakdownList2Count2+breakdownList2Count3+breakdownList2Count4+breakdownList2Count5+breakdownList2Count6+breakdownList2Count7+breakdownList2Count8+breakdownList2Count9+breakdownList2Count10+breakdownList2Count11+breakdownList2Count12)/12);
+                    float year2=roundUp((breakdownList2Count1+breakdownList2Count2+breakdownList2Count3+breakdownList2Count4+breakdownList2Count5+breakdownList2Count6+breakdownList2Count7+breakdownList2Count8+breakdownList2Count9+breakdownList2Count10+breakdownList2Count11+breakdownList2Count12)/(myMonthArray[monthNo]));
  					
                       
                     float breakdownList3Count1 = 0;
@@ -1637,12 +1888,13 @@ public class WhyWhyAnalysisController {
 					} catch (Exception e) {
 						breakdownList3Count12=0;
 					}
-                    float year1=roundUp((breakdownList3Count1+breakdownList3Count2+breakdownList3Count3+breakdownList3Count4+breakdownList3Count5+breakdownList3Count6+breakdownList3Count7+breakdownList3Count8+breakdownList3Count9+breakdownList3Count10+breakdownList3Count11+breakdownList3Count12)/12);
+                    float year1=roundUp((breakdownList3Count1+breakdownList3Count2+breakdownList3Count3+breakdownList3Count4+breakdownList3Count5+breakdownList3Count6+breakdownList3Count7+breakdownList3Count8+breakdownList3Count9+breakdownList3Count10+breakdownList3Count11+breakdownList3Count12)/(myMonthArray[monthNo]));
   					System.err.println(year1);
             map = new LinkedMultiValueMap<String,Object>();
             map.add("graphType",5);
 			map.add("year", year);
 			map.add("month", month);
+			map.add("deptId", deptId);
 			YearlyMachineBdTimeList yearlyMachinBreakdownList = rest.postForObject(Constant.url + "/getYearwiseBreakdownTime",
 					map,YearlyMachineBdTimeList.class);
 			BreakdownTimeYearly breakdownYearly=yearlyMachinBreakdownList.getBreakdownYearly();
@@ -1674,12 +1926,15 @@ public class WhyWhyAnalysisController {
 	
 		DailyGraphData dailyBreakdownsRes=new DailyGraphData();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			String month=request.getParameter("month");
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
 			map.add("month", month);
 			map.add("graphType", 4);
-
+            map.add("deptId", deptId);
 			 dailyBreakdownsRes = rest.postForObject(Constant.url + "/getDailyBreakdownsTime",
 					map,DailyGraphData.class);
 			System.err.println(dailyBreakdownsRes.toString());
@@ -1694,12 +1949,15 @@ public class WhyWhyAnalysisController {
 	
 		DailyGraphData dailyBreakdownsRes=new DailyGraphData();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			String month=request.getParameter("month");
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
 			map.add("month", month);
 			map.add("graphType", 7);
-
+            map.add("deptId", deptId);
 			 dailyBreakdownsRes = rest.postForObject(Constant.url + "/getDailyBreakdownsELoss",
 					map,DailyGraphData.class);
 			System.err.println(dailyBreakdownsRes.toString());
@@ -1714,12 +1972,15 @@ public class WhyWhyAnalysisController {
 	
 		DailyGraphData dailyBreakdownsRes=new DailyGraphData();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			String month=request.getParameter("month");
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
 			map.add("month", month);
 			map.add("graphType", 2);
-
+            map.add("deptId", deptId);
 			 dailyBreakdownsRes = rest.postForObject(Constant.url + "/getARankDailyBreakdowns",
 					map,DailyGraphData.class);
 			System.err.println(dailyBreakdownsRes.toString());
@@ -1734,11 +1995,15 @@ public class WhyWhyAnalysisController {
 	
 		DailyGraphData dailyBreakdownsRes=new DailyGraphData();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			String month=request.getParameter("month");
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
 			map.add("month", month);
 			map.add("graphType", 3);
+			map.add("deptId", deptId);
 			 dailyBreakdownsRes = rest.postForObject(Constant.url + "/getAllBrekDailyBreakdowns",
 					map,DailyGraphData.class);
 			System.err.println(dailyBreakdownsRes.toString());
@@ -1748,6 +2013,70 @@ public class WhyWhyAnalysisController {
 			
 		return dailyBreakdownsRes;
 		}
+	
+	
+	@RequestMapping(value = "/showBreakdownManual", method = RequestMethod.GET)
+	public ModelAndView showBreakdownManual(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownManual");
+		RestTemplate rest = new RestTemplate();
+
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("deptId",deptId);
+		MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+				MachinDetailsList.class);
+		 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+		
+		return model;
+	}
+	@RequestMapping(value = "/searchBreakdownManual", method = RequestMethod.GET)
+	public ModelAndView searchBreakdownManual(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownManual");
+		try
+		{
+			  try {
+				// machineType = Integer.parseInt(request.getParameter("machineType"));
+				 machineId = Integer.parseInt(request.getParameter("machineId"));
+			     }
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+				RestTemplate rest = new RestTemplate();
+				MultiValueMap<String, Object>  map1 = new LinkedMultiValueMap<String,Object>();
+		
+			map1 = new LinkedMultiValueMap<String,Object>();
+			map1.add("machineId", machineId);
+			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
+
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("machineId",machineId);
+			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
+					WhyWhyF18[].class);
+			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
+            System.out.println("whyWhyF18List"+whyWhyF18List.toString());
+			model.addObject("whyWhyF18List",whyWhyF18List);
+			//------------------------------------
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+					MachinDetailsList.class);
+			 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+			//-----------------------------------
+			//model.addObject("machineType", machineType);
+			model.addObject("machineId", machineId);
+			
+              model.addObject("machinDetails", machinDetails);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
 	private Dimension format = PD4Constants.A4;
 	private boolean landscapeValue = false;
 	private int topValue = 8;
@@ -1767,8 +2096,8 @@ public class WhyWhyAnalysisController {
 		String url = request.getParameter("url");
 		System.out.println("URL " + url);
 		// http://monginis.ap-south-1.elasticbeanstalk.com
-	    File f = new File("/home/ats-12/report.pdf");
-		//File f = new File("/home/ats-11/pdf/ordermemo221.pdf");
+	    File f = new File("D:/EMaintainence/pdf/report.pdf");
+	    //File f = new File("/usr/local/tomcat7/webapps/report.pdf");
 		//File f = new File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
 		System.out.println("I am here " + f.toString());
@@ -1785,9 +2114,9 @@ public class WhyWhyAnalysisController {
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
 		String filename = "ordermemo221.pdf";
-		 String filePath = "/home/ats-12/report.pdf";
+		// String filePath = "/usr/local/tomcat7/webapps/report.pdf";
 		//String filePath = "/home/ats-11/pdf/ordermemo221.pdf";
-		//String filePath = "/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf";
+		String filePath = "D:/EMaintainence/pdf/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

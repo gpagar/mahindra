@@ -12,10 +12,15 @@
 <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
 
   
 </head>
-<body>
+<body onload="selectData(${machineType},${machineId},${activityId})">
    <div class="page-container">
    
   
@@ -72,23 +77,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 <div class="form-group">
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddMachine">Add Machine
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls" style="text-decoration: underline; font-size: 20px;">
 						<a href="${pageContext.request.contextPath}/showAddItem">Add Item
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Checkpoints
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+												<a href="${pageContext.request.contextPath}/showAllMachines">All PM Machines
+
 						
 						</a>
 						</div>
@@ -99,22 +115,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<form action="${pageContext.request.contextPath}/insertPmItem"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
-							
+							<input type="hidden" name="itemId" id="itemId" value="${item.itemId}"/>
 
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machineType"
+								class="chosen-select" style="width:99% !important;" tabindex="6" id="machineType"
 								name="machineType" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Type</option>
 
-								 
-									<option value="1">Electrical</option>
+								 	 <c:choose>
+								 <c:when test="${machineType==1}">
+								 	<option value="1" selected>Electrical</option>
 								 <option value="2">Mechanical</option>
-
+								 </c:when>
+								 <c:when test="${machineType==2}">
+								 	<option value="1">Electrical</option>
+								 <option value="2" selected>Mechanical</option>
+								 </c:when>
+								 <c:otherwise>
+								 	<option value="1">Electrical</option>
+								 <option value="2">Mechanical</option>
+								 </c:otherwise>
+								 </c:choose>
 
 							</select>
 						</div>
@@ -125,8 +151,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+										<select data-placeholder="Choose Machine" style="width:99% !important;"
+								class="chosen-select" tabindex="6" id="machineId"
 								name="machineId" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
@@ -142,8 +168,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Activity</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine Activity"
-								class="form-control chosen" tabindex="6" id="machinActivity"
+										<select data-placeholder="Choose Machine Activity"  style="width:99% !important;"
+								class="chosen-select" tabindex="6" id="machinActivity"
 								name="machinActivity" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Activity</option>
@@ -157,30 +183,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label"> Item Name</label>
 									<div class="col-sm-6 col-lg-4 controls" >
-						<input type="text" name="itemName" id="itemName"  class="form-control "placeholder="itemName"   data-rule-required="true" required />
+						<input type="text" name="itemName" id="itemName"  class="form-control " value="${item.itemName}" placeholder="itemName"   data-rule-required="true" required />
 								
 							</div>
 							</div>
 							
+													 <input type="hidden" name="saveType" id="saveType"/>
 							 
-							
-							
-								 
-						
-					 
-						
-					 
-								  
-									 
-				 
-						 
 
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
-							<button type="submit" class="btn btn-info" id="submitbtn">Submit</button>  
-				   
+								<button type="button" class="btn btn-info" id="submitbtn" onclick="submitForm()">Save</button>  
+				   	<button type="button" class="btn btn-info" id="submitbtn1" onclick="submitForm1()">Save & Next</button>  
 		
-
 						</div>
 					</div>
 					</form>
@@ -206,7 +221,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -219,7 +234,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -244,7 +259,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+						<!-- 	<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -263,7 +278,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -680,8 +695,166 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 }
 			document.getElementById("date2div").style.display="block"; 
 		}
-		 
 	</script>
+	<script type="text/javascript">
+
+	 function selectData(machineType,machineId,activityId)
+	 {
+
+			$.getJSON('${getMachinByType}', {
+
+				machineType : machineType,
+
+				 
+
+				ajax : 'true'
+
+			}, function(data) {
+
+				var html = '<option value="" selected >Choose Machine</option>';
+
+			
+
+				var len = data.length;
+
+				$('#machineId')
+
+			    .find('option')
+
+			    .remove()
+
+			    .end()
+
+					
+
+			    	//alert(len);
+			    $("#machineId").append(
+
+                        $("<option ></option>").attr(
+
+                            "value", "").text("Select Machine Name Or Number")
+
+                    );
+
+				for ( var i = 0; i < len; i++) {
+
+					
+                      if(machineId==data[i].machinId){
+					 $("#machineId").append(
+
+	                           $("<option selected></option>").attr(
+
+	                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+	                       );
+                      }else
+                    	  {
+                    	  $("#machineId").append(
+
+   	                           $("<option></option>").attr(
+
+   	                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+   	                       );
+                    	  }
+
+				} 
+				
+				$("#machineId").trigger("chosen:updated");
+
+			});
+
+
+			$.getJSON('${getActivityByMachin}', {
+
+				machinId : machineId,
+
+				 
+
+				ajax : 'true'
+
+			}, function(data) {
+
+				var html = '<option value=""selected disabled="disabled">Choose Machine Activity</option>';
+
+			
+
+				var len = data.length;
+
+				$('#machinActivity')
+
+			    .find('option')
+
+			    .remove()
+
+			    .end()
+
+					
+
+			    	//alert(len);
+			    $("#machinActivity").append(
+
+                           $("<option ></option>").attr(
+
+                               "value", "").text("Select Machine Activity ")
+
+                       );
+
+				for ( var i = 0; i < len; i++) {
+
+					
+                     if(activityId==data[i].activityId){
+					 $("#machinActivity").append(
+
+	                           $("<option selected></option>").attr(
+
+	                               "value", data[i].activityId).text(data[i].activityName)
+
+	                       );
+                     }
+                     else
+                    	 {
+                    	 $("#machinActivity").append(
+
+  	                           $("<option ></option>").attr(
+
+  	                               "value", data[i].activityId).text(data[i].activityName)
+
+  	                       );
+                    	 }
+
+				} 
+				$("#machinActivity").trigger("chosen:updated");
+
+			});
+
+			
+	 }
+	</script>
+	
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+function submitForm()
+{
+	 document.getElementById("saveType").value=0;
+  document.getElementById("validation-form").submit();
+}
+function submitForm1()
+{
+	 document.getElementById("saveType").value=1;
+  document.getElementById("validation-form").submit();
+}
+</script>
 </body>
 
 </html>

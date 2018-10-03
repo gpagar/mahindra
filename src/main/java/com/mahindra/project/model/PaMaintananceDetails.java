@@ -48,12 +48,22 @@ public class PaMaintananceDetails {
 	int int1;
  
 	int int2;
+	
+	int int3;
  
 	String string1;
  
 	String string2;
  
 	String remark;
+    
+	public int getInt3() {
+		return int3;
+	}
+
+	public void setInt3(int int3) {
+		this.int3 = int3;
+	}
 
 	public int getPaMaintId() {
 		return paMaintId;

@@ -1,6 +1,7 @@
 package com.mahindra.project.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,8 +39,12 @@ import com.mahindra.project.model.PMActivityDetails;
 import com.mahindra.project.model.PMCheckPoints;
 import com.mahindra.project.model.PMItemDetails;
 import com.mahindra.project.model.PaMaintananceDetails;
+import com.mahindra.project.model.PmPlan;
 import com.mahindra.project.model.PmRequiredValue;
+import com.mahindra.project.model.TSetting;
 import com.mahindra.project.model.UserDetails;
+import com.mahindra.project.model.WhyWhyF18;
+import com.mahindra.project.model.calibration.CalibrationDetails;
 
 @Controller
 public class PMController {
@@ -85,6 +90,24 @@ public class PMController {
 		}
 		return model;
 	}
+	/*@RequestMapping(value = "/showPmPlanList/{type}/{machineId}", method = RequestMethod.GET)
+	public ModelAndView showPmPlanSchedule(@PathVariable("type")int type,@PathVariable("machineId")int machineId ,HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pMaintanance/showPmPlanList");
+		try
+		{
+			RestTemplate rest = new RestTemplate();
+			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
+					List.class);
+			model.addObject("requiredValueList",requiredValueList);
+			model.addObject("type", type);
+			model.addObject("machineId", machineId);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}*/
 	@RequestMapping(value = "/showPmPlanHistory", method = RequestMethod.GET)
 	public ModelAndView showPmPlanHistory(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("pMaintanance/showPmHistory");
@@ -110,7 +133,115 @@ public class PMController {
 	@RequestMapping(value = "/showWhyWhyf18", method = RequestMethod.GET)
 	public ModelAndView showWhyWhyf18(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
+		MachinDetailsList machinDetailsList=new MachinDetailsList();
+	try
+	{
+		RestTemplate rest = new RestTemplate();
+		
+		MultiValueMap<String, Object>  map1 = new LinkedMultiValueMap<String,Object>();
+		java.util.Date date= new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int month = cal.get(Calendar.MONTH);
+		
+   String refNo="EGL/WHY/F"; 
+	DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+	String formattedDate="";
+	int actYear=0;
+	if(month>3)
+	{
+		formattedDate = new SimpleDateFormat("yy").format(new Date());
+		int intYear =Integer.parseInt(formattedDate);
+		actYear=intYear+1;
+	}
+	else if(month<=3)
+	{
+		formattedDate = new SimpleDateFormat("yy").format(new Date());
+		int intYear =Integer.parseInt(formattedDate);
+		actYear=intYear;
+	}
 	
+	map1.add("settingKey", "breakdown_ref_no");
+	TSetting tSettingRes=rest.postForObject(Constant.url + "/getSettingValue",map1, TSetting.class);
+	int refValue=tSettingRes.getSettingValue()+1;
+	refNo=refNo+""+actYear+"/"+refValue;
+	System.err.println(refNo);
+	
+		  Map<String,String> clarificationOfCause=new HashMap<String,String>();  
+		  clarificationOfCause.put("Inadequate Operating condition","Inadequate Operating condition");  
+		  clarificationOfCause.put("Deterioration","Deterioration");  
+		  clarificationOfCause.put("Inadequate Design","Inadequate Design");  
+		  clarificationOfCause.put("Inadequate Skill","Inadequate Skill");  
+		  clarificationOfCause.put("Inadequate Basic Condition","Inadequate Basic Condition");  
+		  clarificationOfCause.put("Open","Open");  
+          model.addObject("clarificationOfCauseList", clarificationOfCause);
+          Map<String,String> failureCodeList=new HashMap<String,String>(); 
+          failureCodeList.put("Power Failure", "Power Failure");
+          failureCodeList.put("Clogged", "Clogged");
+          failureCodeList.put("Broken", "Broken");
+          failureCodeList.put("Leak", "Leak");
+          failureCodeList.put("Lack of Lubrication", "Lack of Lubrication");
+          failureCodeList.put("Abnormal Condition", "Abnormal Condition");
+          failureCodeList.put("Irregular temp.", "Irregular temp.");
+          failureCodeList.put("Loose", "Loose");
+          failureCodeList.put("Wear", "Wear");
+          failureCodeList.put("Crack", "Crack");
+          failureCodeList.put("Bend", "Bend");
+          failureCodeList.put("Damaged", "Damaged");
+          failureCodeList.put("Tight/Rusty/Jam", "Tight/Rusty/Jam");
+          failureCodeList.put("Disengaged", "Disengaged");
+          failureCodeList.put("Entangled", "Entangled");
+          failureCodeList.put("Deteriation", "Deteriation");
+          failureCodeList.put("Dry Solder", "Dry Solder");
+          failureCodeList.put("PCB Failure", "PCB Failure");
+          failureCodeList.put("Burnt", "Burnt");
+          failureCodeList.put("Setting Error", "Setting Error");
+          failureCodeList.put("Operating Error", "Operating Error");
+          failureCodeList.put("Misalignment", "Misalignment");
+          failureCodeList.put("Accident", "Accident");
+          failureCodeList.put("Short Circuit", "Short Circuit");
+          failureCodeList.put("Open Circuit", "Open Circuit");
+          failureCodeList.put("Pressure Drop", "Pressure Drop");
+          failureCodeList.put("Blown Off", "Blown Off");
+          failureCodeList.put("Program Currupt", "Program Currupt");
+          failureCodeList.put("Poor Contact", "Poor Contact");
+          failureCodeList.put("Poor Insulation", "Poor Insulation");
+          failureCodeList.put("Tripped", "Tripped");
+          failureCodeList.put("Wire Broken", "Wire Broken");
+          failureCodeList.put("Air Lock", "Air Lock");
+          failureCodeList.put("Poor Adjustment", "Poor Adjustment");
+          failureCodeList.put("Noisy", "Noisy");
+          failureCodeList.put("Low Level", "Low Level");
+          failureCodeList.put("Wrong Wiring", "Wrong Wiring");
+          failureCodeList.put("Slip", "Slip");
+          failureCodeList.put("Earthing", "Earthing");
+          failureCodeList.put("M/c Level", "M/c Level");
+          model.addObject("failureCodeList", failureCodeList);	
+		
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("deptId",deptId);
+		 machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+				MachinDetailsList.class);
+		 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+		map = new LinkedMultiValueMap<String, Object>();
+			if(deptId==0)
+			{
+				map.add("deptId","1,2,3");
+			}else {
+			map.add("deptId",deptId);
+			}
+			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyByDeptId",map,
+					WhyWhyF18[].class);
+			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
+			model.addObject("whyWhyF18List",whyWhyF18List);
+			model.addObject("deptId", deptId);
+			 model.addObject("refNo", refNo);
+		 System.err.println("machinDetailsList"+machinDetailsList.toString());
+	}catch (Exception e) {
+		e.printStackTrace();
+	}
 		return model;
 	}
 	
@@ -198,9 +329,11 @@ public class PMController {
 						GetPMData[].class);
 					pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
 
+					HttpSession session = request.getSession(); 
+					int deptId = (Integer) session.getAttribute("deptId"); 
 				 map = new LinkedMultiValueMap<String, Object>();
 					map.add("machineId",machineId);
-					
+					map.add("deptId",deptId);
 					GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
 							GetPaMaintainence[].class);
 					ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
@@ -228,13 +361,17 @@ public class PMController {
 								pmList.get(j).setMethod(pmDbList.get(i).getMethod());
 								pmList.get(j).setType(pmDbList.get(i).getType());
 								pmList.get(j).setInt1(pmDbList.get(i).getInt1());
-								pmList.get(j).setInt2(pmDbList.get(i).getInt2());
+								pmList.get(j).setInt3(pmDbList.get(i).getInt3());
+								//pmList.get(j).setInt2(pmDbList.get(i).getInt2());
+								pmList.get(j).setString1(pmDbList.get(i).getString1());
+								pmList.get(j).setString2(pmDbList.get(i).getString2());
 							}
 							
 						}
 					}
 					System.out.println("pmList"+pmList.toString());
 			model.addObject("paMaintainenceList",pmList);
+			model.addObject("listSize",pmList.size());
 			  Map<Integer,String> actType=new HashMap<Integer,String>();  
 			  actType.put(0,"On Line Activity Points");  
 			  actType.put(1,"Offline Activty");  
@@ -336,10 +473,13 @@ public class PMController {
 		catch (Exception e) {
 			// TODO: handle exception
 		} 
+		HttpSession session = request.getSession();
+		UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
 		
 		for(int i = 0 ; i<pmList.size() ; i++)
 		{
 			pmList.get(i).setInt1(status);
+			pmList.get(i).setString2(pmList.get(i).getString2()+", "+userDetail.getName());
 		}
 		
 		System.out.println("pmList " + pmList.toString());
@@ -350,7 +490,6 @@ public class PMController {
 		
 		}catch(Exception e)
 		{
-			e.printStackTrace();
 			e.printStackTrace();
 		}
 		return "redirect:/searchPaMaintainenceList";
@@ -395,11 +534,13 @@ public class PMController {
 				GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
 						GetPMData[].class);
 					ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
-
-				 map = new LinkedMultiValueMap<String, Object>();
+					HttpSession session = request.getSession(); 
+					int deptId = (Integer) session.getAttribute("deptId"); 
+			
+					map = new LinkedMultiValueMap<String, Object>();
 					map.add("machineId",machineId);
-					
-					GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
+					map.add("deptId",deptId);
+				GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
 							GetPaMaintainence[].class);
 					ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
 
@@ -449,11 +590,14 @@ public class PMController {
 		System.out.println("Get MAchin By Type");
 		  machinDetailsList=new MachinDetailsList();
 		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 		int type = Integer.parseInt(request.getParameter("machineType"));
 		System.out.println(type);
 		RestTemplate rest = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("type", "" + type);
+		map.add("deptId",deptId);
 		 machinDetailsList = rest.postForObject(Constant.url + "getMachineByType", map,
 				MachinDetailsList.class);
 		}
@@ -463,6 +607,7 @@ public class PMController {
 		return machinDetailsList.getMachinDetailsList();
 	}
 
+	
 	@RequestMapping(value = "/getActivityByMachin", method = RequestMethod.GET)
 	@ResponseBody
 	public List<PMActivityDetails> getActivityByMachin(HttpServletRequest request, HttpServletResponse response) {
@@ -561,6 +706,12 @@ public class PMController {
 			int machinCheckPoint = Integer.parseInt(request.getParameter("check_point_id"));
 			//System.err.println(machinCheckPoint);
 			int methodId = Integer.parseInt(request.getParameter("method_id"));
+			int int1 = Integer.parseInt(request.getParameter("int1"));
+			int int3 = Integer.parseInt(request.getParameter("int3"));
+			String string1=request.getParameter("string1");
+
+			String string2=request.getParameter("string2");
+
 			//System.err.println(methodId);
 			//int requiredValueId = Integer.parseInt(request.getParameter("req_value"));
 			//System.err.println(requiredValueId);
@@ -636,9 +787,13 @@ public class PMController {
 				paMaintananceDetails.setType(machinType);
 				paMaintananceDetails.setRemark(remark);
 				paMaintananceDetails.setStatus(1);
+				paMaintananceDetails.setInt1(int1);
+				paMaintananceDetails.setInt3(int3);
+				paMaintananceDetails.setString1(string1);
+				paMaintananceDetails.setString2(" ");
 				HttpSession session = request.getSession(); 
 				int deptId = (Integer) session.getAttribute("deptId"); 
-				paMaintananceDetails.setInt2(deptId);
+				paMaintananceDetails.setInt3(deptId);
 				
 				if(!date2.equals(""))
 				{
@@ -677,7 +832,7 @@ public class PMController {
 				 
 				HttpSession session = request.getSession(); 
 				int deptId = (Integer) session.getAttribute("deptId"); 
-				paMaintananceDetails.setInt2(deptId);
+				paMaintananceDetails.setInt3(deptId);
 				if(!date2.equals(""))
 				{
 					paMaintananceDetails.setStatus(2);
@@ -694,64 +849,12 @@ public class PMController {
 						PaMaintananceDetails.class);
 				System.out.println("paMaintananceDetails " + paMaintananceDetails);
 			}
-			/*  RestTemplate rest = new RestTemplate();
-			  List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
-					List.class);
-			  MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			  map.add("machinId",machineId);
-			
-			  GetPMData[] paMaintainenceList = rest.postForObject(Constant.url + "getPMList",map,
-					GetPMData[].class);
-				ArrayList<GetPMData> pmList=new ArrayList<GetPMData>(Arrays.asList(paMaintainenceList));
-               System.out.println("pmList"+pmList.toString());
-			   map = new LinkedMultiValueMap<String, Object>();
-			   map.add("machineId",machineId);
-				
-				GetPaMaintainence[] paMaintainList = rest.postForObject(Constant.url + "/getPmMaintainenceList",map,
-						GetPaMaintainence[].class);
-				ArrayList<GetPaMaintainence> pmDbList=new ArrayList<GetPaMaintainence>(Arrays.asList(paMaintainList));
-
-				for(int i=0;i<pmDbList.size();i++)
-				{
-					for(int j=0;j<pmList.size();j++)
-					{
-						if(pmDbList.get(i).getCheckPointId()==pmList.get(j).getCheckPointId())
-						{
-							pmList.get(j).setPaMaintId(pmDbList.get(i).getPaMaintId());
-							pmList.get(j).setDate1(pmDbList.get(i).getDate1());
-							pmList.get(j).setDate1Obervation(pmDbList.get(i).getDate1Obervation());
-							pmList.get(j).setDate1Photo(pmDbList.get(i).getDate1Photo());
-							pmList.get(j).setDate2(pmDbList.get(i).getDate2());
-							pmList.get(j).setDate2Obervation(pmDbList.get(i).getDate2Obervation());
-							pmList.get(j).setDate2Photo(pmDbList.get(i).getDate2Photo());
-							pmList.get(j).setDate3(pmDbList.get(i).getDate3());
-							pmList.get(j).setDate3Photo(pmDbList.get(i).getDate3Photo());
-							pmList.get(j).setDate3Obervation(pmDbList.get(i).getDate3Obervation());
-							pmList.get(j).setRemark(pmDbList.get(i).getRemark());
-							pmList.get(j).setRquiredValure(pmDbList.get(i).getRquiredValure());
-							pmList.get(j).setStatus(pmDbList.get(i).getStatus());
-							pmList.get(j).setMethod(pmDbList.get(i).getMethod());
-						}
-						
-					}
-				}
-				model.addObject("paMaintainenceList",pmList);
-				Map<Integer,String> actType=new HashMap<Integer,String>();  
-				actType.put(0,"On Line Activity Points");  
-				actType.put(1,"Offline Activty");  
-				actType.put(2,"Safty Points");    
-				model.addObject("actTypes",actType);  
-				model.addObject("requiredValueList",requiredValueList);
-				model.addObject("machineType", machinType);
-				model.addObject("machineId", machineId);
-				model.addObject("url", "/home/ats-12/");*/
+		
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		return "redirect:/searchPaMaintainenceList";
-		
-	//	return "gg";
 	}
 	
 	@RequestMapping(value = "/generateCalender", method = RequestMethod.POST)
@@ -839,6 +942,61 @@ public class PMController {
 			e.printStackTrace();
 		}
 		
+		return model;
+	}
+	
+	@RequestMapping(value = "/showPmSchedule", method = RequestMethod.GET)
+	public ModelAndView showCalibration(HttpServletRequest request, HttpServletResponse response) {
+	
+		ModelAndView model = new ModelAndView("pMaintanance/PmSchedule");
+		int machineId=0;
+		List<PmPlan> planList=new ArrayList<>(); 
+		try
+		{
+			RestTemplate rest=new RestTemplate();
+			Calendar now = Calendar.getInstance();
+			int month=now.get(Calendar.MONTH) + 1; // Note: zero based!
+		try {
+				 month=Integer.parseInt(request.getParameter("month"));
+				
+			}catch (Exception e) {
+				 month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+				
+			}
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("deptId",deptId);
+		 machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+				MachinDetailsList.class);
+		 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("month",month);
+		     planList=rest.postForObject(Constant.url + "getPmMaintenancePlanList",map, List.class);
+			PmPlan planRes=new PmPlan();
+		try {
+				 machineId=Integer.parseInt(request.getParameter("mach"));
+				 System.err.println("machineId"+machineId);
+				if(machineId!=0) {
+					planList=new ArrayList<PmPlan>();
+				 map = new LinkedMultiValueMap<String, Object>();
+				map.add("machineId",machineId);
+				 planRes=rest.postForObject(Constant.url + "getPmMaintenancePlanOfMc",map, PmPlan.class);
+					planList.add(planRes);
+
+				}
+			}catch (Exception e) {
+				
+				 e.printStackTrace();
+			}
+			model.addObject("month", month);
+			model.addObject("planListRes", planList);
+			model.addObject("machineId", machineId);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		return model;
 	}
 }

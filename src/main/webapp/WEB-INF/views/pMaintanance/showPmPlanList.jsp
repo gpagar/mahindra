@@ -39,8 +39,12 @@ overflow:auto;
   } );
   
   </script>
+  
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+  
 </head>
-<body onload="setMachineSelected(${machineType},${machineId})">
+<body onload="setMachineSelected(${machineType},${machineId},${listSize},${approveStatus},${sessionScope.userDetail.type})">
      <div class="page-container">
    
    <!--/content-inner-->
@@ -77,10 +81,10 @@ overflow:auto;
 										enctype="multipart/form-data" method="get">
                    
 					<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
-									<div class="col-sm-6 col-lg-4 controls">
-							<select data-placeholder="Choose Machine Type" 
-								class="form-control chosen" tabindex="6" id="machineType"
+									<label class="col-md-2">Machine Type</label>
+									<div class="col-md-3">
+							<select data-placeholder="Choose Machine Type"  
+								 class="chosen-select"  id="machineType"
 								name="machineType" required onchange="onMacTypeChange(this.value)">
 
 								<option value="" >Choose Machine Type</option>
@@ -100,27 +104,28 @@ overflow:auto;
                                    </c:choose>
 							</select>
 						</div>
-						</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+						<!-- </div>
+								<div class="form-group"> -->
+									<label class="col-md-2">Machine name/No.</label>
+									<div class="col-md-3">
 								<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+								 class="chosen-select" tabindex="6" id="machineId"
 								name="machineId" required>
 								<option value=""selected disabled="disabled">Choose Machine</option>
 
 							</select>
 						</div>
+														<a href="${pageContext.request.contextPath}/showInsertPmPlan">	Insert M/C Schedule</a> 
 									
-						</div>
+						<!-- </div>
 					
-					<div class="row" align="center">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
+					<div class="row" align="center"> -->
+						<div class="col-sm-9 col-sm-offset-4 col-lg-1 col-lg-offset-5">
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
 							
 						</div>
-						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-5">
-								<a href="${pageContext.request.contextPath}/showPmPlanHistory">	<button type="button" class="btn btn-success" >PM History</button> </a> 
+						<div class="ol-sm-9 col-sm-offset-4 col-lg-1 col-lg-offset-4">
+						<a href="${pageContext.request.contextPath}/showPmPlanHistory">	<button type="button" class="btn btn-success">PM History</button> </a> 
 						
 						</div>
 					</div>
@@ -128,7 +133,7 @@ overflow:auto;
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
-					<div class="w3l-table-info" style="overflow-x:auto; height:400px">
+					<div class="w3l-table-info" style="overflow-x:auto; height:450px">
 					
 					    <table id="table"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
@@ -244,7 +249,7 @@ overflow:auto;
 						  </tr>
 						</thead>
 						<tbody>
-				
+										
 						<c:set var="cnt1" value="0"/>
                         <c:forEach var="entry" items="${actTypes}">
 						 <tr >
@@ -265,13 +270,16 @@ overflow:auto;
 						 <input type="hidden" name="ph1" id="ph1" value="${paMaintainence.date1Photo}"/>
 						 <input type="hidden" name="ph2" id="ph2" value="${paMaintainence.date2Photo}"/>
 						 <input type="hidden" name="ph3" id="ph3" value="${paMaintainence.date3Photo}"/>
-						   							   					    
+							 <input type="hidden" name="int1" id="int1" value="${paMaintainence.int1}"/>
+						   	 <input type="hidden" name="int3" id="int3" value="${paMaintainence.int3}"/>
+						   	 	 <input type="hidden" name="string1" id="string1" value="${paMaintainence.string1}"/>
+						   	 <input type="hidden" name="string2" id="string2" value="${paMaintainence.string2}"/>						   					    
 						  <tr>
-							<td><c:out value="${cnt1}" /></td>
+							<td><c:out value="${cnt1}" /> </td>
 							<td width="300" > <c:out value="${paMaintainence.activityName}" /></td>
 						    <td ><c:out value="${paMaintainence.itemName}" /></td>
 							 <td ><c:out value="${paMaintainence.checkPointName}" /></td>
-							 <td><select name="method_id" id="method_id"  required>
+							 <td><select name="method_id" id="method_id${cnt1}"  class="chosen-select"  required>
 							   <option value="">Select Method</option>
 							    <c:choose>
 							    <c:when test="${paMaintainence.method==1}">
@@ -289,7 +297,7 @@ overflow:auto;
 							    </c:choose>
                              </select></td>
 						
-							  <td hidden><select name="req_value" id="req_value"  >						
+							  <td hidden><select name="req_value" id="req_value"  class="chosen-select" >						
                         <option value="">Select Required Value</option>
 						<c:forEach items="${requiredValueList}" var="requiredValue" varStatus="cnt">
 					    <c:choose>
@@ -305,53 +313,53 @@ overflow:auto;
                              </select></td>
                              	 <c:choose>
                            <c:when test="${status==1}">
-                        <td ><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+                        <td ><input type="date" name="date1" id="date1${cnt1}" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
 							
-							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td ><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
 							</c:when>
 							
 							</c:choose>
 </td>
-                             <td><input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
+                             <td><input type="date" name="date2" id="date2${cnt1}" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
 
-							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
+							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob${cnt1}" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
 							</c:when>
 							</c:choose>
 							</td>
 						
-                             <td><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
-	<td><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
+                             <td><input type="date" name="date3" id="date3${cnt1}" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
+	<td><textarea rows="1" cols="20" name="date3ob" id="date3ob${cnt1}"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<td><input type="file" id="myFile3${cnt1}" name="myFile3" value="${paMaintainence.date3Photo}">
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
 							</c:when>
 							<c:when test="${status==2}">
-							  <td><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+							  <td><input type="date" name="date1" id="date1${cnt1}" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
 							
-							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
 							</c:when>
 							
 							</c:choose>
 </td>
-                             <td> <input type="date" name="date2" id="date2" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
+                             <td> <input type="date" name="date2" id="date2${cnt1}" placeholder="dd-mm-yyyy" class="form-control" style="width:200px;" value="${paMaintainence.date2}"/></td>
 
-							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
+							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob${cnt1}" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
 							</c:when>
@@ -368,11 +376,11 @@ overflow:auto;
 							</c:when>
 							
 							<c:when test="${status==3}">
-							 <td ><input type="date" name="date1" id="date1" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
+							 <td ><input type="date" name="date1" id="date1${cnt1}" class="form-control"  placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date1}"/></td>
 							
-							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
+							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td ><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="${url}${paMaintainence.date1Photo}" data-lightbox="image-1"tabindex="-1">Image1</a>
 							</c:when>
@@ -434,7 +442,7 @@ overflow:auto;
 							
 							
 							<td>
-						<textarea rows="1" cols="18" name="remark" id="remark" >${paMaintainence.remark}
+						<textarea rows="1" cols="18" name="remark" id="remark${cnt1}" >${paMaintainence.remark}
 </textarea></td>  	<td> <c:choose>
 							<c:when test="${status==1 or status==2 or status==3}"><input type="submit" value="Submit" name="submit" class="btn btn-info"/>
 </c:when><c:otherwise><input type="submit" value="Submit" name="submit" class="btn btn-info" disabled/>
@@ -442,66 +450,73 @@ overflow:auto;
 						</c:when>
 						</c:choose></form>
 						 </c:forEach>
-						 </c:forEach>
+						 </c:forEach><input type="hidden" id="totalRows" value="${cnt1}"/>
 							</tbody>
 					  </table><br><br><br>
 					</div>
 					
-					
+					<div class="col-sm-9 col-sm-offset-3 col-lg-6 col-lg-offset-10">
 					<c:choose>
 						<c:when test="${sessionScope.userDetail.type==1}">
 							<c:choose>
 								<c:when test="${approveStatus==0}">
 									<c:choose>
 										<c:when test="${pmStatus==1}">
-											<a href="${pageContext.request.contextPath}/approveList/1"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>1
+											<a href="${pageContext.request.contextPath}/approveList/1"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>1
 										</c:when>
 										<c:otherwise>
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
+									<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approve" name="Approve" class="btn btn-info"  disabled/></div>
 										</c:otherwise>
 									
 									</c:choose> 
 								</c:when>
 								
 								<c:when test="${approveStatus==1}">
-									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+								</div></c:when>
 								
 								<c:when test="${approveStatus==2}">
 									<c:choose>
 										<c:when test="${pmStatus==2}">
-											<a href="${pageContext.request.contextPath}/approveList/3"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>3
-										</c:when>
+										<div title="Approved By ${paMaintainenceList.get(0).string2}">	<a href="${pageContext.request.contextPath}/approveList/3"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>3
+										</div></c:when>
 										<c:otherwise>
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-										</c:otherwise>
+									<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+									</div>	</c:otherwise>
 									
 									</c:choose> 
 								</c:when>
 								
 								<c:when test="${approveStatus==3}">
-									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+							</div></c:when>
 								
 								<c:when test="${approveStatus==4}">
 									<c:choose>
 										<c:when test="${pmStatus==3}">
-											<a href="${pageContext.request.contextPath}/approveList/5"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>5
-										</c:when>
+										<div title="Approved By ${paMaintainenceList.get(0).string2}">	<a href="${pageContext.request.contextPath}/approveList/5"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>5
+									</div></c:when>
 										<c:otherwise>
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-										</c:otherwise>
+										<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+										</div></c:otherwise>
 									
 									</c:choose> 
 								</c:when>
 								
 								<c:when test="${approveStatus==5}">
-									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-								</c:when>
+							<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+							</div>	</c:when>
 								
 								<c:when test="${approveStatus==6}">
-									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+								</div></c:when>
 							
 							</c:choose>
 						
@@ -511,39 +526,46 @@ overflow:auto;
 						<c:when test="${sessionScope.userDetail.type==2}">
 							<c:choose>
 								<c:when test="${approveStatus==0}"> 
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/> 
+							</div>	</c:when>
 								
 								<c:when test="${approveStatus==1}"> 
-											<a href="${pageContext.request.contextPath}/approveList/2"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>2 
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<a href="${pageContext.request.contextPath}/approveList/2"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>2 
+								</div></c:when>
 								
 								<c:when test="${approveStatus==2}"> 
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/> 
+								</div></c:when>
 								
 								<c:when test="${approveStatus==3}">
-									 <a href="${pageContext.request.contextPath}/approveList/4"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>4
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <a href="${pageContext.request.contextPath}/approveList/4"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>4
+							</div>	</c:when>
 								
 								<c:when test="${approveStatus==4}"> 
-											<input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/> 
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+											<input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/> 
+							</div>	</c:when>
 								
 								<c:when test="${approveStatus==5}">
-									 <a href="${pageContext.request.contextPath}/approveList/6"><input type="submit" value="Submit" name="Approve" class="btn btn-info"  /></a>6
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <a href="${pageContext.request.contextPath}/approveList/6"><input type="submit" value="Approve" name="Approve" class="btn btn-info"  /></a>6
+								</div></c:when>
 								
 								<c:when test="${approveStatus==6}">
-									 <input type="submit" value="Submit" name="Approve" class="btn btn-info"  disabled/>
-								</c:when>
+								<div title="Approved By ${paMaintainenceList.get(0).string2}">
+									 <input type="submit" value="Approved" name="Approve" class="btn btn-info"  disabled/>
+								</div></c:when>
 							
 							</c:choose>
 						
 						</c:when>
 						
 					</c:choose>
-					 
+					 </div>
 				</div>
 			</div>			     
 				</div>
@@ -1037,9 +1059,9 @@ function OnInput() {
 		 
 	</script>
 	<script type="text/javascript">
-	function setMachineSelected(machineType,machineId)
+	function setMachineSelected(machineType,machineId,rows,apstatus,type)
 	{
-		
+	
 		$.getJSON('${getMachinByType}', {
 			machineType : machineType,
 			ajax : 'true'
@@ -1091,8 +1113,54 @@ function OnInput() {
 			$("#machineId").trigger("chosen:updated");
 
 		});
-		
-		
+	
+	/* 	var rows = document.getElementById("totalRows").value;
+		var apstatus = document.getElementById("apstatus").value;
+		var type = document.getElementById("usertype").value; */
+        if((apstatus==1 && type==1) ||  apstatus==2)
+        	{
+         for(var i=1;i<=rows;i++)
+        	 {
+        	 document.getElementById("date1"+i).readOnly = true;
+        	 document.getElementById("date1ob"+i).readOnly = true;
+        	 document.getElementById("myFile1"+i).readOnly = true;
+        	 }
+        	}
+       else if((apstatus==3 && type==1) || apstatus==4 || (apstatus==5 && type==2)){
+        	  for(var i=1;i<=rows;i++)
+         	 {
+         	 document.getElementById("date1"+i).readOnly = true;
+         	 document.getElementById("date1ob"+i).readOnly = true;
+         	 document.getElementById("myFile1"+i).readOnly = true;
+         	 document.getElementById("date2"+i).readOnly = true;
+         	 document.getElementById("date2ob"+i).readOnly = true;
+         	 document.getElementById("myFile2"+i).readOnly = true;
+         	 }
+        	  }else if(apstatus==3 && type==2){
+        		  for(var i=1;i<=rows;i++)
+              	 {
+         		 document.getElementById("date1"+i).readOnly = true;
+             	 document.getElementById("date1ob"+i).readOnly = true;
+             	 document.getElementById("myFile1"+i).readOnly = true;
+              	 }
+         	 } else if(apstatus==5 && type==1)
+         		 {
+         		 for(var i=1;i<=rows;i++)
+             	 {
+         		 document.getElementById("date1"+i).readOnly = true;
+             	 document.getElementById("date1ob"+i).readOnly = true;
+             	 document.getElementById("myFile1"+i).readOnly = true;
+             	 document.getElementById("date2"+i).readOnly = true;
+             	 document.getElementById("date2ob"+i).readOnly = true;
+             	 document.getElementById("myFile2"+i).readOnly = true;
+             	 document.getElementById("date3"+i).readOnly = true;
+             	 document.getElementById("date3ob"+i).readOnly = true;
+             	 document.getElementById("myFile3"+i).readOnly = true;
+             	 }
+         		 } 
+        	
+     
+        
 	}
 	</script>
 <%-- <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
@@ -1116,6 +1184,17 @@ $("#table").rowspanizer({vertical_align: 'middle'});
   })();
 
 </script> --%>
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

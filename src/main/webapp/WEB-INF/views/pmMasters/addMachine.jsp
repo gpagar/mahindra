@@ -12,6 +12,11 @@
 <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
 
   
 </head>
@@ -70,23 +75,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</div>
 						<div class="form-group">
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls" style="text-decoration: underline;font-size: 20px;">
 						<a href="${pageContext.request.contextPath}/showAddMachine">Add Machine
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddItem">Add Item
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Checkpoints
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+												<a href="${pageContext.request.contextPath}/showAllMachines">All PM Machines
+
 						
 						</a>
 						</div>
@@ -97,22 +113,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<form action="${pageContext.request.contextPath}/insertPmMachine"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
-							
+							<input type="hidden" name="machineId" id="machineId" value="${machine.machinId}"/>
 
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									 
 									<div class="col-sm-6 col-lg-4 controls">
-										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machineType"
+										<select data-placeholder="Choose Machine Type" style="width:99% !important;"
+								class="chosen-select" tabindex="6" id="machineType"
 								name="machineType" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Type</option>
 
-								 
-									<option value="1">Electrical</option>
+								 	 <c:choose>
+								 <c:when test="${machineType==1}">
+								 	<option value="1" selected>Electrical</option>
 								 <option value="2">Mechanical</option>
-
+								 </c:when>
+								 <c:when test="${machineType==2}">
+								 	<option value="1">Electrical</option>
+								 <option value="2" selected>Mechanical</option>
+								 </c:when>
+								 <c:otherwise>
+								 	<option value="1">Electrical</option>
+								 <option value="2">Mechanical</option>
+								 </c:otherwise>
+								 </c:choose>
 
 							</select>
 						</div>
@@ -121,16 +147,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine name  </label>
+									<label class="col-sm-3 col-lg-4 control-label">Machine name</label>
 									<div class="col-sm-6 col-lg-4 controls">
-																<input type="text" name=machineName id="machineName"  class="form-control "placeholder="machineName"   data-rule-required="true" required />
+																<input type="text" name=machineName id="machineName"  class="form-control "placeholder="machineName" value="${machine.machinName}"  data-rule-required="true" required />
 
 						</div>
 						</div>
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine   No.</label>
+									<label class="col-sm-3 col-lg-4 control-label">Machine No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-																<input type="text" name=machineNo id="machineNo"  class="form-control "placeholder="machineNo"   data-rule-required="true" required />
+																<input type="text" name=machineNo id="machineNo"  class="form-control "placeholder="machineNo"  value="${machine.machinNo}" data-rule-required="true" required />
 
 						</div>
 						</div>	 
@@ -144,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 					 
 						
-					 
+					 <input type="hidden" name="saveType" id="saveType"/>
 								  
 									 
 				 
@@ -152,8 +178,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
-							<button type="submit" class="btn btn-info" id="submitbtn">Submit</button>  
-				   
+							<button type="button" class="btn btn-info" id="submitbtn" onclick="submitForm()">Save</button>  
+				   	<button type="button" class="btn btn-info" id="submitbtn1" onclick="submitForm1()">Save & Next</button>  
 		
 
 						</div>
@@ -181,7 +207,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -194,7 +220,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -219,7 +245,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+		<!-- 					<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -238,7 +264,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -657,6 +683,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		}
 		 
 	</script>
+	
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+function submitForm()
+{
+	 document.getElementById("saveType").value=0;
+  document.getElementById("validation-form").submit();
+}
+function submitForm1()
+{
+	 document.getElementById("saveType").value=1;
+  document.getElementById("validation-form").submit();
+}
+</script>
 </body>
 
 </html>

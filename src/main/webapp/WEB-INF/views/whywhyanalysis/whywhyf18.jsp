@@ -24,6 +24,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 }
 
 </style> 
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
    <script>
   $( function() {
     $( ".dp2" ).datepicker({
@@ -35,8 +71,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   } );
   
   </script>
+  
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
 </head>
-<body onload="setMachineSelected(${machineType},${machineId})">
+<body>  <%-- onload="setMachineSelected(${machineType},${machineId})" --%>
    <div class="page-container">
 
          <c:url var="getMachinByType" value="/getMachinByType"></c:url>
@@ -48,23 +90,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
               <div id="main-content">
 			<!-- BEGIN Page Title -->
-			 
-			<!-- END Page Title -->
-
-			<!-- BEGIN Main Content -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="box">
-						<div class="box-title">
+			 <div class="box-title">
 							<h3>
 								<i class="fa fa-bars"></i> BREAKDOWN/WHY WHY ANALYSIS
 							</h3>
 							<div class="box-tool">
 							
 						</div>
+			<!-- END Page Title -->
+<form action="${pageContext.request.contextPath}/searchWhyWhyList">
+				<div class="form-group">   <div class="col-md-1">Month :</div>   <div class="col-md-3">
+<input type="month" id="myInput" onchange="myFunction()" style="border-radius: 25px;" placeholder="Search by date.." class="form-control" title="Type in a name">  
+</div> <div class="col-md-1">M/C :</div><div class="col-md-3">
+<select data-placeholder="Choose Machine"  style="width: 70% !important;"
+								tabindex="6" id="machineId" class="chosen-select"
+								name="machineId" onchange="myFunction1()"  >
 
-						<div class="box-content">
-				<form action="${pageContext.request.contextPath}/searchWhyWhyList"  class="form-horizontal"
+							 <option value="">Choose Machine</option>
+                                  <c:forEach items="${machineList}" var="machineList">
+                                  <c:choose><c:when test="${machineId==machineList.machinId}">
+                                  	<option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName}</option>
+                                </c:when> 
+                                <c:otherwise>
+                                  	<option value="${machineList.machinId}" >${machineList.machinNo}-${machineList.machinName}</option>
+                                </c:otherwise> 
+                                 </c:choose>
+                                  </c:forEach>   
+							</select>
+							<input type="hidden" value="0" id="machineType" name="machineType"/>
+</div>  <div class="col-md-1">	<button type="submit" class="btn btn-info" id="search">Search</button></div>    </div>
+	</form> </div>
+			<!-- BEGIN Main Content -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box">
+						
+
+						
+				<%-- <form action="${pageContext.request.contextPath}/searchWhyWhyList"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="get">
 							<div class="form-group">
@@ -119,16 +182,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 						</div>
 					</div>
-				</form>
-		<form action="${pageContext.request.contextPath}/saveWhyWhy"  class="form-horizontal" name="breakdown_form"
+				</form> --%><div class="box-content">	<form action="${pageContext.request.contextPath}/saveWhyWhy"  class="form-horizontal" name="breakdown_form"
 							 id="validation-form" enctype="multipart/form-data" method="post">	
-				        	<input type="hidden" name="machine_id-1" id="machine_id-1" value="${machineId}"/>
+				        	<%-- <input type="hidden" name="machine_id-1" id="machine_id-1" value="${machineId}"/>
                            <input type="hidden" name="machine_type-1" id="machine_type-1" value="${machineType}"/>			
-                           <input type="hidden" name="key" id="key"/>
+                          --%>  <input type="hidden" name="key" id="key"/>
+                          
+           
 			<div class="agile-grids" >	
 				<!-- tables -->
 				<div class="agile-tables">
-					<div class="w3l-table-info" style="overflow-x:auto;height:400px;  ">
+					<div class="w3l-table-info" style="overflow-x:auto;height:450px ">
 					
 					    <table id="table"  style="border: 1px;" >
 						<thead>
@@ -138,9 +202,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Date</th>
 							<th>Dept.</th>
 							<th>Cell/Circle</th>
-							<th>M/c No.</th>
+							<th>Machine_Name.</th>
 							<th>Rank</th>
 							<th>Problem Reported</th>
+							<th>Repair Start Time</th>
+							<th>Repair Finish Time</th>
 							<th>BD time Loss (Min)</th> 
 							<th>Engine Loss</th> 
 							<th>Part Repalced/adjust/set/corrected etc</th> 
@@ -161,8 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Linkage with</th>
 							<th>Previous Occurrence Date</th>
 							<th>Repaired By</th>
-							<th>Repair Start Time</th>
-							<th>Repair Finish Time</th>
+							
 							<th>Idea</th>
 							<th>Prepared By</th>
 							<th>PU Manager / Department Head </th>
@@ -182,19 +247,55 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><input id="date-1" type="date" name="date-1" format="dd-MM-yyyy"/>
 						</td>
-						<td><textarea id="dept-1"   name="dept-1"></textarea>
+						<td><!-- <textarea id="dept-1"   name="dept-1"></textarea> -->
+						<select id="dept-1" name="dept-1" class="chosen-select"  required>
+						 <option value="">Select Department</option>
+						 <c:choose><c:when test="${deptId eq '1'}">
+						         <option value="1" selected>M/C Shop</option>
+                                 <option value="2" disabled>mHawk</option>
+                                 <option value="3" disabled>NEF-mDI</option>
+						 </c:when>
+						 <c:when test="${deptId eq '2'}">
+						         <option value="1" disabled >M/C Shop</option>
+                                 <option value="2"selected>mHawk</option>
+                                 <option value="3" disabled>NEF-mDI</option>
+						 </c:when>
+						 <c:when test="${deptId eq '3'}">
+						         <option value="1" disabled>M/C Shop</option>
+                                 <option value="2" disabled>mHawk</option>
+                                 <option value="3"selected>NEF-mDI</option>
+						 </c:when>
+						 <c:otherwise>
+						   <option value="1" >M/C Shop</option>
+                                 <option value="2">mHawk</option>
+                                 <option value="3">NEF-mDI</option>
+						 </c:otherwise>
+						 </c:choose>
+                                
+                        </select>
 						</td>
 						<td>
-						<select id="cellcircle-1" name="cellcircle-1" onchange="calculateEngineLoss(-1)" required>
+						<select id="cellcircle-1" name="cellcircle-1" class="chosen-select" onchange="calculateEngineLoss(-1)" required>
 						 <option value="">Select Cell/Circle</option>
                                  <option value="HL">HeadLine</option>
                                  <option value="BL">BlockLine</option>
                                 <option value="CL">CamLine</option>
                         </select>
 						</td>
-						<td><textarea id="machine_no-1"   name="machine_no-1">${machinDetails.machinNo}</textarea>
+						<td><%-- <textarea id="machine_no-1"   name="machine_no-1">${machinDetails.machinNo}</textarea> --%>
+						<select data-placeholder="Choose Machine" 
+								tabindex="6" id="machine_id-1" class="chosen-select"
+								name="machine_id-1"  required>
+
+							 <option value="">Choose Machine</option>
+                                  <c:forEach items="${machineList}" var="machineList">
+                                  	<option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName}</option>
+                                  
+                                  </c:forEach>   
+							</select>
+						
 						</td>
-						<td><select id="rank-1" name="rank-1" required>
+						<td><select id="rank-1" name="rank-1" class="chosen-select" required>
 						 <option value="">Select Rank</option>
                                  <option value="1">A</option>
                                  <option value="2">B</option>
@@ -202,11 +303,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </select></td>
 						<td><textarea id="problem_reported-1"   name="problem_reported-1"></textarea>
 						</td>
+							<td><input id="repairStartTime-1" type="time" name="repairStartTime-1" onblur="onTimeChange(-1)"/>
+						</td>
+						<td><input id="repairFinishTime-1" type="time" name="repairFinishTime-1" onblur="onTimeChange(-1)" />
+						</td>
 						<td><textarea id="bd_time_loss-1" name="bd_time_loss-1" onchange="calculateEngineLoss(-1)">0</textarea>
 						</td>
 						<td><textarea id="engine_loss-1"   name="engine_loss-1">0</textarea>
 						</td>
-						<td><select id="part-1" name="part-1">
+						<td><select id="part-1" name="part-1" class="chosen-select">
                                  <option value="Adjusted">Adjusted</option>
                                  <option value="Corrected">Corrected</option>
                                 <option value="Replaced">Replaced</option>
@@ -214,7 +319,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><textarea id="part_desc-1"   name="part_desc-1"></textarea>
 						</td>
-						<td><select id="bd_ms_pt-1" name="bd_ms_pt-1">
+						<td><select id="bd_ms_pt-1" name="bd_ms_pt-1" class="chosen-select">
                                  <option value="BD">BD</option>
                                  <option value="MS">MS</option>
                                 <option value="PT">PT</option>
@@ -234,7 +339,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><textarea id="root_cause-1"   name="root_cause-1"></textarea>
 						</td>
-						<td><select id="clarification_cause-1" name="clarification_cause-1">
+						<td><select id="clarification_cause-1" name="clarification_cause-1" class="chosen-select">
                              <option value="Inadequate Operating condition">Inadequate Operating condition</option>
                              <option value="Neglect of completion of life">Neglect of completion of life</option>
                              <option value="Design Flaws">Design Flaws</option>
@@ -244,7 +349,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                              
                              </select>
 						</td>
-						<td><select id="failure_code-1" name="failure_code-1">
+						<td><select id="failure_code-1" name="failure_code-1" class="chosen-select">
                              <option value="Power Failure">Power Failure</option>
                              <option value="Clogged">Clogged</option>
                              <option value="Broken">Broken</option>
@@ -290,13 +395,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 							<td><textarea id="counter_measure-1"   name="counter_measure-1"></textarea>
 						</td>
-						<td><select id="category-1" name="category-1">
+						<td><select id="category-1" name="category-1" class="chosen-select">
                                  <option value="E">E</option>
                                  <option value="M">M</option>
                              
                          </select>
 						</td>
-						<td><select id="recurnonrecurr-1" name="recurnonrecurr-1">
+						<td><select id="recurnonrecurr-1" name="recurnonrecurr-1" class="chosen-select">
                                  <option value="R">R</option>
                                  <option value="NR">NR</option>
                         </select>
@@ -308,10 +413,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><input id="repairedBy-1" type="text" name="repairedBy-1" />
 						</td>
-						<td><input id="repairStartTime-1" type="time" name="repairStartTime-1" />
-						</td>
-						<td><input id="repairFinishTime-1" type="time" name="repairFinishTime-1" />
-						</td>
+					
 						<td><textarea id="idea-1"   name="idea-1"></textarea>
 						</td>
 						<td><input id="preparedBy-1" type="text" name="preparedBy-1" />
@@ -320,7 +422,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><input id="subcommMember-1" type="text" name="subcommMember-1" />
 						</td>
-						<td><select id="status-1" name="status-1">
+						<td><select id="status-1" name="status-1" class="chosen-select">
                                  <option value="0">Closed</option>
                                  <option value="1">Open</option>
                         </select>
@@ -337,17 +439,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						<tr>
 						  <input type="hidden" name="id${count.index}" id="id${count.index}" value="${whyWhyF18.id}"/>			
-						<input type="hidden" name="machine_id${count.index}" id="machine_id${count.index}" value="${machineId}"/>
-						
+<%-- 						<input type="hidden" name="machine_id${count.index}" id="machine_id${count.index}" value="${machineId}"/>
+ --%>						
 						<td>${count.index+1}</td>
 						<td><input id="month${count.index}" type="month" name="month${count.index}" value="${whyWhyF18.month}"/>
 						</td>
 						<td><input id="date${count.index}" type="date" name="date${count.index}" value="${whyWhyF18.date}"/>
 						</td>
-						<td><textarea id="dept${count.index}"   name="dept${count.index}">${whyWhyF18.dept}</textarea>
+						<td><%-- <textarea id="dept${count.index}"   name="dept${count.index}">${whyWhyF18.dept}</textarea> --%>
+						<select id="dept${count.index}" name="dept${count.index}" class="chosen-select" required>
+						 <option value="">Select Department</option>
+						 <c:choose><c:when test="${whyWhyF18.dept eq '1'}">
+						         <option value="1" selected>M/C Shop</option>
+                                 <option value="2" disabled>mHawk</option>
+                                 <option value="3" disabled>NEF-mDI</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.dept eq '2'}">
+						         <option value="1" disabled>M/C Shop</option>
+                                 <option value="2"selected>mHawk</option>
+                                 <option value="3" disabled>NEF-mDI</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.dept eq '3'}">
+						         <option value="1" disabled>M/C Shop</option>
+                                 <option value="2" disabled>mHawk</option>
+                                 <option value="3"selected>NEF-mDI</option>
+						 </c:when>
+						 <c:otherwise>
+						   <option value="1" >M/C Shop</option>
+                                 <option value="2" >mHawk</option>
+                                 <option value="3">NEF-mDI</option>
+						 </c:otherwise>
+						 </c:choose>
+                                
+                        </select>
 						</td>
 						<td>
-						<select id="cellcircle${count.index}" name="cellcircle${count.index}" onchange="calculateEngineLoss(${count.index})" required>
+						<select id="cellcircle${count.index}" class="chosen-select" name="cellcircle${count.index}" onchange="calculateEngineLoss(${count.index})" required>
 						 <option value="">Select Cell/Circle</option>
 						 <c:choose><c:when test="${whyWhyF18.cellCircle eq 'HL'}">
 						         <option value="HL" selected>HeadLine</option>
@@ -373,9 +500,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 
                         </select>
 						</td>
-						<td><textarea id="machine_no${count.index}"   name="machine_no${count.index}">${whyWhyF18.machineNo}</textarea>
+						<td><%-- <textarea id="machine_no${count.index}"   name="machine_no${count.index}">${whyWhyF18.machineNo}</textarea> --%>
+						<select data-placeholder="Choose Machine" class="chosen-select"
+								 tabindex="6" id="machine_id${count.index}"
+								name="machine_id${count.index}" required>
+
+								 <option value="">Choose Machine</option>
+                                  <c:forEach items="${machineList}" var="machineList">
+                                  <c:choose>
+                                  <c:when test="${machineList.machinId==whyWhyF18.machineId}">
+                                  <option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName}</option>
+                                  
+                                  </c:when>
+                                  <c:otherwise>
+                                  <option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName}</option>
+                                  
+                                  </c:otherwise>
+                                  </c:choose>
+                                  
+                                  </c:forEach>   
+							</select>
+						
 						</td>
-						<td><select id="rank${count.index}" name="rank${count.index}" required>
+						<td><select id="rank${count.index}" name="rank${count.index}" class="chosen-select" required>
 						 <option value="" >Select Rank</option>
 						        <c:choose>
 						        <c:when test="${whyWhyF18.rank==1}">
@@ -404,11 +551,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </select></td>
 						<td><textarea id="problem_reported${count.index}"   name="problem_reported${count.index}">${whyWhyF18.problemReported}</textarea>
 						</td>
+						<td><input id="repairStartTime${count.index}" onblur="onTimeChange(${count.index})" type="time" name="repairStartTime${count.index}" value="${whyWhyF18.repairStartTime}"/>
+						</td>
+						<td><input id="repairFinishTime${count.index}" onblur="onTimeChange(${count.index})" type="time" name="repairFinishTime${count.index}" value="${whyWhyF18.repairFinishTime}"/>
+						</td>
 						<td><textarea id="bd_time_loss${count.index}" name="bd_time_loss${count.index}" onchange="calculateEngineLoss(${count.index})">${whyWhyF18.bdTimeLoss}</textarea>
 						</td>
 						<td><textarea id="engine_loss${count.index}"   name="engine_loss${count.index}">${whyWhyF18.engineLoss}</textarea>
 						</td>
-						<td><select id="part${count.index}" name="part${count.index}">
+						<td><select id="part${count.index}" class="chosen-select" name="part${count.index}">
 						         <c:choose>
 						         <c:when test="${whyWhyF18.partStatus eq 'Adjusted'}">
 						          <option value="Adjusted" selected>Adjusted</option>
@@ -437,7 +588,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><textarea id="part_desc${count.index}"   name="part_desc${count.index}">${whyWhyF18.partDesc}</textarea>
 						</td>
-						<td><select id="bd_ms_pt${count.index}" name="bd_ms_pt${count.index}">
+						<td><select id="bd_ms_pt${count.index}" class="chosen-select" name="bd_ms_pt${count.index}">
 						         <c:choose>
 						         <c:when test="${whyWhyF18.bdMsPt eq 'BD'}">
 						            <option value="BD" selected>BD</option>
@@ -472,7 +623,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><textarea id="root_cause${count.index}"   name="root_cause${count.index}">${whyWhyF18.rootCause}</textarea>
 						</td>
-						<td><select id="clarification_cause${count.index}" name="clarification_cause${count.index}">
+						<td><select id="clarification_cause${count.index}" class="chosen-select" name="clarification_cause${count.index}">
 						        <c:forEach var="entry" items="${clarificationOfCauseList}">
 						        <c:choose>
 						        <c:when test="${entry.key eq whyWhyF18.clarificationOfCause}">
@@ -487,7 +638,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                              
                              </select>
 						</td>
-						<td><select id="failure_code${count.index}" name="failure_code${count.index}">
+						<td><select id="failure_code${count.index}" class="chosen-select" name="failure_code${count.index}">
 						
 						<c:forEach var="entry" items="${failureCodeList}">
                             <c:choose>
@@ -506,7 +657,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 							<td><textarea id="counter_measure${count.index}"   name="counter_measure${count.index}">${whyWhyF18.counterMeasure}</textarea>
 						</td>
-						<td><select id="category${count.index}" name="category${count.index}">
+						<td><select id="category${count.index}" class="chosen-select" name="category${count.index}">
 						   <c:choose>
 						        <c:when test="${whyWhyF18.category eq 'E'}">
                                  <option value="E" selected>E</option>
@@ -521,7 +672,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                              
                          </select>
 						</td>
-						<td><select id="recurnonrecurr${count.index}" name="recurnonrecurr${count.index}">
+						<td><select id="recurnonrecurr${count.index}"  class="chosen-select" name="recurnonrecurr${count.index}">
 						   <c:choose>
 						        <c:when test="${whyWhyF18.recurNonRecurr eq 'R'}">
                                  <option value="R" selected>R</option>
@@ -541,10 +692,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><input id="repairedBy${count.index}" type="text" name="repairedBy${count.index}" value="${whyWhyF18.repairedBy}"/>
 						</td>
-						<td><input id="repairStartTime${count.index}" type="time" name="repairStartTime${count.index}" value="${whyWhyF18.repairStartTime}"/>
-						</td>
-						<td><input id="repairFinishTime${count.index}" type="time" name="repairFinishTime${count.index}" value="${whyWhyF18.repairFinishTime}"/>
-						</td>
+						
 						<td><textarea id="idea${count.index}"   name="idea${count.index}">${whyWhyF18.idea}</textarea>
 						</td>
 						<td><input id="preparedBy${count.index}" type="text" name="preparedBy${count.index}" value="${whyWhyF18.preparedBy}" />
@@ -553,7 +701,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td><input id="subcommMember${count.index}" type="text" name="subcommMember${count.index}" value="${whyWhyF18.subcommMember}"/>
 						</td>
-						<td><select id="status${count.index}" name="status${count.index}">
+						<td><select id="status${count.index}"  class="chosen-select" name="status${count.index}">
 						   <c:choose>
 						         <c:when test="${whyWhyF18.status eq '0'}">
                                  <option value="0" selected>Closed</option>
@@ -572,7 +720,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						 <td>   <a href="#" onclick="addBreakdown(${count.index})"><i class="fa fa-save" style="font-size:24px"></i></a>
                                
-                               <a href="${pageContext.request.contextPath}/viewBreakdown/${whyWhyF18.id}/${machineType}"><i class="glyphicon glyphicon-file" style="font-size:18px"></i></a>
+                               <a href="${pageContext.request.contextPath}/viewBreakdown/${whyWhyF18.id}/${whyWhyF18.machineType}"><i class="glyphicon glyphicon-file" style="font-size:18px"></i></a>
                           </td> 
 						</tr>
 						
@@ -895,6 +1043,53 @@ function onMacTypeChange(machineType) {
 	
 	}
 	</script>
+	
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
+		
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+
+</script>
+<script type="text/javascript">
+function onTimeChange(key) {
+
+var repairStartTime=$("#repairStartTime"+key).val();
+var repairFinishTime=$("#repairFinishTime"+key).val();
+
+	var startDate = new Date("January 1, 1970 " + repairStartTime);
+	var endDate = new Date("January 1, 1970 " + repairFinishTime);
+	var timeDiff = Math.abs(startDate - endDate);
+	var mm = Math.floor(timeDiff/1000/60);
+    document.getElementById('bd_time_loss'+key).value=mm;
+
+}
+</script>
 </body>
 
 </html>

@@ -56,6 +56,8 @@ public class GetPaMaintainence{
 	private int int1;
 
 	private int int2;
+	
+	private int int3;
 
 	private String string1;
 
@@ -93,6 +95,14 @@ public class GetPaMaintainence{
 
 	public void setMachinNo(String machinNo) {
 		this.machinNo = machinNo;
+	}
+
+	public int getInt3() {
+		return int3;
+	}
+
+	public void setInt3(int int3) {
+		this.int3 = int3;
 	}
 
 	public int getActivityId() {

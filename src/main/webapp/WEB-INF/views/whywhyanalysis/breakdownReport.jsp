@@ -29,7 +29,8 @@ input[type="radio"]:checked:before {
 }
 </style>
 </head>
-<body>
+<body>   <div class="page-container">
+
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -52,8 +53,8 @@ input[type="radio"]:checked:before {
 						</div>
 	<form action="${pageContext.request.contextPath}/saveBreakdown"  class="form-horizontal" name="breakdown_form"
 							 id="validation-form" enctype="multipart/form-data" method="post">	
-	<input type="hidden" value="${whyWhyF18.id}" name="id" id="id"/>						 
-						<div class="box-content" style="overflow-x: scroll;height:500px">
+	<input type="hidden" value="${whyWhyF18.id}" name="id" id="id"/>	<input type="hidden" value="${machineType}" name="mcType" id="mcType"/>						 
+						<div class="box-content" style="overflow-x: scroll;height:auto">
 <table width="95%" border="0"  cellpadding="0" cellspacing="0" style="border-left:1px solid #313131;border-right:1px solid #313131;border-top:1px solid #313131;overflow-x:scroll;overflow-y:hidden;">
   <tr bgcolor="pink"> <td width="100%" colspan="11" style=" padding:1px;color:#000; font-size:15px; text-align:center">
     <h3 style="color:black; font-size:18px; text-align:center; margin:7px;">Breakdown Report & Why Why Analysis Sheet</h3>
@@ -610,6 +611,7 @@ Workstation Name : ${whyWhyF18.machineName}</p>
       </div></div></div></div></div></div></div>
     
     <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
+    </div>
    <script type="text/javascript">
    $('input[type="checkbox"]').on('change', function() {
 	    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
@@ -629,7 +631,7 @@ Workstation Name : ${whyWhyF18.machineName}</p>
 function breakdownPdf()
 {
 	   var id=$("#id").val();
-	   window.open('${pageContext.request.contextPath}/pdf?url=/showWhyWhyPdf/'+id);
+	   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showWhyWhyPdf/'+id);
 }
 </script>
 </body>

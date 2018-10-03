@@ -39,7 +39,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             
 
 
-
 </head> 
 <body>
    
@@ -62,9 +61,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									 
 								<!-- </div> --><!--//end-search-box-->
 							<div class="clearfix"> </div>
-						 </div>
-						 <div class="w3layouts-right">
-							<div class="profile_details_left"><!--notifications of menu start -->
+						 </div><div class="col-md-3"></div>
+					<!-- 	 <div class="w3layouts-right">
+							<div class="profile_details_left">notifications of menu start
 								<ul class="nofitications-dropdown">
 									<li class="dropdown head-dpdn">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope"></i><span class="badge">3</span></a>
@@ -199,19 +198,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</ul>
 								<div class="clearfix"> </div>
 							</div>
-							<!--notification menu end -->
+							notification menu end
 							
 							<div class="clearfix"> </div>				
-						</div>
-						<div class="profile_details w3l">		
+						</div> -->
+						<div class="profile_details w3l" style="    background: #8e24aa;
+    background: -webkit-linear-gradient(45deg, #8e24aa 0%, #ff6e40 100%);
+    background: linear-gradient(45deg, #8e24aa 0%, #ff6e40 100%);box-shadow: 0 6px 20px 0 rgba(255, 110, 64, 0.5);">		
 								<ul>
 									<li class="dropdown profile_details_drop">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 											<div class="profile_img">	
-												<span class="prfil-img"><img src="images/in4.jpg" alt=""> </span> 
-												<div class="user-name">
+												<span class="prfil-img"><img src="${pageContext.request.contextPath}/resources/home/images/mlogon.png" alt=""> </span> 
+												<div class="user-name" style="padding-top:9px;">
 													<p>${sessionScope.userDetail.name}</p>
-													<span>Administrator</span>
+													<span></span>
 												</div>
 												<i class="fa fa-angle-down"></i>
 												<i class="fa fa-angle-up"></i>
@@ -221,7 +222,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<ul class="dropdown-menu drp-mnu">
 											<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
 											<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
-											<li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+											<li> <a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
 										</ul>
 									</li>
 								</ul>

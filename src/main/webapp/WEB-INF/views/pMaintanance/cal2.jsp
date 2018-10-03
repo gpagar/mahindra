@@ -226,7 +226,7 @@ TD, TH {
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -239,7 +239,7 @@ TD, TH {
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -264,7 +264,7 @@ TD, TH {
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+							<!-- <script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -283,7 +283,7 @@ TD, TH {
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>

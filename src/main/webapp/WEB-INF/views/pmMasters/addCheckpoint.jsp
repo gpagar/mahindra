@@ -13,9 +13,14 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
   
 </head>
-<body>
+<body onload="selectData(${machineType},${machineId},${activityId},${itemId})">
    <div class="page-container">
    
   
@@ -72,23 +77,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 <div class="form-group">
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddMachine">Add Machine
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
+						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddItem">Add Item
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-3 controls">
-						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Checkpoints
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showAddCheckpoint" style="text-decoration: underline;font-size:19px;">Add Checkpoints
+						
+						</a>
+						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+												<a href="${pageContext.request.contextPath}/showAllMachines">All PM Machines
+
 						
 						</a>
 						</div>
@@ -100,22 +116,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<form action="${pageContext.request.contextPath}/insertCheckPoint"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
-							
+							<input type="hidden" name="checkpointId" name="checkpointId" value="${pmCheckPoint.checkPointId}"/>
 
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machineType"
+							 class="chosen-select" style="width:99% !important;" tabindex="6" id="machineType"
 								name="machineType" required>
 
-								<option value=""selected disabled="disabled">Choose Machine Type</option>
-
-								 
-									<option value="1">Electrical</option>
+								<option value="" selected disabled="disabled">Choose Machine Type</option>
+	 <c:choose>
+								 <c:when test="${machineType==1}">
+								 	<option value="1" selected>Electrical</option>
 								 <option value="2">Mechanical</option>
-
+								 </c:when>
+								 <c:when test="${machineType==2}">
+								 	<option value="1">Electrical</option>
+								 <option value="2" selected>Mechanical</option>
+								 </c:when>
+								 <c:otherwise>
+								 	<option value="1">Electrical</option>
+								 <option value="2">Mechanical</option>
+								 </c:otherwise>
+								 </c:choose>
 
 							</select>
 						</div>
@@ -127,7 +152,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+							 class="chosen-select" style="width:99% !important;" tabindex="6" id="machineId"
 								name="machineId" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
@@ -144,7 +169,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Machine Activity</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
-								class="form-control chosen" tabindex="6" id="machinActivity"
+								 class="chosen-select" style="width:99% !important;" tabindex="6" id="machinActivity"
 								name="machinActivity" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Activity</option>
@@ -158,7 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Items</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Activity"
-								class="form-control chosen" tabindex="6" id="machinItem"
+								 class="chosen-select" style="width:99% !important;" tabindex="6" id="machinItem"
 								name="machinItem" required>
 
 								<option value=""selected disabled="disabled">Choose Items</option>
@@ -173,10 +198,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label"> Checkpoints</label>
 									<div class="col-sm-6 col-lg-4 controls" >
-						<input type="text" name="checkpoint" id="checkpoint"  class="form-control "placeholder="checkpoint"   data-rule-required="true" required />
+						<input type="text" name="checkpoint" id="checkpoint"  class="form-control "placeholder="checkpoint" value="${pmCheckPoint.checkPointName}"  data-rule-required="true" required />
 								
 							</div>
 							</div>
+							<div class="form-group">
+							<label class="col-sm-3 col-lg-4 control-label">Method</label>
+								<div class="col-sm-6 col-lg-4 controls" >
+							<select name="method" id="method"  class="chosen-select"  style="width:99% !important;" required>
+							   <option value="">Select Method</option>
+							   <c:choose>
+							   <c:when test="${pmCheckPoint.int1==1}">
+							     <option value="1" selected>Visually</option>
+                               <option value="2">Physically</option>
+							   
+							   </c:when>
+							    <c:when test="${pmCheckPoint.int1==1}">
+							     <option value="1" >Visually</option>
+                               <option value="2" selected>Physically</option>
+							   
+							   </c:when>
+							   <c:otherwise>
+							     <option value="1" >Visually</option>
+                               <option value="2">Physically</option>
+							   
+							   </c:otherwise>
+							   </c:choose>
+							 
+                             </select></div>
+							</div>
+							
 							
 							 
 							
@@ -222,7 +273,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   
 	  <!--//w3-agileits-pane-->	
 <!-- script-for sticky-nav -->
-		<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			 var navoffeset=$(".header-main").offset().top;
 			 $(window).scroll(function(){
@@ -235,7 +286,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 });
 			 
 		});
-		</script>
+		</script> -->
 		<!-- /script-for sticky-nav -->
 <!--inner block start here-->
 <div class="inner-block">
@@ -260,7 +311,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+						<!-- 	<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -279,7 +330,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -698,6 +749,218 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		}
 		 
 	</script>
+		<script type="text/javascript">
+
+	 function selectData(machineType,machineId,activityId,itemId)
+	 {
+       
+		 $.getJSON('${getMachinByType}', {
+
+				machineType : machineType,
+
+				 
+
+				ajax : 'true'
+
+			}, function(data) {
+				
+
+				var html = '<option value="" selected >Choose Machine</option>';
+
+			
+
+				var len = data.length;
+
+				$('#machineId')
+
+			    .find('option')
+
+			    .remove()
+
+			    .end()
+
+					
+
+			    	//alert(len);
+			    $("#machineId").append(
+
+                        $("<option ></option>").attr(
+
+                            "value", "").text("Select Machine Name Or Number")
+
+                    );
+
+				for ( var i = 0; i < len; i++) {
+
+					
+                 if(machineId==data[i].machinId){
+					 $("#machineId").append(
+
+	                           $("<option selected ></option>").attr(
+
+	                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+	                       );
+                 }else
+                	 {
+                	 $("#machineId").append(
+
+	                           $("<option ></option>").attr(
+
+	                               "value", data[i].machinId).text(data[i].machinNo+" "+data[i].machinName)
+
+	                       );
+                	 }
+
+				} 
+				
+				$("#machineId").trigger("chosen:updated");
+
+			});
+
+
+
+			$.getJSON('${getActivityByMachin}', {
+
+				machinId : machineId,
+
+				 
+
+				ajax : 'true'
+
+			}, function(data) {
+
+				var html = '<option value=""selected disabled="disabled">Choose Machine Activity</option>';
+
+			
+
+				var len = data.length;
+
+				$('#machinActivity')
+
+			    .find('option')
+
+			    .remove()
+
+			    .end()
+
+					
+
+			    	//alert(len);
+			    $("#machinActivity").append(
+
+                           $("<option ></option>").attr(
+
+                               "value", "").text("Select Machine Activity ")
+
+                       );
+
+				for ( var i = 0; i < len; i++) {
+
+					
+                     if(activityId==data[i].activityId){
+					 $("#machinActivity").append(
+
+	                           $("<option selected></option>").attr(
+
+	                               "value", data[i].activityId).text(data[i].activityName)
+
+	                       );
+                     }
+                     else
+                    	 {
+                    	 $("#machinActivity").append(
+
+  	                           $("<option ></option>").attr(
+
+  	                               "value", data[i].activityId).text(data[i].activityName)
+
+  	                       );
+                    	 }
+
+				} 
+				$("#machinActivity").trigger("chosen:updated");
+
+			});
+
+
+			$.getJSON('${getItemByActivity}', {
+
+				activityId : activityId,
+
+				 
+
+				ajax : 'true'
+
+			}, function(data) {
+
+				var html = '<option value=""selected disabled="disabled">Choose Machine Item</option>';
+
+			
+
+				var len = data.length;
+
+				$('#machinItem')
+
+			    .find('option')
+
+			    .remove()
+
+			    .end()
+
+					
+
+			    	//alert(len);
+			    $("#machinItem").append(
+
+                           $("<option ></option>").attr(
+
+                               "value", "").text("Select Item ")
+
+                       );
+
+				for ( var i = 0; i < len; i++) {
+
+					if(itemId==data[i].itemId){
+
+					 $("#machinItem").append(
+
+	                           $("<option selected></option>").attr(
+
+	                               "value", data[i].itemId).text(data[i].itemName)
+
+	                       );
+					}else
+						{
+						 $("#machinItem").append(
+
+		                           $("<option ></option>").attr(
+
+		                               "value", data[i].itemId).text(data[i].itemName)
+
+		                       );
+
+						}
+
+				} 
+				$("#machinItem").trigger("chosen:updated");
+
+			});
+
+			
+	 }
+	</script>
+	
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

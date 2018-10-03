@@ -58,6 +58,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <c:url var="searchGraphData" value="/searchGraphData" />
+<c:url var="updateGraphOwner" value="/updateGraphOwner" />
 
  <c:url var="importExcel2" value="/importExcel2"></c:url>
     <c:url var="getMachinByType" value="/getMachinByType"></c:url>
@@ -67,7 +68,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
     <c:url var="insertPMRecord" value="/insertPMRecord"></c:url> 
    <c:url var="searchDailyGraph" value="/searchDailyGraph"></c:url> 
-              <div id="main-content">
+              <div id="main-content" style="background-color: white;">
 		
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -85,19 +86,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				     <table>
 				     <tr>
 				     <td width="15%" style="background:#f9eb3f; "><b>MACHINE SHOP</b></td>
-				      <td width="65%"style="text-align: center;background:#f9eb3f;"><b>Machine Stoppage Incidences</b></td>
-				       <td width="20%" style="background:#f9eb3f;">Owner:<b>Pankaj Badgujar</b></td>
+				      <td width="55%"style="text-align: center;background:#f9eb3f;"><b>Machine Stoppage Incidences</b></td>
+				       <td width="30%" style="background:#f9eb3f;"><select name="userId" id="userId"  class="form-control" style="font-size:12px; max-width:250px !important;" onchange="ownerChange(this.value)">						
+                        <option value="">Select Owner</option>	<c:forEach items="${userRes}" var="userRes" varStatus="cnt">
+					    <c:choose>
+						    <c:when test="${userRes.userId==graphType.userId}">
+						      <option value="${userRes.userId}" selected>Owner: ${userRes.name}</option>
+						    </c:when>
+						    <c:otherwise>
+						   	 <option value="${userRes.userId}">Owner: ${userRes.name}</option>
+						    </c:otherwise>
+						</c:choose>
+                            
+                       </c:forEach>
+                       </select></td>
 				     </tr>
 				     </table>
 				     </div>
 				<div class="box-content">
 				<div id="chart" >
-				    <div id="chart_div" style="width:50%; height:360px; float:left;" >
+				    <div id="chart_div" style="width:48%; height:360px; float:left;" >
 				   <center>  <div id="loading1"><br><br><br><br><br><br><br>
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
 				    </div>
-					<div id="chart_div1" style="width:50%; height:360px; float:right;" >
+				      <img src="${pageContext.request.contextPath}/resources/home/images/up.png" width="35" height="42">
+					<div id="chart_div1" style="width:48%; height:360px; float:right;" >
 					<center> <div id="loading2"><br><br><br><br><br><br><br>
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
@@ -110,12 +124,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							     
 						</div> <button type="button" class="btn btn-info" id="graph" onclick="showDailyGraph()" name="graph" >Search</button> <button class="buttonload" id="button1">
   <i class="fa fa-spinner fa-spin"></i>Loading
-</button>  	<div id="chart_div2" style="width:100%; height:300px; float:center;" >
+</button>  	<div id="chart_div2" style="width:90%; height:300px; float:left;" >
 						
 						<center> <div id="loading3"><br><br><br><br><br><br><br>
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
 						</div>
+																    <img src="${pageContext.request.contextPath}/resources/home/images/up.png" width="35" height="42" style="float:right;">
 				
 	           
 	             
@@ -157,7 +172,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>	
 <!--COPY rights end here-->
 </div>
-</div>
+<!-- </div> -->
   <!--//content-inner-->
 			<!--/sidebar-menu-->
 				
@@ -632,10 +647,10 @@ function OnInput() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
 		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         [year-3+'',firstYear,firstYear+'',year1L3Target,false,year1L5Target],
-		         [year-2+'', secondYear,secondYear+'',year2L3Target,false,year2L5Target],
-		         [year-1+'',  thirdYear,thirdYear+'',year3L3Target,false,year3L5Target],
-		         [year+'', fourthYear,fourthYear+'',year4L3Target,false,year4L5Target],
+		         ['F-'+(year-3)+'',firstYear,firstYear+'',year1L3Target,false,year1L5Target],
+		         ['F-'+(year-2)+'', secondYear,secondYear+'',year2L3Target,false,year2L5Target],
+		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',year3L3Target,false,year3L5Target],
+		         ['F-'+year+'', fourthYear,fourthYear+'',year4L3Target,false,year4L5Target],
 		     
 		      ]);
 
@@ -1076,6 +1091,29 @@ function OnInput() {
      $('#loading').hide();
   });
 </script>
+<script type="text/javascript">
+function ownerChange(userId)
+{
+	
+	$.getJSON('${updateGraphOwner}',{
+		userId : userId,
+		graphType:1,
+		ajax : 'true',
+	},
+	function(data) {
+		
+		if(data.error==false)
+			{
+			alert("Owner Updated Successfully");
+			}
+		else
+			{
+			alert("Owner Updation Failed");
+			}
+	})
+}
+</script>
+
 </body>
 
 </html>

@@ -7,6 +7,7 @@ public class WhyWhyF18{
 	private int id;
 	
 	private int machineId;
+	private int machineType;
 	
 	private String machineNo;
 	
@@ -22,7 +23,7 @@ public class WhyWhyF18{
 
 	private String problemReported;
 
-	private int bdTimeLoss;
+	private String bdTimeLoss;
 
 	private String engineLoss;
 
@@ -83,6 +84,14 @@ public class WhyWhyF18{
 	private String prevOccDate;
 
 	
+	public int getMachineType() {
+		return machineType;
+	}
+
+	public void setMachineType(int machineType) {
+		this.machineType = machineType;
+	}
+
 	public int getRank() {
 		return rank;
 	}
@@ -219,11 +228,11 @@ public class WhyWhyF18{
 		this.problemReported = problemReported;
 	}
 
-	public int getBdTimeLoss() {
+	public String getBdTimeLoss() {
 		return bdTimeLoss;
 	}
 
-	public void setBdTimeLoss(int bdTimeLoss) {
+	public void setBdTimeLoss(String bdTimeLoss) {
 		this.bdTimeLoss = bdTimeLoss;
 	}
 

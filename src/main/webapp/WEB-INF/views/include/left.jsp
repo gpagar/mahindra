@@ -90,10 +90,13 @@ body {
 									<ul id="menu" >
 										<li><a href="home"><i class="fa fa-tachometer"></i> <span>Dashboard</span><div class="clearfix"></div></a></li>
 										
+										<li id="menu-academico" ><a href="${pageContext.request.contextPath}/showAddMachine"><i class="fa fa-cogs"></i><span>PM Masters</span><div class="clearfix"></div></a></li>
 										
 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmPlanList"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
-										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/addPredictiveMaintenance"><i class="fa fa-gear"></i><span>Predictive Maintenance </span><div class="clearfix"></div></a></li>
-									  <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showWhyWhyf18"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <br/><span>(WHY WHY Analysis) </span><div class="clearfix"></div></a></li>
+										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmSchedule"><i class="fa fa-cogs"></i><span>PM Schedule</span><div class="clearfix"></div></a></li>
+										 
+<%-- 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/addPredictiveMaintenance"><i class="fa fa-gear"></i><span>Predictive Maintenance </span><div class="clearfix"></div></a></li>
+ --%>									  <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showWhyWhyf18"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <br/><span>(WHY WHY Analysis) </span><div class="clearfix"></div></a></li>
 							
 							
 								
@@ -101,7 +104,7 @@ body {
  -->								
 								
 								
-								<li><a href="${pageContext.request.contextPath}/showBreakdownHistory"><i class="fa fa-history" aria-hidden="true"></i><span>Why-Why Analysis History </span><div class="clearfix"></div></a></li>
+								<li><a href="${pageContext.request.contextPath}/showBreakdownManual"><i class="fa fa-history" aria-hidden="true"></i><span>Machine History </span><div class="clearfix"></div></a></li>
 									 
 									
 <%-- 									<li><a href="${pageContext.request.contextPath}/showBreakdownHistory"><i class="fa fa-h-square" aria-hidden="true"></i><span>History Card</span><div class="clearfix"></div></a></li>
@@ -126,8 +129,8 @@ body {
 									 <li><a href="graph"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
 								
 								
-								 <li><a href="graph"><i class="fa fa-book"></i>  <span>Learning librabry</span><div class="clearfix"></div></a></li>
-									 <li><a href="logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
+								 <li><a href="${pageContext.request.contextPath}/graph"><i class="fa fa-book"></i>  <span>Learning librabry</span><div class="clearfix"></div></a></li>
+									 <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
 									 
 									
 									
@@ -179,15 +182,16 @@ function closeNav() {
 											toggle = !toggle;
 										});
 							</script>
-							
+							  
+							<!-- 
 <script src="resources/home/js/jquery.nicescroll.js"></script>
 <script src="resources/home/js/scripts.js"></script>
-<!-- Bootstrap Core JavaScript -->
+Bootstrap Core JavaScript
    <script src="resources/home/js/bootstrap.min.js"></script>
-   <!-- /Bootstrap Core JavaScript -->	   
-<!-- morris JavaScript -->	
+   /Bootstrap Core JavaScript	   
+morris JavaScript	
 <script src="resources/home/js/raphael-min.js"></script>
-<script src="resources/home/js/morris.js"></script>
+<script src="resources/home/js/morris.js"></script> -->
 <!-- <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE

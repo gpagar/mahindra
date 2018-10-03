@@ -11,9 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class VpsImageUpload {
 
 	
-	public static final String pm = "/home/ats-12/7April/";
+	//public static final String pm = "/usr/local/tomcat7/uploads/";
 	
-	
+	public static final String pm = "D:/EMaintainence/images/";
+
 	public void saveUploadedFiles(List<MultipartFile> files, int imageType, String imageName) throws IOException {
 
 		for (MultipartFile file : files) {

@@ -518,7 +518,7 @@ function populateTable2(form, ii, tStatus) {
 
 						<!--//w3-agileits-pane-->
 						<!-- script-for sticky-nav -->
-						<script>
+						<!-- <script>
 							$(document)
 									.ready(
 											function() {
@@ -545,7 +545,7 @@ function populateTable2(form, ii, tStatus) {
 																});
 
 											});
-						</script>
+						</script> -->
 						<!-- /script-for sticky-nav -->
 						<!--inner block start here-->
 						<div class="inner-block"></div>
@@ -570,7 +570,7 @@ function populateTable2(form, ii, tStatus) {
 
 			<div class="clearfix"></div>
 		</div>
-		<script>
+	<!-- 	<script>
 			var toggle = true;
 
 			$(".sidebar-icon").click(
@@ -594,7 +594,7 @@ function populateTable2(form, ii, tStatus) {
 
 						toggle = !toggle;
 					});
-		</script>
+		</script> -->
 		<!--js -->
 		<script
 			src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>

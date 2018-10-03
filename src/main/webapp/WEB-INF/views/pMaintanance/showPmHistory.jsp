@@ -26,6 +26,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 }
 
 </style> 
+
+
    <script>
   $( function() {
     $( ".dp2" ).datepicker({
@@ -37,6 +39,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   } );
   
   </script>
+  
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
 </head>
 <body onload="setMachineSelected(${machineType},${machineId})">
        <div class="page-container">
@@ -73,10 +79,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										enctype="multipart/form-data" method="get">
                    
 					<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine Type.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<label class="col-sm-3 col-lg-2 control-label">Machine Type.</label>
+									<div class="col-sm-6 col-lg-3 controls">
 							<select data-placeholder="Choose Machine Type" 
-								class="form-control chosen" tabindex="6" id="machineType"
+								 class="chosen-select" style="width:99% !important;"  tabindex="6" id="machineType"
 								name="machineType" required onchange="onMacTypeChange(this.value)">
 
 								<option value="" >Choose Machine Type</option>
@@ -96,24 +102,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                    </c:choose>
 							</select>
 						</div>
-						</div>
-								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+						<!-- </div>
+								<div class="form-group"> -->
+									<label class="col-sm-3 col-lg-2 control-label">Machine name & No.</label>
+									<div class="col-sm-6 col-lg-3 controls">
 								<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+								 class="chosen-select" style="width:99% !important;"  tabindex="6" id="machineId"
 								name="machineId" required>
 								<option value=""selected disabled="disabled">Choose Machine</option>
 
 							</select>
 						</div>
 									
-						</div>
+					<!-- 	</div>
 					
 					<div class="row" align="center">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
+						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2"> -->
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
-						</div>
+						<!-- </div> -->
 					</div>
 		</form>
 					<div class="agile-grids" >	
@@ -829,6 +835,17 @@ $("#table").rowspanizer({vertical_align: 'middle'});
   })();
 
 </script> --%>
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

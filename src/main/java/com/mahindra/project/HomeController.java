@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -96,7 +97,31 @@ public class HomeController {
 		 
 		return "redirect:/"+maping;
 	}
-	
+	@RequestMapping(value = "showDept/{dept}" , method = RequestMethod.GET)
+	public String showDept(@PathVariable("dept")int dept,HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView model=new ModelAndView();
+		String maping;
+		try
+		{
+			
+				 HttpSession session = request.getSession();
+				// UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
+
+				 session.setAttribute("deptId", dept);
+				 System.out.println(dept);
+				 maping="home1";
+		
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			model=new ModelAndView("home");
+			maping="/";
+		}
+		
+		 
+		return "redirect:/"+maping;
+	}
 	@RequestMapping(value = "/sessionTimeOut" , method = RequestMethod.GET)
 	public ModelAndView displayLoginAgain(HttpServletRequest request, HttpServletResponse response) {
 
@@ -132,7 +157,26 @@ public class HomeController {
 		}
 		return model;
 	}
-	
+	@RequestMapping(value = "home1", method = RequestMethod.GET)
+	public ModelAndView home1(HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView model=new ModelAndView("home1");
+		try
+		{
+			HttpSession session = request.getSession();
+			UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
+			
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			 model.addObject("userDetail", userDetail);
+			 model.addObject("deptId", deptId);
+			 System.out.println(deptId);
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
 	@RequestMapping(value = "primitiveMaintenance", method = RequestMethod.GET)
 	public ModelAndView primitiveMaintenance(HttpServletRequest request, HttpServletResponse response)
 	{

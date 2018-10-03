@@ -56,6 +56,8 @@ public class GetPMData {
 	int int1;
  
 	int int2;
+	
+	int int3;
  
 	String string1;
  
@@ -63,7 +65,14 @@ public class GetPMData {
  
 	String remark;
 	
-	
+	public int getInt3() {
+		return int3;
+	}
+
+	public void setInt3(int int3) {
+		this.int3 = int3;
+	}
+
 	public int getPaMaintId() {
 		return paMaintId;
 	}

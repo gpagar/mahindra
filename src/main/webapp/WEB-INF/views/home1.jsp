@@ -97,8 +97,81 @@ h6{
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#05abe0', endColorstr='#8200f4',GradientType=1 );
 }
 </style>
+<style>
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color:rgba(177, 197, 138, 0.9);
+    overflow-x: hidden;
+    transition: 0.3s;
+}
+.h1{
+
+}
+.overlay-content {
+    position: relative;
+    top: 15%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #150909;
+    display: flex;
+    transition: 0.3s;justify-content:left;    border: 1px solid #162f18;     background-color: #e6b975;
+    
+    
+    
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size:40px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+</style>
 </head>
 <body>
+<div id="myNav" class="overlay">
+   <!--/content-inner-->
+<div class="left-content"> <div id="main-content"><br></br><br></br><br></br>
+	   <div class="mother-grid-inner"> 
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+   <h1><a href="${pageContext.request.contextPath}/showWhyWhyGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;MINOR STOPPAGE INCIDENCES</a> </h1> 
+    <h1><a href="${pageContext.request.contextPath}/showArankBreakdownGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; A-RANK MACHINES BREAKDOWN INCIDENCES</a> </h1> 
+   <h1><a href="${pageContext.request.contextPath}/showAllBreakdownGraph"> <i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;ALL  MACHINES BREAKDOWN INCIDENCES</a> </h1> 
+   <h1> <a href="${pageContext.request.contextPath}/showBreakdownTimeGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;BREAKDOWN MONITORING TREND(Time Graph)</a> </h1> 
+   <h1><a href="${pageContext.request.contextPath}/showMtbfGraph"> <i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;MTBF GRAPH</a> </h1> 
+    <h1><a href="${pageContext.request.contextPath}/showMttrGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; MTTR GRAPH</a> </h1> 
+  <h1>  <a href="${pageContext.request.contextPath}/showEngineLossGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; ENGINE LOSS DUE TO MACHINE BREKDOWN</a> </h1> 
+  </div></div></div></div>
+</div>
    <div class="page-container sidebar-collapsed">
    <!--/content-inner-->
 <div class="left-content">
@@ -165,59 +238,19 @@ h6{
 						</div>
 					</div>
 					<div class="clearfix"></div>
-				</div> --><br>
+				</div> -->
 				<div class="wrapper">
   <h2><img src="${pageContext.request.contextPath}/resources/home/images/mahlogo.png" alt="" height="42" width="200"></h2>
   <h6 style="color: blue;">E-Maintainence</h6>
   <nav class="tabs">
- <!--    <div class="selector"></div>
-    <a href="#" class="active" onclick="enableDiv(1)"><i class="fas fa-"></i>Machine Shop</a>
+    <div class="selector"></div>
+   <!--  <a href="#" class="active" onclick="enableDiv(1)"><i class="fas fa-"></i>Machine Shop</a>
     <a href="#"onclick="enableDiv(2)"><i class="fas fa-"  ></i> &nbsp;m-Hawk &nbsp;</a>
     <a href="#"  onclick="enableDiv(3)"><i class="fas fa-" ></i>  &nbsp; &nbsp; NEF-mDI  &nbsp; &nbsp; &nbsp;</a>
     -->
 </div> 
   </nav>
-  <br>  <br>  <br>
-   <div class="row" >
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-					<a href="${pageContext.request.contextPath}/showDept/1">	<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Machine Shop</h3>
-							</div>
-							
-						</div></a>
-					</div>
-					<div class="col-md-3 four-grid">
-					 	<a href="${pageContext.request.contextPath}/showDept/2"><div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>m-Hawk</h3>
-						</div>
-							
-						</div> </a> 
-					</div>
-					<div class="col-md-3 four-grid">
-						<a href="${pageContext.request.contextPath}/showDept/3"> 	<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3> NEF-mDI </h3>
-						
-							</div>
-							
-						</div> </a>
-					</div>
-					
-					<div class="clearfix"></div>
-				</div> 
-  <%-- <div class="four-grids"id="dept1">
+  <div class="four-grids"id="dept1">
    <div class="row" >
   <div class="col-md-1"></div> 
 					<div class="col-md-3 four-grid">
@@ -273,12 +306,12 @@ h6{
 					</div>
 					<div class="col-md-3 four-grid">
 						<div class="four-agileinfo">
-							<div class="icon">
+						<a href="#" onclick="openNav()">	<div class="icon">
 								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
 							</div>
 							<div class="four-text">
 								<h3>DWM Graphs</h3>
-						</div>
+						</div></a>
 							
 						</div>
 					</div>
@@ -459,7 +492,7 @@ h6{
 					
 					<div class="clearfix"></div>
 				</div>
-				</div> --%>
+				</div>
 <!--//four-grids here-->
 <!--agileinfo-grap-->
  
@@ -494,8 +527,8 @@ COPY rights end here
   <!--//content-inner-->
 			<!--/sidebar-menu-->
 				
-<%--  <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
- --%>
+ <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
+
 
 
 
@@ -566,5 +599,15 @@ function enableDiv(status) {
 		    z.style.display = "block";
 	}
 }
+</script>
+<script>
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+}
+
 </script>
 </html>
