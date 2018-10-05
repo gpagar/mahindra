@@ -1,11 +1,18 @@
 package com.mahindra.project.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,9 +20,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mahindra.project.constant.Constant;
+import com.mahindra.project.constant.DateConvertor;
 import com.mahindra.project.model.TCalibration;
+import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.calibration.CalibrationDetails;
 import com.mahindra.project.model.calibration.EqCalDetails;
+import com.mahindra.project.model.calibration.TCalibaration;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 @Controller
@@ -34,6 +45,9 @@ public class CalibrationController {
 
 		return model;
 	}
+	
+	List<CalibrationDetails> eqCalDetailsRes = new ArrayList<CalibrationDetails>();
+	
 	@RequestMapping(value = "/showCalibration", method = RequestMethod.GET)
 	public ModelAndView showCalibration(HttpServletRequest request, HttpServletResponse response) {
 	
@@ -42,14 +56,69 @@ public class CalibrationController {
 		{
 			RestTemplate rest=new RestTemplate();
 			
-			List<CalibrationDetails> eqCalDetailsRes=rest.getForObject(Constant.url + "getCalibrationData", List.class);
+			HttpSession session = request.getSession(); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("deptId", (Integer) session.getAttribute("deptId"));
+			CalibrationDetails[] calibrationDetails=rest.postForObject(Constant.url + "getCalibrationData",map, CalibrationDetails[].class);
 	
+			 eqCalDetailsRes = new ArrayList<CalibrationDetails>(Arrays.asList(calibrationDetails));
+			
 			model.addObject("eqCalDetailList", eqCalDetailsRes);
+			
+			System.out.println("eqCalDetailsRes " + eqCalDetailsRes);
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			model.addObject("today", sf.format(date));
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		return model;
+	}
+	
+	@RequestMapping(value = "/submitCalibarationEqupment", method = RequestMethod.POST)
+	public String submitCalibarationEqupment(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+		int id=Integer.parseInt(request.getParameter("mEqupId"));
+		String doneDate =  request.getParameter("calibrationDoneDate") ;
+		
+		System.out.println(doneDate);
+		
+		HttpSession session = request.getSession();  
+		 int deptId = (Integer) session.getAttribute("deptId") ;
+		
+		CalibrationDetails calibrationDetails = new CalibrationDetails();
+		
+		for(int i=0 ; i<eqCalDetailsRes.size() ; i++) {
+			
+			if(id==eqCalDetailsRes.get(i).getId()) {
+				calibrationDetails = eqCalDetailsRes.get(i);
+				break;
+			}
+			
+		}
+		
+		TCalibaration save = new TCalibaration();
+		save.setmCalId(id);
+		save.setEqName(calibrationDetails.getEqName());
+		save.setSrNo(calibrationDetails.getSrNo());
+		save.setCardNo(calibrationDetails.getCardNo());
+		save.setMachineNo(calibrationDetails.getMachineNo());
+		save.setLine(calibrationDetails.getLine());
+		save.setLastCalDate(calibrationDetails.getLastCalDate());
+		save.setCalibrationDoneDate(DateConvertor.convertToDMY(doneDate));
+		save.setDeptId(deptId);
+		save.setFrequency(calibrationDetails.getFrequency());
+		
+		RestTemplate rest=new RestTemplate();
+		System.err.println("save " + save);
+		 TCalibaration res = rest.postForObject(Constant.url + "saveTCalibaratoin", save, TCalibaration.class); 
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showCalibration";
 	}
 	
 

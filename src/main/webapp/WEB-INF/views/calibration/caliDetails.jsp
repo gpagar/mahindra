@@ -124,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</div>
 					</div>
-		</form> --%>
+		</form> --%>${today}
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
@@ -149,6 +149,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</thead>
 						<tbody>
 				              <c:forEach items="${eqCalDetailList}" var="eqCalDetailList" varStatus="count">
+				              <form action="${pageContext.request.contextPath}/submitCalibarationEqupment"  class="form-horizontal"
+							 id="validation-form" 	 method="POST">
 				              <tr>
 				              <td>${count.index+1}</td>
 				              <td>${eqCalDetailList.eqName}</td>
@@ -158,11 +160,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${eqCalDetailList.line}</td>
 				              <td>${eqCalDetailList.frequency}</td>
 				              <td>${eqCalDetailList.lastCalDate}</td>
-				              <td>${eqCalDetailList.nextCalDate}</td>
-				              <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate"/></td>
-				              <td> <input type="button" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})"/>
-				              </td>
+				              <td>${eqCalDetailList.nextCalDate}<input type="hidden" name="mEqupId" id="mEqupId" value="${eqCalDetailList.id}"/></td> 
+				              
+				              <c:choose>
+				              	<c:when test="${eqCalDetailList.nextCalDate<today}">
+				              		 <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate"/></td>
+				              		 <td> <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})"/></td>
+				              	</c:when> 
+				              	<c:otherwise>
+				              	 <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate" disabled/></td>
+				              	 <td> <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})" disabled/></td>
+				              	</c:otherwise>
+				              </c:choose>
+				             
+				               
 				              </tr>
+				              </form>
                               </c:forEach>
 							</tbody>
 					  </table>
