@@ -1,6 +1,7 @@
 package com.mahindra.project.controller;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import com.mahindra.project.model.PmRequiredValue;
 import com.mahindra.project.model.tbm.PostTbm;
 import com.mahindra.project.model.tbm.TbmData;
 import com.mahindra.project.model.tbm.TbmMachine;
+import com.mahindra.project.model.tbm.UpdateTbm;
 
 @Controller
 @Scope("session")
@@ -52,8 +54,10 @@ public class TbmController implements Serializable{
 		{
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("fromYear","2019");
-			map.add("toYear","2019");
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+
+			map.add("fromYear",year);
+			map.add("toYear",year);
 			List<GetTbmHistory> tbmMachineList=rest.postForObject(Constant.url+"getTbmHistory",map,List.class);
 			model.addObject("tbmDataList", tbmMachineList);
 		}catch(Exception e)
@@ -77,17 +81,18 @@ public class TbmController implements Serializable{
 			map.add("toYear",toYear);
 			List<GetTbmHistory> tbmMachineList=rest.postForObject(Constant.url+"getTbmHistory",map,List.class);
 			model.addObject("tbmDataList", tbmMachineList);
-			
+			model.addObject("fromYear", fromYear);
+			model.addObject("toYear", toYear);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return model;
 	}
-	
-	@RequestMapping(value = "/searchTbmData", method = RequestMethod.POST)
+	int machineId = 0;
+	@RequestMapping(value = "/searchTbmData", method = RequestMethod.GET)
 	public ModelAndView searchTbmData(HttpServletRequest request, HttpServletResponse response) {
-		int machineId = 0;
+		
 		ModelAndView model = new ModelAndView("tbm/tbm");
 		try
 		{    try {
@@ -112,9 +117,8 @@ public class TbmController implements Serializable{
 		
 		return model;
 	}
-	@RequestMapping(value = "/insertTbmData", method = RequestMethod.GET)
-	public @ResponseBody PostTbm insertTbmData(HttpServletRequest request, HttpServletResponse response) {
-		
+	@RequestMapping(value = "/insertTbmData", method = RequestMethod.POST)
+	public  String insertTbmData(HttpServletRequest request, HttpServletResponse response) {
 		PostTbm postTbmRes=null;
 		try
 		{  
@@ -126,19 +130,19 @@ public class TbmController implements Serializable{
 			String lastDoneDate =request.getParameter("lastDoneDate");
 			String lastObservation = request.getParameter("lastObservation");
 			String lastObDate =request.getParameter("lastObDate");
-			String nextDoneDate =request.getParameter("nextDoneDate");
-			String nextObservation = request.getParameter("nextObservation");
+/*			String nextDoneDate =request.getParameter("nextDoneDate");
+*/			String nextObservation = request.getParameter("nextObservation");
 			String nextObDate =request.getParameter("nextObDate");
 			
 		   PostTbm postTbm=new PostTbm();
-		   postTbm.settTbmId(tTbmId);
+		  // postTbm.settTbmId(tTbmId);
 		   postTbm.setItemId(itemId);
 		   postTbm.setMachineId(machineId);
 		   postTbm.setLocationId(locationId);
 		   postTbm.setLastDoneDate(lastDoneDate);
 		   postTbm.setLastObservation(lastObservation);
 		   postTbm.setLastObDate(lastObDate);
-		   postTbm.setNextDoneDate(nextDoneDate);
+		   postTbm.setNextDoneDate(nextObDate);
 		   postTbm.setNextObDate(nextObDate);
 		   postTbm.setNextObservation(nextObservation);
 		   postTbm.setFrequency(frequency);
@@ -147,6 +151,34 @@ public class TbmController implements Serializable{
 			RestTemplate rest = new RestTemplate();
 
 			 postTbmRes=rest.postForObject(Constant.url+"insertTbm", postTbm, PostTbm.class); 
+			System.err.println("postTbmRes"+postTbmRes.toString());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/searchTbmData?machineId="+machineId;
+	}
+	
+	@RequestMapping(value = "/updateTbmData", method = RequestMethod.GET)
+	public @ResponseBody UpdateTbm updateTbmData(HttpServletRequest request, HttpServletResponse response) {
+		
+		UpdateTbm postTbmRes=null;
+		try
+		{  
+			int tTbmId = Integer.parseInt(request.getParameter("tTbmIdLast"));
+			String nextDoneDate =request.getParameter("nextDoneDate");
+			String nextObservation = request.getParameter("nextObservation");
+			String nextObDate =request.getParameter("nextObDate");
+			
+			UpdateTbm postTbm=new UpdateTbm();
+		    postTbm.settTbmId(tTbmId);
+		   postTbm.setNextDoneDate(nextDoneDate);
+		   postTbm.setNextObDate(nextObDate);
+		   postTbm.setNextObservation(nextObservation);
+		   postTbm.setDelStatus(0);
+			RestTemplate rest = new RestTemplate();
+
+			 postTbmRes=rest.postForObject(Constant.url+"updateTbm", postTbm, UpdateTbm.class); 
 			System.err.println("postTbmRes"+postTbmRes.toString());
 		}
 		catch (Exception e) {

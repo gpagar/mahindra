@@ -13,6 +13,11 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
   
 </head>
 <body>
@@ -105,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machineType"
+									class="chosen-select" tabindex="6" id="machineType" style="width:99% !important;"
 								name="machineType" required>
 
 								<option value=""selected disabled="disabled">Choose Machine Type</option>
@@ -125,7 +130,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Machine name</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine"
-								class="form-control chosen" tabindex="6" id="machineId"
+								class="chosen-select" tabindex="6" id="machineId" style="width:99% !important;"
 								name="machineId" onchange="onMachineChange(this.value)" required>
 
 								<option value=""selected disabled="disabled">Choose Machine</option>
@@ -142,7 +147,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select Rank</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Rank"
-								class="form-control chosen" tabindex="6" id="rank"
+									class="chosen-select" tabindex="6" id="rank" style="width:99% !important;"
 								name="rank" required>
 
 									<option value="0" selected  >Rank A</option>
@@ -158,7 +163,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select first Month</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Month"
-								class="form-control chosen" tabindex="6" id="fmonth"
+									class="chosen-select" tabindex="6" id="fmonth" style="width:99% !important;"
 								name="fmonth" required>
 								<option value=""selected  >Select first Month</option>
  							<c:forEach var = "i" begin = "1" end = "12">
@@ -177,8 +182,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Select first Week</label>
 									<div class="col-sm-6 col-lg-4 controls" >
-						<select data-placeholder="Choose Machine Week"
-								class="form-control chosen" tabindex="6" id="fweek"
+						<select data-placeholder="Choose Machine Week" style="width:99% !important;"
+									class="chosen-select" tabindex="6" id="fweek"
 								name="fweek" required>
 
 								<option value=""selected  >Select first Week</option>
@@ -200,7 +205,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select Second Month</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Month"
-								class="form-control chosen" tabindex="6" id="smonth"
+									class="chosen-select" tabindex="6" id="smonth" style="width:99% !important;"
 								name="smonth" required>
 								<option value=""selected  >Select Second Month</option>
  							<c:forEach var = "i" begin = "1" end = "12">
@@ -220,7 +225,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select Second Week</label>
 									<div class="col-sm-6 col-lg-4 controls" >
 						<select data-placeholder="Choose Machine Week"
-								class="form-control chosen" tabindex="6" id="sweek"
+									class="chosen-select" tabindex="6" id="sweek" style="width:99% !important;"
 								name="sweek" required>
 
 								<option value=""selected  >Select Second Week</option>
@@ -243,7 +248,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select third Month</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Month"
-								class="form-control chosen" tabindex="6" id="tmonth"
+									class="chosen-select" tabindex="6" id="tmonth" style="width:99% !important;"
 								name="tmonth" required>
 								<option value=""selected  >Select third Month</option>
  							<c:forEach var = "i" begin = "1" end = "12">
@@ -262,11 +267,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Select third Week</label>
 									<div class="col-sm-6 col-lg-4 controls" >
-						<select data-placeholder="Choose Machine Week"
-								class="form-control chosen" tabindex="6" id="tweek"
+						<select data-placeholder="Choose Machine Week" style="width:99% !important;"
+									class="chosen-select" tabindex="6" id="tweek"
 								name="tweek" required>
 
-								<option value=""selected  >Select third Week</option>
+								<option value="" selected  >Select third Week</option>
  							<c:forEach var = "i" begin = "1" end = "4">
        
       
@@ -672,7 +677,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		document.getElementById("sweek").value="";
 		document.getElementById("tmonth").value="";
 		document.getElementById("tweek").value="";
-		document.getElementById("maintId").value="";
+		document.getElementById("maintId").value=0;
 		$.getJSON('${getScheduleById}', {
 			machineId : machineId,
 			ajax : 'true'
@@ -690,6 +695,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		
 	}
 	</script>
+	
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	<%-- <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
+		type="text/javascript"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

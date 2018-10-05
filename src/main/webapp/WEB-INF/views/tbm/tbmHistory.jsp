@@ -40,7 +40,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </head>
 <body>
- 
+  <div class="page-container">
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -64,22 +64,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="box-content">
 							<form action="${pageContext.request.contextPath}/searchTbmHistory"  class="form-horizontal"
 							 id="validation-form" 	 method="POST">
-           	<input type="hidden" name="yearselected" id="yearselected" value="2019"/>
-          <input type="hidden" name="yearselected1" id="yearselected1" value="2019"/>
+           	<input type="hidden" name="yearselected" id="yearselected" value="${fromYear}"/>
+          <input type="hidden" name="yearselected1" id="yearselected1" value="${toYear}"/>
                    
 				
 					    <div class="form-group">
 								<label class="col-sm-3 col-lg-2 control-label">From Year</label>
 									 
 							<div class="col-sm-6 col-lg-2 controls">
-							<select name="yearpicker" id="yearpicker"	class="form-control"></select>
+							<select name="yearpicker" id="yearpicker" 	class="form-control"></select>
 										
 						</div>
 					
 								<label class="col-sm-3 col-lg-2 control-label">To Year</label>
 									 
 							<div class="col-sm-6 col-lg-2 controls">
-							<select name="yearpicker1" id="yearpicker1"	class="form-control"></select>
+							<select name="yearpicker1" id="yearpicker1"	 class="form-control"></select>
 										
 						</div>
 						</div>
@@ -293,7 +293,7 @@ $(document).ready(function() {
 		year=(new Date().getFullYear())+1;
 	}
 	
-for (i = (year); i > 1900; i--)
+for (i = (year); i > 2010; i--)
 { 
 	if(i==yearsel)
 		{
@@ -314,7 +314,7 @@ $(document).ready(function() {
 		year=(new Date().getFullYear())+1;
 	}
 	
-for (i = (year); i > 1900; i--)
+for (i = (year); i > 2010; i--)
 { 
 	if(i==yearsel)
 		{

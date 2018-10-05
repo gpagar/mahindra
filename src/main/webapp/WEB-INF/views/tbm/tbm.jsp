@@ -61,6 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </head>
 <body>
+ <div class="page-container">
  <div id="overlay" >  <div id="text"> Saving TBM,Please Wait...
  <%-- <img id="loading-image1" src="${pageContext.request.contextPath}/resources/images/loader1.gif" alt="Loading..." /> --%>
 </div></div>  
@@ -68,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
     <c:url var="insertTbm" value="/insertTbmData"></c:url>
-
+  <c:url var="updateLastOb" value="/updateTbmData"></c:url>
               <div id="main-content">
 			<!-- BEGIN Page Title -->
 			
@@ -86,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 						<div class="box-content">
 							<form action="${pageContext.request.contextPath}/searchTbmData"  class="form-horizontal"
-							 id="validation-form" 	 method="POST">
+							 id="validation-form" 	 method="GET">
                    
 				
 					<div class="form-group">
@@ -142,6 +143,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Next due</th>
 							<th>Last Ob Date</th>
 							<th>Last Observation</th>
+							<th>Edit Last Ob</th>
 							<th>Ob Date</th>
 							<th>Observation</th>
 							<th>Add Tbm</th>
@@ -150,14 +152,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<tbody>
 				              <c:forEach items="${tbmDataList}" var="tbmDataList" varStatus="count">
 				               <tr>
-				                <input type="hidden" name="tTbmId${count.index}" id="tTbmId${count.index}" value="${tbmDataList.tTbmId}"/>
-				               <input type="hidden" name="machineId${count.index}" id="machineId${count.index}" value="${tbmDataList.machineId}"/>
-				               <input type="hidden" name="itemId${count.index}" id="itemId${count.index}" value="${tbmDataList.itemId}"/>
-				               <input type="hidden" name="locationId${count.index}" id="locationId${count.index}" value="${tbmDataList.locationId}"/>
-				               <input type="hidden" name="frequency${count.index}" id="frequency${count.index}" value="${tbmDataList.frequency}"/>
-				               <input type="hidden" name="lastDoneDate${count.index}" id="lastDoneDate${count.index}" value="${tbmDataList.lastDate}"/>
-				               <input type="hidden" name="nextDoneDate${count.index}" id="nextDoneDate${count.index}" value="${tbmDataList.nextDate}"/>
-				              
+				               <form action="${pageContext.request.contextPath}/insertTbmData"  class="form-horizontal"
+							 id="validation-form1" 	 method="POST">
+				                <input type="hidden" name="tTbmId" id="tTbmId${count.index}" value="${tbmDataList.tTbmId}"/>
+				               <input type="hidden" name="machineId" id="machineId${count.index}" value="${tbmDataList.machineId}"/>
+				               <input type="hidden" name="itemId" id="itemId${count.index}" value="${tbmDataList.itemId}"/>
+				               <input type="hidden" name="locationId" id="locationId${count.index}" value="${tbmDataList.locationId}"/>
+				               <input type="hidden" name="frequency" id="frequency${count.index}" value="${tbmDataList.frequency}"/>
+				               <input type="hidden" name="lastDoneDate" id="lastDoneDate${count.index}" value="${tbmDataList.lastDate}"/>
+<%-- 				               <input type="hidden" name="nextDoneDate" id="nextDoneDate" value="${tbmDataList.nextDate}"/>
+ --%>				              
 				              <fmt:parseDate value="${tbmDataList.nextDate}" pattern="yyyy-MM-dd" var="myDate"/>
                               <fmt:formatDate value="${myDate}" var="nextD" pattern="yyyy-MM"/>
                                   <c:set var = "now" value = "<%= new java.util.Date()%>"/>
@@ -176,18 +180,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                <c:set var="lastDate" value="${tbmDataList.lastDate}"/>
                               </c:when>
                                <c:when test="${tbmDataList.nextDoneDate ne '0'}">
-                               <c:set var="lastDate" value="${tbmDataList.nextObDate}"/>
+                               <c:set var="lastDate" value="${tbmDataList.nextDoneDate}"/>
                               </c:when>
                               </c:choose>
-                                <td><p id="date1${count.index}"><input type="date" name="lastObDate${count.index}" id="lastObDate${count.index}" value="${lastDate}" readonly/><%-- ${tbmDataList.lastDate} --%></p></td>
-                                <td><p id="ob1${count.index}"><textarea name="lastObservation${count.index}" id="lastObservation${count.index}" readonly>${tbmDataList.nextObservation}   </textarea></p></td>
+                                <td><p id="date1${count.index}"><input type="date" name="lastObDate"  id="lastObDate${count.index}" style="background-color: lightgrey;" value="${lastDate}" readonly/><%-- ${tbmDataList.lastDate} --%></p></td>
+                                <td><p id="ob1${count.index}"><textarea name="lastObservation" id="lastObservation${count.index}"  style="background: lightgrey;" readonly>${tbmDataList.nextObservation}</textarea></p>
+                                
+                                </td>
+                                <td> <c:choose>
+                              <c:when test="${tbmDataList.nextDoneDate ne '0' }"><a>   <span class="	glyphicon glyphicon-pencil fa-2x" id="edit${count.index}" onclick="editQty(${count.index});" > </span> </a><a>   <span class="glyphicon glyphicon-ok fa-2x" id="save${count.index}" onclick="saveQty(${count.index});"  style="display: none;"> </span> </a>
+                              </c:when><c:otherwise>NA</c:otherwise></c:choose>
+                              </td>
                                 <td><p id="date2${count.index}">
                                 <c:choose>
                                 <c:when test="${currD ge nextD}">
-                         <input type="date" name="nextObDate${count.index}" id="nextObDate${count.index}" value="" />       
+                         <input type="date" name="nextObDate" id="nextObDate${count.index}" value="" />       
                                 </c:when>
                               <c:otherwise>
-                         <input type="date" name="nextObDate${count.index}" id="nextObDate${count.index}" value="" disabled/>       
+                         <input type="date" name="nextObDate" id="nextObDate${count.index}" value="" disabled/>       
                               
                               </c:otherwise>
                                 </c:choose>
@@ -195,10 +205,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td><p id="ob2${count.index}">
                                   <c:choose>
                                 <c:when test="${currD ge nextD}">
-                                <textarea name="nextObservation${count.index}" id="nextObservation${count.index}" ><%-- ${tbmDataList.nextDoneDate} --%></textarea>
+                                <textarea name="nextObservation" id="nextObservation${count.index}" ><%-- ${tbmDataList.nextDoneDate} --%></textarea>
                                 </c:when>
                               <c:otherwise>
-                                <textarea name="nextObservation${count.index}" id="nextObservation${count.index}" disabled><%-- ${tbmDataList.nextDoneDate} --%></textarea>
+                                <textarea name="nextObservation" id="nextObservation${count.index}" disabled><%-- ${tbmDataList.nextDoneDate} --%></textarea>
                               
                               </c:otherwise>
                                 </c:choose>
@@ -206,14 +216,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td>
                                   <c:choose>
                                 <c:when test="${currD ge nextD}">
-                                <input type="button" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveTbm(${count.index})" />
+                                <input type="submit" name="submit" id="submit${count.index}" class="btn btn-primary" value="Submit" />
                                </c:when>
                               <c:otherwise>
-                                <input type="button" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveTbm(${count.index})" disabled/>
+                                <input type="submit" name="submit" id="submit${count.index}" class="btn btn-primary" value="Submit" disabled/>
                               
                               </c:otherwise>
                                 </c:choose>
                                 </td>
+                                </form>
                               </tr>
                               </c:forEach>
 							</tbody>
@@ -290,7 +301,7 @@ function OnInput() {
 
 	
 <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/home/js/jquery.rowspanizer.min.js"></script>
 <script>
 $('#action').on('click', function() {
   $("#table").rowspanizer({vertical_align: 'middle'});
@@ -309,7 +320,7 @@ $("#table").rowspanizer({vertical_align: 'middle'});
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script> 
+</script>  --%>
 <script type="text/javascript">
 function saveTbm(key)
 { on();
@@ -322,8 +333,8 @@ function saveTbm(key)
 	var  lastObservation = $("#lastObservation"+key).val();
 	var  lastObDate = $("#lastObDate"+key).val();
 
-	var  nextDoneDate = $("#nextDoneDate"+key).val();
-	var  nextObservation = $("#nextObservation"+key).val();
+/* 	var  nextDoneDate = $("#nextDoneDate"+key).val();
+ */	var  nextObservation = $("#nextObservation"+key).val();
 	var  nextObDate = $("#nextObDate"+key).val();
 
 
@@ -336,7 +347,7 @@ function saveTbm(key)
 		lastDoneDate:lastDoneDate,
 		lastObservation:lastObservation,
 		lastObDate:lastObDate,
-		nextDoneDate:nextDoneDate,
+		/* nextDoneDate:nextDoneDate, */
 		nextObservation:nextObservation,
 		nextObDate:nextObDate,
 		
@@ -355,6 +366,43 @@ function saveTbm(key)
 	
 }
 </script>
+<script type="text/javascript">
+		function saveQty(key)
+		{
+			var  lastObservation = $("#lastObservation"+key).val();
+			var  lastObDate = $("#lastObDate"+key).val();
+			var  tTbmId=$("#tTbmId"+key).val();
+			 document.getElementById("lastObservation"+key).style.backgroundColor = "lightgrey";
+			    document.getElementById("lastObDate"+key).style.backgroundColor = "lightgrey";
+			document.getElementById('lastObservation'+key).readOnly = true;
+			document.getElementById('lastObDate'+key).readOnly = true;
+		    document.getElementById('edit'+key).style.display = "block";
+			document.getElementById('save'+key).style.display = "none";
+				$.getJSON('${updateLastOb}',
+						{
+					
+				            	tTbmIdLast : tTbmId,
+					            nextObservation : lastObservation,
+					            nextObDate:lastObDate,
+					            nextDoneDate:lastObDate,
+							    ajax : 'true'
+							
+						});
+			
+		}
+		</script>
+<script type="text/javascript">
+		function editQty(key)
+		{
+			   document.getElementById('save'+key).style.display = "block";
+			    document.getElementById('edit'+key).style.display = "none";
+				    document.getElementById('lastObservation'+key).removeAttribute('readonly');
+				    document.getElementById('lastObDate'+key).removeAttribute('readonly');
+				    document.getElementById("lastObservation"+key).style.backgroundColor = "white";
+				    document.getElementById("lastObDate"+key).style.backgroundColor = "white";
+
+		}
+		</script>
 <script>
 function on() {
     document.getElementById("overlay").style.display = "block";
