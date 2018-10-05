@@ -340,7 +340,7 @@ overflow:auto;
 </textarea></td>
 							<td><input type="file" id="myFile3${cnt1}" name="myFile3" value="${paMaintainence.date3Photo}">
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
-							</c:when></c:choose>
+				 			</c:when></c:choose>
 							</td>
 							</c:when>
 							<c:when test="${status==2}">
