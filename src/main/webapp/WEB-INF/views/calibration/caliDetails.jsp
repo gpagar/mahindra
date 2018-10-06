@@ -124,7 +124,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</div>
 					</div>
-		</form> --%>${today}
+		</form> --%>
+		<div class="row" align="right">
+						 
+							 
+								<a href="${pageContext.request.contextPath}/historyOfCalibreationEqumt">	<button type="button" class="btn btn-success" >Calibration History</button> </a> 
+						<a href="${pageContext.request.contextPath}/getlastRecordOfCalibreationEqumt">	<button type="button" class="btn btn-success" >Last Record List</button> </a> 
+						
+							
+						</div><br>
+					 
+					  
+					<br>
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
@@ -144,13 +155,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Last Calibration Done</th>
 							<th>Next_Due Date</th>
 							<th>Calibration Date</th>
+							<th class="col-md-3">Upload Pdf</th>
 							<th>Add Calibration</th>
 						  </tr>
 						</thead>
 						<tbody>
 				              <c:forEach items="${eqCalDetailList}" var="eqCalDetailList" varStatus="count">
 				              <form action="${pageContext.request.contextPath}/submitCalibarationEqupment"  class="form-horizontal"
-							 id="validation-form" 	 method="POST">
+							 id="validation-form" enctype="multipart/form-data"	 method="POST">
 				              <tr>
 				              <td>${count.index+1}</td>
 				              <td>${eqCalDetailList.eqName}</td>
@@ -161,14 +173,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${eqCalDetailList.frequency}</td>
 				              <td>${eqCalDetailList.lastCalDate}</td>
 				              <td>${eqCalDetailList.nextCalDate}<input type="hidden" name="mEqupId" id="mEqupId" value="${eqCalDetailList.id}"/></td> 
-				              
+				             <%--  <td>${eqCalDetailList.nextCalDate}  ${today}</td> --%>
 				              <c:choose>
-				              	<c:when test="${eqCalDetailList.nextCalDate<today}">
-				              		 <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate"/></td>
-				              		 <td> <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})"/></td>
+				              	<c:when test="${eqCalDetailList.inta==1}">
+				              		 <td> <input type="date" name="calibrationDoneDate" id="calibrationDoneDate" required/></td>
+				              		 <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"  class="form-control"   required /></td>
+				              		 <td > <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})"/></td>
 				              	</c:when> 
 				              	<c:otherwise>
 				              	 <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate" disabled/></td>
+				              	  <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"  class="form-control"   disabled /></td>
 				              	 <td> <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})" disabled/></td>
 				              	</c:otherwise>
 				              </c:choose>

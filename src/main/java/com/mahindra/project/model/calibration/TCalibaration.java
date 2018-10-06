@@ -20,6 +20,9 @@ public class TCalibaration {
 	int deptId; 
 	int int1; 
 	int int2;
+	String fileName;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -113,12 +116,21 @@ public class TCalibaration {
 	public void setFrequency(float frequency) {
 		this.frequency = frequency;
 	}
+	
+	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	@Override
 	public String toString() {
 		return "TCalibaration [id=" + id + ", eqName=" + eqName + ", srNo=" + srNo + ", cardNo=" + cardNo
 				+ ", machineNo=" + machineNo + ", line=" + line + ", frequency=" + frequency + ", lastCalDate="
 				+ lastCalDate + ", calibrationDoneDate=" + calibrationDoneDate + ", status=" + status + ", delStatus="
-				+ delStatus + ", mCalId=" + mCalId + ", deptId=" + deptId + ", int1=" + int1 + ", int2=" + int2 + "]";
+				+ delStatus + ", mCalId=" + mCalId + ", deptId=" + deptId + ", int1=" + int1 + ", int2=" + int2
+				+ ", fileName=" + fileName + "]";
 	}
 	
 	

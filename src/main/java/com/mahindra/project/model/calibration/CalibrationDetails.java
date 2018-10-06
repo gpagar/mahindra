@@ -23,6 +23,8 @@ public class CalibrationDetails implements Serializable{
 	private String nextCalDate;
 	
 	private int delStatus;
+	
+	private int inta;
 
 	public int getId() {
 		return id;
@@ -104,11 +106,19 @@ public class CalibrationDetails implements Serializable{
 		this.delStatus = delStatus;
 	}
 
+	public int getInta() {
+		return inta;
+	}
+
+	public void setInta(int inta) {
+		this.inta = inta;
+	}
+
 	@Override
 	public String toString() {
 		return "CalibrationDetails [id=" + id + ", eqName=" + eqName + ", srNo=" + srNo + ", cardNo=" + cardNo
 				+ ", machineNo=" + machineNo + ", line=" + line + ", frequency=" + frequency + ", lastCalDate="
-				+ lastCalDate + ", nextCalDate=" + nextCalDate + ", delStatus=" + delStatus + "]";
+				+ lastCalDate + ", nextCalDate=" + nextCalDate + ", delStatus=" + delStatus + ", inta=" + inta + "]";
 	}
 	
 	

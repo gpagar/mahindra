@@ -13,7 +13,7 @@ public class VpsImageUpload {
 	
 	//public static final String pm = "/usr/local/tomcat7/uploads/";
 	
-	public static final String pm = "D:/EMaintainence/images/";
+	public static final String pm = "E:/EMaintainence/pdf/";
 
 	public void saveUploadedFiles(List<MultipartFile> files, int imageType, String imageName) throws IOException {
 

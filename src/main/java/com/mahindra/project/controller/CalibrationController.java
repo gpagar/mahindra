@@ -1,5 +1,6 @@
 package com.mahindra.project.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,17 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mahindra.project.constant.Constant;
 import com.mahindra.project.constant.DateConvertor;
+import com.mahindra.project.constant.VpsImageUpload;
+import com.mahindra.project.model.Info;
 import com.mahindra.project.model.TCalibration;
 import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.calibration.CalibrationDetails;
@@ -30,6 +36,7 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 @Controller
+@Scope("session")
 public class CalibrationController {
 
 	@RequestMapping(value = "/showEqCal", method = RequestMethod.GET)
@@ -62,13 +69,33 @@ public class CalibrationController {
 			CalibrationDetails[] calibrationDetails=rest.postForObject(Constant.url + "getCalibrationData",map, CalibrationDetails[].class);
 	
 			 eqCalDetailsRes = new ArrayList<CalibrationDetails>(Arrays.asList(calibrationDetails));
-			
-			model.addObject("eqCalDetailList", eqCalDetailsRes);
-			
-			System.out.println("eqCalDetailsRes " + eqCalDetailsRes);
+			 
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			model.addObject("today", sf.format(date));
+			 
+			for(int i = 0 ; i< eqCalDetailsRes.size() ; i++) {
+				 
+				Date date1 = sf.parse(sf.format(date));
+				Date date2 = sf.parse(eqCalDetailsRes.get(i).getNextCalDate());
+				 
+				 
+				/*if (date1.compareTo(date2) == 0)
+			    {
+			       
+			        eqCalDetailsRes.get(i).setInta(1);
+			    }*/
+  
+			    //how to check if date1 is greater than date2 in java
+			    if (date1.compareTo(date2) >= 0)
+			    {
+			         
+			        eqCalDetailsRes.get(i).setInta(1);
+			    }
+				
+			}
+			
+			model.addObject("eqCalDetailList", eqCalDetailsRes);
 			
 		}catch(Exception e)
 		{
@@ -78,7 +105,7 @@ public class CalibrationController {
 	}
 	
 	@RequestMapping(value = "/submitCalibarationEqupment", method = RequestMethod.POST)
-	public String submitCalibarationEqupment(HttpServletRequest request, HttpServletResponse response) {
+	public String submitCalibarationEqupment(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "caliFile", required = false)List<MultipartFile> caliFile) {
 		
 		try {
 		int id=Integer.parseInt(request.getParameter("mEqupId"));
@@ -100,6 +127,22 @@ public class CalibrationController {
 			
 		}
 		
+		VpsImageUpload vpsImageUpload=new VpsImageUpload();
+		
+		String fileNme=""; 
+		
+		if(caliFile.get(0).getOriginalFilename()!="")
+			fileNme=caliFile.get(0).getOriginalFilename();
+		 
+
+		try {
+			vpsImageUpload.saveUploadedFiles(caliFile, 1,fileNme); 
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		TCalibaration save = new TCalibaration();
 		save.setmCalId(id);
 		save.setEqName(calibrationDetails.getEqName());
@@ -111,6 +154,7 @@ public class CalibrationController {
 		save.setCalibrationDoneDate(DateConvertor.convertToDMY(doneDate));
 		save.setDeptId(deptId);
 		save.setFrequency(calibrationDetails.getFrequency());
+		save.setFileName(fileNme);
 		
 		RestTemplate rest=new RestTemplate();
 		System.err.println("save " + save);
@@ -119,6 +163,144 @@ public class CalibrationController {
 			e.printStackTrace();
 		}
 		return "redirect:/showCalibration";
+	}
+	
+	List<TCalibaration> lastRecordList = new ArrayList<TCalibaration>();
+	
+	@RequestMapping(value = "/getlastRecordOfCalibreationEqumt", method = RequestMethod.GET)
+	public ModelAndView getlastRecordOfCalibreationEqumt(HttpServletRequest request, HttpServletResponse response) {
+	
+		ModelAndView model = new ModelAndView("calibration/lastRecordListOfEqump");
+		try
+		{
+			RestTemplate rest=new RestTemplate();
+			
+			HttpSession session = request.getSession(); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("deptId", (Integer) session.getAttribute("deptId"));
+			TCalibaration[] tCalibaration=rest.postForObject(Constant.url + "getLastRecordOfEquepmentFroEdit",map, TCalibaration[].class);
+	
+			  lastRecordList = new ArrayList<TCalibaration>(Arrays.asList(tCalibaration));
+		  
+			model.addObject("equmpList", lastRecordList);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitEditCalibarationEqupment", method = RequestMethod.POST)
+	public String submitEditCalibarationEqupment(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "caliFile", required = false)List<MultipartFile> caliFile) {
+		
+		try {
+		int id=Integer.parseInt(request.getParameter("tEqupId"));
+		String doneDate =  request.getParameter("calibrationDoneDate") ;
+		
+		System.out.println(doneDate);
+		
+		HttpSession session = request.getSession();  
+		 int deptId = (Integer) session.getAttribute("deptId") ;
+		
+		 TCalibaration editTCalibaration = new TCalibaration();
+		
+		for(int i=0 ; i<lastRecordList.size() ; i++) {
+			
+			if(id==lastRecordList.get(i).getId()) {
+				editTCalibaration = lastRecordList.get(i);
+				break;
+			}
+			
+		}
+		
+		VpsImageUpload vpsImageUpload=new VpsImageUpload();
+		
+		String fileNme=""; 
+		
+		if(caliFile.get(0).getOriginalFilename()!="") {
+			fileNme=caliFile.get(0).getOriginalFilename();
+			try {
+				vpsImageUpload.saveUploadedFiles(caliFile, 1,fileNme); 
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			editTCalibaration.setFileName(fileNme);
+		}
+ 
+		if(doneDate.equalsIgnoreCase("") || doneDate.equalsIgnoreCase(null)) {
+			
+		}
+		else {
+			editTCalibaration.setCalibrationDoneDate(DateConvertor.convertToDMY(doneDate));
+		}
+		
+		RestTemplate rest=new RestTemplate();
+		System.err.println("save " + editTCalibaration);
+		 TCalibaration res = rest.postForObject(Constant.url + "saveTCalibaratoin", editTCalibaration, TCalibaration.class); 
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/getlastRecordOfCalibreationEqumt";
+	}
+	
+	@RequestMapping(value = "/deleteCalibarationEqupmentRecord/{id}", method = RequestMethod.GET)
+	public String deleteCalibarationEqupmentRecord(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) {
+	
+		 
+		try
+		{
+			RestTemplate rest=new RestTemplate();
+			 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("id", id);
+			
+			Info info=rest.postForObject(Constant.url + "deleteCalibarationRecord",map, Info.class);
+	 
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return "redirect:/getlastRecordOfCalibreationEqumt";
+	}
+	
+	@RequestMapping(value = "/historyOfCalibreationEqumt", method = RequestMethod.GET)
+	public ModelAndView historyOfCalibreationEqumt(HttpServletRequest request, HttpServletResponse response) {
+	
+		ModelAndView model = new ModelAndView("calibration/historyOfCalibreationEqumt");
+		try
+		{
+			RestTemplate rest=new RestTemplate();
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+			}
+			else {
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				
+				HttpSession session = request.getSession(); 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+				map.add("deptId", (Integer) session.getAttribute("deptId"));
+				map.add("fromDate", fromDate);
+				map.add("toDate", toDate);
+				TCalibaration[] tCalibaration=rest.postForObject(Constant.url + "getHistoryOfCablibaration",map, TCalibaration[].class);
+		
+				 List<TCalibaration> equmpList = new ArrayList<TCalibaration>(Arrays.asList(tCalibaration)); 
+				model.addObject("equmpList", equmpList);
+				
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+			}
+			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
 	}
 	
 
