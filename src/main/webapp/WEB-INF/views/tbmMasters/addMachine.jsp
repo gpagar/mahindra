@@ -85,11 +85,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
-						<%-- <div class="col-sm-3 col-lg-3 controls">
-						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Frequency
+						  <div class="col-sm-3 col-lg-3 controls">
+						<a href="${pageContext.request.contextPath}/showAllTbmMachine">View All TBM Machine
 						
 						</a>
-						</div> --%>
+						</div>  
 						</div>
 						<br/>	<br/>	<br/>
 
@@ -106,7 +106,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine</label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name=machine id="machine"  class="form-control "placeholder=machine   data-rule-required="true" required />
+										<input type="text" name=machine id="machine" value="${tbmMachineDetails.machineName}"  class="form-control "placeholder=machine   data-rule-required="true" required />
 
 						</div>
 						</div>
@@ -114,12 +114,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Machine No.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-																<input type="text" name=machineNo id="machineNo"  class="form-control "placeholder="machineNo"   data-rule-required="true" required />
+																<input type="text" name=machineNo id="machineNo"  class="form-control "placeholder="machineNo" value="${tbmMachineDetails.machineNo}"  data-rule-required="true" required />
 
 						</div>
 						</div>	 
 								 
-									
+									<input type="hidden" name="machineId" value="${tbmMachineDetails.machineId}">
 				 
 						 
 

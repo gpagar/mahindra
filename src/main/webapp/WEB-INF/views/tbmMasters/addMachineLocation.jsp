@@ -108,10 +108,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								name="machine" required>
 
 								<option value=""selected disabled="disabled">Choose Machine </option>
-
+								<c:set var="${select}" value=""/>
 								 <c:forEach items="${tbmMachineDetailsList}" var="tbmMachineDetailsList"
 									varStatus="count">
-									<option value="${tbmMachineDetailsList.machineId}"><c:out value="${tbmMachineDetailsList.machineName}"/></option>
+									<c:set var="${select}" value=""/>
+									<c:choose>
+									<c:when test="${tbmMachineDetailsList.machineId==tbmMachineLocation.machineId}">
+									<c:set var="${select}" value="selected"/>
+									</c:when>
+									</c:choose>
+									<option <c:out value="${select}"/> value="${tbmMachineDetailsList.machineId}"><c:out value="${tbmMachineDetailsList.machineName}"/></option>
 								</c:forEach>
 									 
 
@@ -126,7 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Enter Location  </label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name=location id="location"  class="form-control "placeholder=location   data-rule-required="true" required />
+										<input type="text" name=location id="location" value="${tbmMachineLocation.location}" class="form-control "placeholder=location   data-rule-required="true" required />
 
 						</div>
 						</div>
@@ -139,7 +145,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							 
 							
 							
-								 
+								 <input type="hidden" name="locationId" value="${tbmMachineLocation.locationId}">
 						
 					 
 						

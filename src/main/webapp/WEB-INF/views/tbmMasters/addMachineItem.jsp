@@ -105,11 +105,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 								<option value=""selected disabled="disabled">Choose Machine </option>
 
-								 <option value=""selected disabled="disabled">Choose Machine </option>
+								 <c:set var="${select}" value=""/>
 
 								 <c:forEach items="${tbmMachineDetailsList}" var="tbmMachineDetailsList"
 									varStatus="count">
-									<option value="${tbmMachineDetailsList.machineId}"><c:out value="${tbmMachineDetailsList.machineName}"/></option>
+									 <c:set var="${select}" value=""/>
+									 <c:choose>
+									 <c:when test="${tbmMachineDetailsList.machineId==tbmMachineItem.machineId}">
+									 <c:set var="${select}" value="selected"/>
+									 </c:when>
+									 </c:choose>
+									
+									
+									<option <c:out value="${select}"/> value="${tbmMachineDetailsList.machineId}"> ${tbmMachineDetailsList.machineName}</option>
 								</c:forEach>
 
 
@@ -126,7 +134,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								class="form-control chosen" tabindex="6" id="location"
 								name="location" required>
 
-								 
+<option disabled="disabled">Choose Location </option>
+	 <c:forEach items="${tbmMachineLocationList}" var="tbmMachineLocationList"
+									varStatus="count">
+									 <c:set var="${select}" value=""/>
+									 <c:choose>
+									 <c:when test="${tbmMachineLocationList.locationId==tbmMachineItem.locationId}">
+									 <c:set var="${select}" value="selected"/>
+									 </c:when>
+									 </c:choose>
+									
+									
+									<option <c:out value="${select}"/> value="${tbmMachineLocationList.locationId}"> ${tbmMachineDetailsList.location}</option>
+								</c:forEach>					 
 
 
 							</select>
@@ -136,7 +156,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label"> Item  </label>
 									<div class="col-sm-6 col-lg-4 controls">
-										<input type="text" name=item id="item"  class="form-control "placeholder=Item   data-rule-required="true" required />
+										<input type="text" name=item id="item" value="${tbmMachineItem.itemName}"  class="form-control "placeholder=Item   data-rule-required="true" required />
 
 						</div>
 						</div>
@@ -144,7 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Frequency.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-																<input type="number" name=frequency id="frequency"  class="form-control "placeholder="frequency"   data-rule-required="true" required />
+																<input type="number" value="${tbmMachineItem.frequency}" name=frequency id="frequency"  class="form-control "placeholder="frequency"   data-rule-required="true" required />
 
 						</div>
 						</div>	 
@@ -159,7 +179,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						 
 					 
 							 
-							
+							<input name="itemId" value="${tbmMachineItem.itemId}">
 							
 								 
 						
