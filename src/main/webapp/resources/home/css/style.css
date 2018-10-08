@@ -304,7 +304,7 @@ li#menu-academico{
 /*--header --*/
 .header-main {
    /*  padding:1em;
-	 */background:#cbdab1;
+	 */background:#dee8ce;
 	 box-shadow: 0 1px 1px rgba(0,0,0,.05);
     -o-box-shadow: 0 1px 1px rgba(0,0,0,.05);
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -313,7 +313,7 @@ li#menu-academico{
 .w3layouts-right {
     float: left;
     width: 24.25%;
-    background: #cddab7;
+    background: #dee8ce;
     text-align: center;
     padding: 1.3em 1em 0.1em;
     margin: 0 1%;
@@ -330,18 +330,18 @@ li#menu-academico{
 .w3layouts-left {
     float: left;
     width: 24.25%;
-    background: #cbdab1;
+    background: #dee8ce;
     padding: 1em;
 }
 .profile_details {
     float: left;
-    width: 24.25%;
-    background: #82a1a9;
+    width: 25.25%; 
+    background: #e86f7d;
     text-align: center;
     padding: 1.0em 1em 0.1em;
 }
 .logo-w3-agile {
-    background: #b2bd9e;
+    background: #dee8ce;
     float: left;
     width: 24.25%;
     text-align: center;
@@ -903,17 +903,34 @@ ul.dropdown-menu.drp-mnu li {
 /*--header --*/
 /*---four-grids-----*/ 
 .four-agileits {
-    background: #6ac35a94;
+    background: #0288d1;
+    background: -webkit-linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+    background: linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+    box-shadow: 0 6px 20px 0 rgba(40, 180, 199, 0.7);
     text-align: center;
     padding: 2em 0;
 }
 .four-agileinfo {
-    background: #7cb7ca;
+    background: #ff6f00;
+    background: -webkit-linear-gradient(45deg, #ff6f00 0%, #ffca28 100%);
+    background: linear-gradient(45deg, #ff6f00 0%, #ffca28 100%);
+    box-shadow: 0 6px 20px 0 rgba(255, 131, 0, 0.4);
     padding: 2em 0;
     text-align: center;
 }
 .four-w3ls {
-    background: #c0d08a;
+  background: #FF5252;
+    background: -webkit-linear-gradient(45deg, #FF5252 0%, #f48fb1 100%);
+    background: linear-gradient(45deg, #FF5252 0%, #f48fb1 100%);
+    box-shadow: 0 6px 20px 0 rgba(244, 143, 177, 0.6);
+    padding: 2em 0;
+    text-align: center;
+}
+.four-w3ls1 {
+  background: #FF5252;
+    background: -webkit-linear-gradient(45deg, #FF5252 0%, #f48fb1 100%);
+    background: linear-gradient(45deg, #FF5252 0%, #f48fb1 100%);
+    box-shadow: 0 6px 20px 0 rgba(244, 143, 177, 0.6);
     padding: 2em 0;
     text-align: center;
 }
@@ -4730,7 +4747,7 @@ ul.bt-list {
 }
 span.prfil-img img {
     border-radius: 50%;
-    border: 3px solid #fff;
+  /*   border: 3px solid #fff; */
     width: 50px;
     height: 50px;
 }
