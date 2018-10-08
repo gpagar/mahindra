@@ -115,7 +115,7 @@ public class TbmMasters {
 		}
 		 tbmMachineDetails.setInt1(deptId);
 		tbmMachineDetails.setDelStatus(0);
-		tbmMachineDetails.setInt1(0);
+	 
 		tbmMachineDetails.setInt2(0);
 		tbmMachineDetails.setMachineName(request.getParameter("machine"));
 		tbmMachineDetails.setMachineNo(request.getParameter("machineNo"));
@@ -211,9 +211,19 @@ public class TbmMasters {
 	public ModelAndView updateTbmLocation(@PathVariable("locationId")int locationId,HttpServletRequest request, HttpServletResponse response) {
 		 
 		ModelAndView model = new ModelAndView("tbmMasters/addMachineLocation");
+		List<TbmMachineDetails> tbmMachineDetailsList=new ArrayList<TbmMachineDetails>();
+
 		try {
+			
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map =new LinkedMultiValueMap<>();
-			map.add("machineId", locationId);
+			map.add("deptId", deptId);
+			tbmMachineDetailsList=rest.postForObject(Constant.url+"getTbmMachine",map, List.class);
+			model.addObject("tbmMachineDetailsList",tbmMachineDetailsList);
+			
+			 map =new LinkedMultiValueMap<>();
+			map.add("locationId", locationId);
 			TbmMachineLocation tbmMachineLocation=rest.postForObject(Constant.url+"getLocationByLocationId",map, TbmMachineLocation.class);
 			model.addObject("tbmMachineLocation",tbmMachineLocation);
 		}
@@ -227,14 +237,14 @@ public class TbmMasters {
 	
 	
 	
-	@RequestMapping(value = "/deleteTbmLocationById/{machineId}", method = RequestMethod.GET)
-	public ModelAndView deleteTbmLocationById(@PathVariable("machineId")int machineId,HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/deleteTbmLocationById/{locationId}", method = RequestMethod.GET)
+	public String deleteTbmLocationById(@PathVariable("locationId")int locationId,HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("tbmMasters/tbmMachineLocationList");
 		
 		 
 		try {
 			MultiValueMap<String, Object> map =new LinkedMultiValueMap<>();
-			map.add("machineId", machineId);
+			map.add("locationId", locationId);
 			TbmMachineLocation tbmMachineLocation=rest.postForObject(Constant.url+"getLocationByLocationId",map, TbmMachineLocation.class);
 			tbmMachineLocation.setDelStatus(1);
 			 rest.postForObject(Constant.url+"insertTbmMachineLocation", tbmMachineLocation, TbmMachineLocation.class);
@@ -243,11 +253,10 @@ public class TbmMasters {
 		catch (Exception e) {
 			System.out.println(e.getMessage());// TODO: handle exception
 		}
-		return model;
+		return "redirect:/showAllTbmMachine";
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/showAddTbmItem", method = RequestMethod.GET)
 	public ModelAndView showAddMachine(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("tbmMasters/addMachineItem");
@@ -344,15 +353,16 @@ public class TbmMasters {
 			
 			TbmMachineItem tbmMachineItem =rest.postForObject(Constant.url+"getTbmMachineItemByItemId",map, TbmMachineItem.class);
 			model.addObject("tbmMachineItem",tbmMachineItem);
-			
+			System.out.println("tbmMachineItem "+tbmMachineItem.toString());
 			
 		 
 MultiValueMap<String, Object> map1=new LinkedMultiValueMap<String, Object>();
 		
-		map1.add("machineId", ""+tbmMachineItemList.get(0).getMachineId());
+		map1.add("machineId", ""+tbmMachineItem.getMachineId());
 	 
 		List<TbmMachineLocation> tbmMachineLocationList=rest.postForObject(Constant.url+"getLocationByMachineId", map1, List.class);
-	model.addObject("tbmMachineLocationList",tbmMachineLocationList);
+	System.out.println("tbmMachineLocationList "+tbmMachineLocationList.toString());
+		model.addObject("tbmMachineLocationList",tbmMachineLocationList);
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());// TODO: handle exception
@@ -387,14 +397,16 @@ MultiValueMap<String, Object> map1=new LinkedMultiValueMap<String, Object>();
 	@RequestMapping(value = "/deleteTbmItemById/{itemId}", method = RequestMethod.GET)
 	public String deleteTbmItemById(@PathVariable("itemId")int itemId,HttpServletRequest request, HttpServletResponse response) {
 	 
-		
+
 		 
 		try {
 			MultiValueMap<String, Object> map =new LinkedMultiValueMap<>();
 			map.add("itemId", itemId);
-			TbmMachineItem tbmMachineItem=rest.postForObject(Constant.url+"getTbmMachineItemByItemId",map, TbmMachineItem.class);
-			tbmMachineItem.setDelStatus(1);
-			 rest.postForObject(Constant.url+"insertTbmMachineItem", tbmMachineItem, TbmMachineLocation.class);
+			TbmMachineItem tbmMachineItemRes=rest.postForObject(Constant.url+"getTbmMachineItemByItemId",map, TbmMachineItem.class);
+			tbmMachineItemRes.setDelStatus(1);
+			System.out.println(tbmMachineItemRes.toString());// TODO: handle exception
+
+			TbmMachineItem TbmMachineItemres=rest.postForObject(Constant.url+"insertTbmMachineitem", tbmMachineItemRes, TbmMachineItem.class);
 
 		}
 		catch (Exception e) {

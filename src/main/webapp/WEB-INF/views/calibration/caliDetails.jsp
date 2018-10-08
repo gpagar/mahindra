@@ -20,6 +20,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/home/css/lightbox.css">
+	<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 50%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 50%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
  <style type="text/css">select {
      padding: 0rem 0rem; 
     text-transform: uppercase;
@@ -27,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 #overlay {
     position: fixed;
     display: none;
-    width: 100%;
+    width: 30%;
     height: 100%;
     top: 0;
     left: 0;
@@ -79,11 +115,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Calibration Schedule
+								<i class="fa fa-bars"></i> Calibration 
 							</h3>
-							<div class="box-tool">
-						
-						</div>
+							
 
 						<div class="box-content">
 			<%-- 				<form action="${pageContext.request.contextPath}/searchTbmData"  class="form-horizontal"
@@ -126,16 +160,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 		</form> --%>
 		<div class="row" align="right">
+						 				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" title="Type in a name" style="border-radius: 23px;">
 						 
-							 
+							 	<a href="${pageContext.request.contextPath}/showEqCal">	<button type="button" class="btn btn-success" >Add Equipment</button> </a> 
 								<a href="${pageContext.request.contextPath}/historyOfCalibreationEqumt">	<button type="button" class="btn btn-success" >Calibration History</button> </a> 
 						<a href="${pageContext.request.contextPath}/getlastRecordOfCalibreationEqumt">	<button type="button" class="btn btn-success" >Last Record List</button> </a> 
 						
 							
-						</div><br>
-					 
+						</div>
+					
 					  
-					<br>
+
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
@@ -155,7 +190,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Last Calibration Done</th>
 							<th>Next_Due Date</th>
 							<th>Calibration Date</th>
-							<th class="col-md-3">Upload Pdf</th>
+							<th>Upload_Pdf</th>
 							<th>Add Calibration</th>
 						  </tr>
 						</thead>
@@ -177,12 +212,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <c:choose>
 				              	<c:when test="${eqCalDetailList.inta==1}">
 				              		 <td> <input type="date" name="calibrationDoneDate" id="calibrationDoneDate" required/></td>
-				              		 <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"  class="form-control"   required /></td>
+				              		 <td > <input type="file" name="caliFile" id="caliFile"     required /></td>
 				              		 <td > <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})"/></td>
 				              	</c:when> 
 				              	<c:otherwise>
 				              	 <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate" disabled/></td>
-				              	  <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"  class="form-control"   disabled /></td>
+				              	  <td> <input type="file" name="caliFile" id="caliFile"     disabled /></td>
 				              	 <td> <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit" onclick="saveCal(${count.index})" disabled/></td>
 				              	</c:otherwise>
 				              </c:choose>
@@ -321,6 +356,7 @@ function saveTbm(key)
 		if(data!=null){
 		alert("TBM SAVED SUCCESSFULLY")
 		off();
+		window.location.reload();
 		}
 		else{
 			
@@ -337,6 +373,36 @@ function on() {
 
 function off() {
     document.getElementById("overlay").style.display = "none";
+}
+</script>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i,td1,td2,td3;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    td1 = tr[i].getElementsByTagName("td")[2];
+    td2 = tr[i].getElementsByTagName("td")[3];
+    td3 = tr[i].getElementsByTagName("td")[4];
+    if (td||td1||td2||td3) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else  if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else   if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else   if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }else {
+        tr[i].style.display = "none";
+      }
+    }    
+   
+    
+  }
 }
 </script>
 </body>

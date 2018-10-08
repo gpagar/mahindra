@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -47,6 +48,7 @@ import com.mahindra.project.model.WhyWhyF18;
 import com.mahindra.project.model.calibration.CalibrationDetails;
 
 @Controller
+@Scope("session")
 public class PMController {
 	
 	PaMaintananceDetails paMaintananceDetails = new PaMaintananceDetails();
@@ -83,6 +85,54 @@ public class PMController {
 					List.class);
 			model.addObject("requiredValueList",requiredValueList);
 			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showPm", method = RequestMethod.GET)
+	public ModelAndView showPm(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pMaintanance/pm");
+		try
+		{
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showTbmMenu", method = RequestMethod.GET)
+	public ModelAndView showTBMMenu(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("tbm/tbMain");
+		try
+		{
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showPeriodicMaintainance", method = RequestMethod.GET)
+	public ModelAndView showPeriodicMaintainance(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("tbm/periodic");
+		try
+		{
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/showCalMenu", method = RequestMethod.GET)
+	public ModelAndView showCalMenu(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("calibration/calMain");
+		try
+		{
 			
 		}catch(Exception e)
 		{
@@ -238,6 +288,9 @@ public class PMController {
 			model.addObject("whyWhyF18List",whyWhyF18List);
 			model.addObject("deptId", deptId);
 			 model.addObject("refNo", refNo);
+			 List<MachinDetails> selMachines = new ArrayList<MachinDetails>();
+				model.addObject("selMachines", selMachines);
+
 		 System.err.println("machinDetailsList"+machinDetailsList.toString());
 	}catch (Exception e) {
 		e.printStackTrace();
@@ -973,6 +1026,7 @@ public class PMController {
 			
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("month",month);
+			map.add("deptId",deptId);
 		     planList=rest.postForObject(Constant.url + "getPmMaintenancePlanList",map, List.class);
 			PmPlan planRes=new PmPlan();
 		try {

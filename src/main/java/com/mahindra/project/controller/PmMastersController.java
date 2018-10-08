@@ -432,6 +432,7 @@ public class PmMastersController {
 		int deptId = (Integer) session.getAttribute("deptId"); 
 		String machineName=request.getParameter("machineName");
 		String machineNo=request.getParameter("machineNo");
+		String line=request.getParameter("line");
 		int saveType=Integer.parseInt(request.getParameter("saveType"));
 		 machineType=Integer.parseInt(request.getParameter("machineType"));
 		try {
@@ -445,6 +446,7 @@ public class PmMastersController {
 		machinDetails.setMachinName(machineName);
 		machinDetails.setMachinNo(machineNo);
 		machinDetails.setType(machineType);
+		machinDetails.setLine(line);
 		machinDetails.setInt1(deptId);
 		machinDetails.setString1("");
 		machinDetails.setString2("");
@@ -474,6 +476,7 @@ public class PmMastersController {
 		
 		int activityId=0;
 		int machineId=Integer.parseInt(request.getParameter("machineId"));
+		int machineType=Integer.parseInt(request.getParameter("machineType"));
 		int eleMechanecal=Integer.parseInt(request.getParameter("eleMechanecal"));
 		int onlineOffline=Integer.parseInt(request.getParameter("onlineOffline"));
 		int saveType=Integer.parseInt(request.getParameter("saveType"));
@@ -487,7 +490,7 @@ public class PmMastersController {
 		PMActivityDetails pMActivityDetails=new PMActivityDetails();
 		pMActivityDetails.setActivityId(activityId);
 		pMActivityDetails.setActivityName(activityName);
-		pMActivityDetails.setInt1(eleMechanecal);        //Electrical   //Mechanical
+		pMActivityDetails.setInt1(machineType);        //Electrical   //Mechanical
 		pMActivityDetails.setInt2(onlineOffline);       //Online    //Offline
 		pMActivityDetails.setMachinId(machineId);
 		pMActivityDetails.setString1("");
@@ -632,6 +635,8 @@ public class PmMastersController {
 		
 		
 		MachinMaintanaceSchedule machinMaintanaceSchedule =new MachinMaintanaceSchedule();
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
 		machinMaintanaceSchedule.setMaintId(Integer.parseInt(request.getParameter("maintId")));
 		machinMaintanaceSchedule.setDelStatus(0);
 		machinMaintanaceSchedule.setfMonth(Integer.parseInt(request.getParameter("fmonth")));
@@ -644,14 +649,14 @@ public class PmMastersController {
 		machinMaintanaceSchedule.setTweek(Integer.parseInt(request.getParameter("tweek")));
 		
 		machinMaintanaceSchedule.setMachinId(Integer.parseInt(request.getParameter("machineId")));
-		machinMaintanaceSchedule.setType(0);
+		machinMaintanaceSchedule.setType(Integer.parseInt(request.getParameter("machineType")));
 		machinMaintanaceSchedule.settStatus(0);
 		machinMaintanaceSchedule.setfStatus(0);
 		machinMaintanaceSchedule.setsStatus(0);
 		machinMaintanaceSchedule.setString1("");
 		machinMaintanaceSchedule.setString2("");
 		machinMaintanaceSchedule.setInt1(Integer.parseInt(request.getParameter("rank")));
-		machinMaintanaceSchedule.setInt2(0);
+		machinMaintanaceSchedule.setInt2(deptId);
 		 try {
 		RestTemplate rest=new RestTemplate();
 		Info info=rest.postForObject(Constant.url + "insertPmMachinePlan", machinMaintanaceSchedule, Info.class);

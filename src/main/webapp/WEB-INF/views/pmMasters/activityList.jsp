@@ -163,7 +163,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				
 
 				</div>
-			</div>			     
+			</div>		
+			<br>
+			<div class="col-sm-3 col-lg-3 controls">
+						<a href="${pageContext.request.contextPath}/showAddActivity">
+						<input type='button'  class="btn btn-primary" value="Add Activity"/>					</a>
+						</div>	  	     
 				</div>
 
 			</div>

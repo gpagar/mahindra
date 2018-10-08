@@ -12,8 +12,9 @@ public class VpsImageUpload {
 
 	
 	//public static final String pm = "/usr/local/tomcat7/uploads/";
-	
-	public static final String pm = "E:/EMaintainence/pdf/";
+	public static final String cal = "E:/tomcat/webapps/Emaintanance/cal_pdf/";
+
+	public static final String pm = "E:/tomcat/webapps/Emaintanance/PM_images/";
 
 	public void saveUploadedFiles(List<MultipartFile> files, int imageType, String imageName) throws IOException {
 
@@ -36,7 +37,15 @@ public class VpsImageUpload {
 
 				System.out.println("Path= " + path.toString());
 
-			}
+			}else
+				if (imageType == 2) {
+					System.out.println("Inside Image Type =1");
+
+					path = Paths.get(cal + imageName);
+
+					System.out.println("Path= " + path.toString());
+
+				}
 			
 			Files.write(path, bytes);
 		}

@@ -12,6 +12,12 @@
 <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
+
 
   
 </head>
@@ -76,7 +82,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</a>
 						</div>
 						<div class="col-sm-3 col-lg-3 controls">
-						<a href="${pageContext.request.contextPath}/showAddTbmLocation">Add Location
+						<a href="${pageContext.request.contextPath}/showAddTbmLocation" style="text-decoration: underline; font-size: 20px;">Add Location
 						
 						</a>
 						</div>
@@ -85,6 +91,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-3 controls">
+						<a href="${pageContext.request.contextPath}/showAllTbmMachine">View All TBM Machine
+						
+						</a>
+						</div>  
 						<%-- <div class="col-sm-3 col-lg-3 controls">
 						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Frequency
 						
@@ -104,17 +115,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machine"
+								class="chosen-select" style="width:99% !important;" tabindex="6" id="machine"
 								name="machine" required>
 
 								<option value=""selected disabled="disabled">Choose Machine </option>
-								<c:set var="${select}" value=""/>
+								<c:set var="select" value=""/>
 								 <c:forEach items="${tbmMachineDetailsList}" var="tbmMachineDetailsList"
 									varStatus="count">
-									<c:set var="${select}" value=""/>
+									<c:set var="select" value=""/>
 									<c:choose>
 									<c:when test="${tbmMachineDetailsList.machineId==tbmMachineLocation.machineId}">
-									<c:set var="${select}" value="selected"/>
+									<c:set var="select" value="selected"/>
 									</c:when>
 									</c:choose>
 									<option <c:out value="${select}"/> value="${tbmMachineDetailsList.machineId}"><c:out value="${tbmMachineDetailsList.machineName}"/></option>
@@ -253,7 +264,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
- 
+ <script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

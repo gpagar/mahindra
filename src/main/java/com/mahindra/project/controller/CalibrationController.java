@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,16 +29,16 @@ import com.mahindra.project.constant.DateConvertor;
 import com.mahindra.project.constant.VpsImageUpload;
 import com.mahindra.project.model.Info;
 import com.mahindra.project.model.TCalibration;
-import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.calibration.CalibrationDetails;
 import com.mahindra.project.model.calibration.EqCalDetails;
 import com.mahindra.project.model.calibration.TCalibaration;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 @Controller
 @Scope("session")
 public class CalibrationController {
+
+	List<CalibrationDetails> eqCalDetailsRes = new ArrayList<CalibrationDetails>();
 
 	@RequestMapping(value = "/showEqCal", method = RequestMethod.GET)
 	public ModelAndView showEqCal(HttpServletRequest request, HttpServletResponse response) {
@@ -53,8 +54,49 @@ public class CalibrationController {
 		return model;
 	}
 	
-	List<CalibrationDetails> eqCalDetailsRes = new ArrayList<CalibrationDetails>();
+	@RequestMapping(value = "/editEqCal", method = RequestMethod.GET)
+	public ModelAndView editEqCal(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("calibration/editEqCal");
+		try
+		{
+
+			RestTemplate rest=new RestTemplate();
+			HttpSession session = request.getSession(); 
+            MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+
+			map.add("deptId", (Integer) session.getAttribute("deptId"));
+		    List<EqCalDetails> eqList=rest.postForObject(Constant.url + "getAllEquipments",map, List.class);
+		    model.addObject("eqList", eqList);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
 	
+	@RequestMapping(value = "/getEqById", method = RequestMethod.GET)
+	public @ResponseBody EqCalDetails getEqById(HttpServletRequest request, HttpServletResponse response) {
+		EqCalDetails equipmentRes=null;
+		try
+		{
+             int id=Integer.parseInt(request.getParameter("id"));
+             MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+             map.add("id", id);
+			RestTemplate rest=new RestTemplate();
+			
+		     equipmentRes=rest.postForObject(Constant.url + "getEquipment", map,EqCalDetails.class);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return equipmentRes;
+	}
 	@RequestMapping(value = "/showCalibration", method = RequestMethod.GET)
 	public ModelAndView showCalibration(HttpServletRequest request, HttpServletResponse response) {
 	
@@ -136,7 +178,7 @@ public class CalibrationController {
 		 
 
 		try {
-			vpsImageUpload.saveUploadedFiles(caliFile, 1,fileNme); 
+			vpsImageUpload.saveUploadedFiles(caliFile,2,fileNme); 
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -306,8 +348,15 @@ public class CalibrationController {
 
 	@RequestMapping(value = "/insertMhaWkEqDetails", method = RequestMethod.POST)
 	public String insertMhaWkEqDetails(HttpServletRequest request, HttpServletResponse response) {
-		
+		int id=0;
 		try {
+			HttpSession session = request.getSession(); 
+			try {
+				id=Integer.parseInt(request.getParameter("id"));
+			}catch (Exception e) {
+				id=0;
+			}
+			System.err.println(id);
 		String eqName=request.getParameter("eqName");
 		String eqSrNo=request.getParameter("eqSrNo");
 		String cardNo=request.getParameter("cardNo");
@@ -317,25 +366,35 @@ public class CalibrationController {
 		String lastCalDate=request.getParameter("lastCalDate");
 		
 		EqCalDetails eqCalDetails=new EqCalDetails();
-		
+		eqCalDetails.setId(id);
 		eqCalDetails.setEqName(eqName);
 		eqCalDetails.setSrNo(eqSrNo);
 		eqCalDetails.setCardNo(cardNo);
 		eqCalDetails.setFrequency(frequency);
-		eqCalDetails.setId(0);
-		//eqCalDetails.setLastCalDate(lastCalDate);
+		eqCalDetails.setLastCalDate(lastCalDate);
+		eqCalDetails.setDeptId((Integer) session.getAttribute("deptId"));
 		eqCalDetails.setLine(line);
 		eqCalDetails.setMachineNo(machineNo);
 		eqCalDetails.setDelStatus(0);
-
+		List<EqCalDetails> saveList=new ArrayList<EqCalDetails>();
+		saveList.add(eqCalDetails);
 		RestTemplate rest=new RestTemplate();
 		
-			EqCalDetails eqCalDetailsRes=rest.postForObject(Constant.url + "insertMachineEqCal", eqCalDetails, EqCalDetails.class);
+			List<EqCalDetails> eqCalDetailsRes=rest.postForObject(Constant.url + "insertMachineEqCal", saveList, List.class);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "redirect:/showEqCal";
+		String mapping="redirect:/showEqCal";
+		if(id==0)
+		{
+			mapping="redirect:/showEqCal";
+		}else
+		{
+			mapping="redirect:/editEqCal";
+		}
+		return mapping;
 	}
+	
 	@RequestMapping(value = "/insertCalibration/{key}", method = RequestMethod.POST)
 	public String insertCalibration(@PathVariable int key,HttpServletRequest request, HttpServletResponse response) {
 		

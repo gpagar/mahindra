@@ -82,11 +82,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-2 controls">
+						<%-- <div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
 						
 						</a>
-						</div>
+						</div> --%>
 						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity" style="text-decoration: underline;font-size: 20px;">Add Activity
 						
@@ -107,6 +107,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showInsertPmPlan">Insert M/C Schedule</a> 
+					    </div>
 						</div>
 						<br/>	<br/>	<br/>
 
@@ -199,7 +202,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 								<option value="0"selected  >Online</option>
 								<option value="1"   >Offline</option>
-								<option value="2"   >Other</option>
+								<option value="2"   >Safety</option>
 
 								  
 							</select>
@@ -748,14 +751,55 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 function submitForm()
 {
 	 document.getElementById("saveType").value=0;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 function submitForm1()
 {
 	 document.getElementById("saveType").value=1;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 </script>
+<script type="text/javascript">
+				function validate() {
+
+					var machineType= $("#machineType").val();
+					var machineId = $("#machineId").val();
+					var onlineOffline= $("#onlineOffline").val();
+					var activityName=$("#activityName").val();
+					var isValid = true;
+
+					if (machineType == null || machineType=="" ) {
+
+						isValid = false;
+						alert("Please select Machine Type");
+
+					} else 	if (machineId == null || machineId=="" ) {
+
+						isValid = false;
+						alert("Please Select Machine");
+
+					} else 	if (onlineOffline == null || onlineOffline=="" ) {
+
+						isValid = false;
+						alert("Please Select Activity Type");
+
+					}else 	if (activityName == null || activityName=="" ) {
+
+						isValid = false;
+						alert("Please Enter Activity Name");
+
+					}
+					return isValid;
+
+				}
+			</script>
+
 </body>
 
 </html>

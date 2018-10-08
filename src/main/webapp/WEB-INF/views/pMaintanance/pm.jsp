@@ -252,247 +252,53 @@ h6{
   </nav>
   <div class="four-grids"id="dept1">
    <div class="row" >
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-					<a href="${pageContext.request.contextPath}/showPm">	<div class="four-agileits">
+  <div class="col-md-1"></div>  <div class="col-md-1"></div>  <div class="col-md-1"></div> 
+  <div class="col-md-2 four-grid">
+					<a href="${pageContext.request.contextPath}/showPmSchedule">	<div class="four-w3ls">
 							<div class="icon">
 								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
 							</div>
-							<div class="four-text">
-								<h3>PM</h3>
-							</div>
-							
-						</div></a>
-					</div>
-					<div class="col-md-3 four-grid">
-						<a href="${pageContext.request.contextPath}/showTbmMenu"><div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>TBM</h3>
-						</div>
-							
-						</div></a>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>CBM</h3>
+							<div class="four-text" style="color:white;">
+							<h5><b>PM Schedule</b></h5>
 						
 							</div>
 							
-						</div>
+						</div></a>
 					</div>
+					<div class="col-md-2 four-grid">
+					<a href="${pageContext.request.contextPath}/showPmPlanList">	<div class="four-agileits">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text" style="color:white;">
+							<h5><b>PM</b></h5>
+							</div>
+							
+						</div></a>
+					</div>
+					<div class="col-md-2 four-grid">
+						<a href="${pageContext.request.contextPath}/showAddMachine"><div class="four-agileinfo">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text" style="color:white;">
+							<h5><b>Add Machine</b></h5>
+						</div>
+							
+						</div></a>
+					</div>
+					
 					
 					<div class="clearfix"></div>
 				</div> 
 				<br>
-				<div class="row">
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-					<a href="${pageContext.request.contextPath}/showWhyWhyf18">	<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Why Why Analysis</h3>
-							</div>
-							
-						</div></a>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-agileinfo">
-						<a href="#" onclick="openNav()">	<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>DWM Graphs</h3>
-						</div></a>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<a href="${pageContext.request.contextPath}/showCalMenu"><div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Calibration</h3>
-						
-							</div>
-							
-						</div></a>
-					</div>
+	
 					
 					<div class="clearfix"></div>
 				</div>
 				</div>
-				 <div class="four-grids"id="dept2" style="display:none; ">
-   <div class="row" >
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-						<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>PM</h3>
-							</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>TBM</h3>
-						</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>CBM</h3>
-						
-							</div>
-							
-						</div>
-					</div>
-					
-					<div class="clearfix"></div>
-				</div> 
-				<br>
-				<div class="row">
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-						<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Why Why Analysis</h3>
-							</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>DWM Graphs</h3>
-						</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Calibration</h3>
-						
-							</div>
-							
-						</div>
-					</div>
-					
-					<div class="clearfix"></div>
-				</div>
-				</div>
-				 <div class="four-grids"id="dept3"  style="display:none; ">
-   <div class="row" >
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-						<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>PM</h3>
-							</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>TBM</h3>
-						</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>CBM</h3>
-						
-							</div>
-							
-						</div>
-					</div>
-					
-					<div class="clearfix"></div>
-				</div> 
-				<br>
-				<div class="row">
-  <div class="col-md-1"></div> 
-					<div class="col-md-3 four-grid">
-						<div class="four-agileits">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Why Why Analysis</h3>
-							</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-agileinfo">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>DWM Graphs</h3>
-						</div>
-							
-						</div>
-					</div>
-					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
-							<div class="icon">
-								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
-							</div>
-							<div class="four-text">
-								<h3>Calibration</h3>
-						
-							</div>
-							
-						</div>
-					</div>
-					
-					<div class="clearfix"></div>
-				</div>
-				</div>
+				
+		
 <!--//four-grids here-->
 <!--agileinfo-grap-->
  

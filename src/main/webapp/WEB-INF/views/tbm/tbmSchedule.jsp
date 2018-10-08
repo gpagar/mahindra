@@ -79,14 +79,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> TBM
+								<i class="fa fa-bars"></i> TBM Schedule
 							</h3>
 							<div class="box-tool">
 						
 						</div>
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/searchTbmData"  class="form-horizontal"
+							<form action="${pageContext.request.contextPath}/searchTbmSchedule"  class="form-horizontal"
 							 id="validation-form" 	 method="GET">
                    
 				
@@ -118,12 +118,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
 							
-						</div>	<div class="col-md-3"></div>
-						<div class="col-md-1">
-						<a href="${pageContext.request.contextPath}/showTbmSchedule">	<button type="button" class="btn btn-success" >TBM Schedule</button> </a> 
-						</div><div class="col-md-1"></div>
-							<div class="col-md-1">
-								<a href="${pageContext.request.contextPath}/showTbmHistory">	<button type="button" class="btn btn-success" >TBM History</button> </a> 
+						</div>
+						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-5">
+								<c:if test="${machineId ne null}">  <a href="${pageContext.request.contextPath}/searchTbmData?machineId=${machineId}">	<button type="button" class="btn btn-success" >TBM</button> </a></c:if> 
 						
 						</div>
 					</div>
@@ -144,19 +141,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						 	<th>Frequency</th>
 						    <th>Last done</th>
 							<th>Next due</th>
-							<th>Last Ob Date</th>
-							<th>Last Observation</th>
-							<th>Edit Last Ob</th>
-							<th>Ob Date</th>
-							<th>Observation</th>
-							<th>Add Tbm</th>
+							
 						  </tr>
 						</thead>
 						<tbody>
 				              <c:forEach items="${tbmDataList}" var="tbmDataList" varStatus="count">
 				               <tr>
-				               <form action="${pageContext.request.contextPath}/insertTbmData"  class="form-horizontal"
-							 id="validation-form1" 	 method="POST">
+				               
 				                <input type="hidden" name="tTbmId" id="tTbmId${count.index}" value="${tbmDataList.tTbmId}"/>
 				               <input type="hidden" name="machineId" id="machineId${count.index}" value="${tbmDataList.machineId}"/>
 				               <input type="hidden" name="itemId" id="itemId${count.index}" value="${tbmDataList.itemId}"/>
@@ -177,57 +168,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                <td><p id="freq${count.index}">${tbmDataList.frequency}</p></td>
                               <td><p id="last${count.index}">${tbmDataList.lastDoneMonth}</p></td>
                               <td><p id="next${count.index}">${tbmDataList.nextDoneMonth}</p></td>
-                              <c:set var="lastDate" value=""/>
-                              <c:choose>
-                              <c:when test="${tbmDataList.nextDoneDate eq '0' }">
-                               <c:set var="lastDate" value="${tbmDataList.lastDate}"/>
-                              </c:when>
-                               <c:when test="${tbmDataList.nextDoneDate ne '0'}">
-                               <c:set var="lastDate" value="${tbmDataList.nextDoneDate}"/>
-                              </c:when>
-                              </c:choose>
-                                <td><p id="date1${count.index}"><input type="date" name="lastObDate"  id="lastObDate${count.index}" style="background-color: lightgrey;" value="${lastDate}" readonly/><%-- ${tbmDataList.lastDate} --%></p></td>
-                                <td><p id="ob1${count.index}"><textarea name="lastObservation" id="lastObservation${count.index}"  style="background: lightgrey;" readonly>${tbmDataList.nextObservation}</textarea></p>
-                                
-                                </td>
-                                <td> <c:choose>
-                              <c:when test="${tbmDataList.nextDoneDate ne '0' }"><a>   <span class="	glyphicon glyphicon-pencil fa-2x" id="edit${count.index}" onclick="editQty(${count.index});" > </span> </a><a>   <span class="glyphicon glyphicon-ok fa-2x" id="save${count.index}" onclick="saveQty(${count.index});"  style="display: none;"> </span> </a>
-                              </c:when><c:otherwise>NA</c:otherwise></c:choose>
-                              </td>
-                                <td><p id="date2${count.index}">
-                                <c:choose>
-                                <c:when test="${currD ge nextD}">
-                         <input type="date" name="nextObDate" id="nextObDate${count.index}" value="" />       
-                                </c:when>
-                              <c:otherwise>
-                         <input type="date" name="nextObDate" id="nextObDate${count.index}" value="" disabled/>       
-                              
-                              </c:otherwise>
-                                </c:choose>
-                                </p></td>
-                                <td><p id="ob2${count.index}">
-                                  <c:choose>
-                                <c:when test="${currD ge nextD}">
-                                <textarea name="nextObservation" id="nextObservation${count.index}" ><%-- ${tbmDataList.nextDoneDate} --%></textarea>
-                                </c:when>
-                              <c:otherwise>
-                                <textarea name="nextObservation" id="nextObservation${count.index}" disabled><%-- ${tbmDataList.nextDoneDate} --%></textarea>
-                              
-                              </c:otherwise>
-                                </c:choose>
-                                </p></td>
-                                <td>
-                                  <c:choose>
-                                <c:when test="${currD ge nextD}">
-                                <input type="submit" name="submit" id="submit${count.index}" class="btn btn-primary" value="Submit" />
-                               </c:when>
-                              <c:otherwise>
-                                <input type="submit" name="submit" id="submit${count.index}" class="btn btn-primary" value="Submit" disabled/>
-                              
-                              </c:otherwise>
-                                </c:choose>
-                                </td>
-                                </form>
+                           
+                          
                               </tr>
                               </c:forEach>
 							</tbody>

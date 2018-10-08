@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -63,6 +64,7 @@ import com.mahindra.project.model.YearlyMachinBreakdownList;
 import com.mahindra.project.model.YearlyMachineBdTimeList;
 
 @Controller
+@Scope("session")
 public class WhyWhyAnalysisController {
 	int machineType;
 	int machineId;
@@ -72,9 +74,22 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
 		try
 		{
+			String machineIdList="";
 			  try {
-				 machineType = Integer.parseInt(request.getParameter("machineType"));
-				 machineId = Integer.parseInt(request.getParameter("machineId"));
+				/* machineType = Integer.parseInt(request.getParameter("machineType"));*/
+				String[] machineIdStr = request.getParameterValues("machineId[]");
+				
+
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < machineIdStr.length; i++) {
+					sb = sb.append(machineIdStr[i] + ",");
+
+				}
+				 machineIdList = sb.toString();
+				machineIdList = machineIdList.substring(0, machineIdList.length() - 1);
+
+				System.out.println("machineIdList" + machineIdList);
 			     }
 			catch (Exception e) {
 				// TODO: handle exception
@@ -160,10 +175,10 @@ public class WhyWhyAnalysisController {
 	          failureCodeList.put("M/c Level", "M/c Level");
 	          model.addObject("failureCodeList", failureCodeList);	
 	          
-			map1 = new LinkedMultiValueMap<String,Object>();
+			/*map1 = new LinkedMultiValueMap<String,Object>();
 			map1.add("machineId", machineId);
 			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
-
+*/
 			HttpSession session = request.getSession(); 
 			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -173,15 +188,31 @@ public class WhyWhyAnalysisController {
 			 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
 			
 			 map = new LinkedMultiValueMap<String, Object>();
-			map.add("machineId",machineId);
+			map.add("machineIdList",machineIdList);
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
             System.out.println("whyWhyF18List"+whyWhyF18List.toString());
 			model.addObject("whyWhyF18List",whyWhyF18List);
 			model.addObject("deptId", deptId);
-			model.addObject("machineType", machineType);
-			model.addObject("machineId", machineId);
+			
+			List<String> prevSel = Arrays.asList(machineIdList.split("\\s*,\\s*"));
+
+			List<MachinDetails> selMachines = new ArrayList<MachinDetails>();
+
+			for (int i = 0; i < prevSel.size(); i++) {
+				for (int j = 0; j <machinDetailsList.getMachinDetailsList().size(); j++) {
+					if (Integer.parseInt(prevSel.get(i)) == machinDetailsList.getMachinDetailsList().get(j)
+							.getMachinId()) {
+						selMachines.add(machinDetailsList.getMachinDetailsList().get(j));
+
+					}
+				}
+
+			}
+			model.addObject("selMachines", selMachines);
+			/*model.addObject("machineType", machineType);
+			model.addObject("machineId", machineId);*/
 			
 		/*	  Map<String,String> clarificationOfCause=new HashMap<String,String>();  
 			  clarificationOfCause.put("Inadequate Operating condition","Inadequate Operating condition");  
@@ -235,7 +266,7 @@ public class WhyWhyAnalysisController {
               model.addObject("failureCodeList", failureCodeList);	*/
               
               model.addObject("refNo", refNo);
-              model.addObject("machinDetails", machinDetails);
+             /* model.addObject("machinDetails", machinDetails);*/
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -705,7 +736,7 @@ public class WhyWhyAnalysisController {
 				RestTemplate rest = new RestTemplate();
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("machineId",machineId);
+				map.add("machineIdList",machineId);
 				WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 						WhyWhyF18[].class);
 				ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
@@ -2052,7 +2083,7 @@ public class WhyWhyAnalysisController {
 
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("machineId",machineId);
+			map.add("machineIdList",machineId);
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
@@ -2096,7 +2127,7 @@ public class WhyWhyAnalysisController {
 		String url = request.getParameter("url");
 		System.out.println("URL " + url);
 		// http://monginis.ap-south-1.elasticbeanstalk.com
-	    File f = new File("D:/EMaintainence/pdf/report.pdf");
+	    File f = new File("E:/tomcat/webapps/Emaintanance/pdf/report.pdf");
 	    //File f = new File("/usr/local/tomcat7/webapps/report.pdf");
 		//File f = new File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
@@ -2116,7 +2147,7 @@ public class WhyWhyAnalysisController {
 		String filename = "ordermemo221.pdf";
 		// String filePath = "/usr/local/tomcat7/webapps/report.pdf";
 		//String filePath = "/home/ats-11/pdf/ordermemo221.pdf";
-		String filePath = "D:/EMaintainence/pdf/report.pdf";
+		String filePath = "E:/tomcat/webapps/Emaintanance/pdf/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

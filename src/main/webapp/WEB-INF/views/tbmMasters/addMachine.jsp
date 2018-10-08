@@ -13,6 +13,12 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
+
   
 </head>
 <body>
@@ -71,7 +77,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class="form-group">
 						<div class="col-sm-3 col-lg-3 controls">
-						<a href="${pageContext.request.contextPath}/showAddTbmMachine">Add Machine
+						<a href="${pageContext.request.contextPath}/showAddTbmMachine" style="text-decoration: underline; font-size: 20px;">Add Machine
 						
 						</a>
 						</div>
@@ -221,7 +227,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
- 
+ <script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

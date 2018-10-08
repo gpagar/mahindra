@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,11 @@ public class TbmController implements Serializable{
 		try
 		{
 			RestTemplate rest = new RestTemplate();
-			List<TbmMachine> tbmMachineList=rest.getForObject(Constant.url+"getAllTbmMachines",List.class);
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+            map.add("deptId", deptId);
+			List<TbmMachine> tbmMachineList=rest.postForObject(Constant.url+"getAllTbmMachines",map,List.class);
 			model.addObject("tbmMachineList", tbmMachineList);
 		}catch(Exception e)
 		{
@@ -47,19 +52,44 @@ public class TbmController implements Serializable{
 
 		return model;
 	}
+	@RequestMapping(value = "/showTbmSchedule", method = RequestMethod.GET)
+	public ModelAndView showTbmSchedule(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("tbm/tbmSchedule");
+		try
+		{
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+            map.add("deptId", deptId);
+			List<TbmMachine> tbmMachineList=rest.postForObject(Constant.url+"getAllTbmMachines",map,List.class);
+			model.addObject("tbmMachineList", tbmMachineList);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
 	@RequestMapping(value = "/showTbmHistory", method = RequestMethod.GET)
 	public ModelAndView showTbmHistory(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("tbm/tbmHistory");
 		try
 		{
 			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			int year = Calendar.getInstance().get(Calendar.YEAR);
-
+			map.add("deptId",deptId);
 			map.add("fromYear",year);
 			map.add("toYear",year);
 			List<GetTbmHistory> tbmMachineList=rest.postForObject(Constant.url+"getTbmHistory",map,List.class);
 			model.addObject("tbmDataList", tbmMachineList);
+			model.addObject("fromYear", year);
+			model.addObject("toYear", year);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -74,9 +104,12 @@ public class TbmController implements Serializable{
 		try {
 			 String fromYear =request.getParameter("yearpicker");
 			 String toYear =request.getParameter("yearpicker1");
-
+			 HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId"); 
 			RestTemplate rest = new RestTemplate();
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+
 			map.add("fromYear",fromYear);
 			map.add("toYear",toYear);
 			List<GetTbmHistory> tbmMachineList=rest.postForObject(Constant.url+"getTbmHistory",map,List.class);
@@ -101,13 +134,47 @@ public class TbmController implements Serializable{
 		catch (Exception e) {
 			// TODO: handle exception
 		}
+		 HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId");
+		RestTemplate rest = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("machineId",machineId);
+		List<TbmData> tbmDataList=rest.postForObject(Constant.url+"getTbmDataByMachineId", map, List.class);
+    	System.err.println(tbmDataList.toString());
+    	map = new LinkedMultiValueMap<String, Object>();
+    	map.add("deptId",deptId);
+		List<TbmMachine> tbmMachineList=rest.postForObject(Constant.url+"getAllTbmMachines",map,List.class);
+		model.addObject("tbmMachineList", tbmMachineList);
+		model.addObject("tbmDataList", tbmDataList);
+		model.addObject("machineId", machineId);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return model;
+	}
+	@RequestMapping(value = "/searchTbmSchedule", method = RequestMethod.GET)
+	public ModelAndView searchTbmSchedule(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("tbm/tbmSchedule");
+		try
+		{    try {
+			 machineId = Integer.parseInt(request.getParameter("machineId"));
+		     }
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		RestTemplate rest = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("machineId",machineId);
 		
 		List<TbmData> tbmDataList=rest.postForObject(Constant.url+"getTbmDataByMachineId", map, List.class);
-    	System.err.println(tbmDataList.toString());
-		List<TbmMachine> tbmMachineList=rest.getForObject(Constant.url+"getAllTbmMachines",List.class);
+    	
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId");
+    	map = new LinkedMultiValueMap<String, Object>();
+    	map.add("deptId",deptId);
+		List<TbmMachine> tbmMachineList=rest.postForObject(Constant.url+"getAllTbmMachines",map,List.class);
 		model.addObject("tbmMachineList", tbmMachineList);
 		model.addObject("tbmDataList", tbmDataList);
 		model.addObject("machineId", machineId);
@@ -122,6 +189,8 @@ public class TbmController implements Serializable{
 		PostTbm postTbmRes=null;
 		try
 		{  
+			 HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId");
 			int machineId = Integer.parseInt(request.getParameter("machineId"));
 			int tTbmId = Integer.parseInt(request.getParameter("tTbmId"));
 			int locationId = Integer.parseInt(request.getParameter("locationId"));
@@ -146,7 +215,7 @@ public class TbmController implements Serializable{
 		   postTbm.setNextObDate(nextObDate);
 		   postTbm.setNextObservation(nextObservation);
 		   postTbm.setFrequency(frequency);
-		   postTbm.setStatus(0);
+		   postTbm.setStatus(deptId);
 		   postTbm.setDelStatus(0);
 			RestTemplate rest = new RestTemplate();
 

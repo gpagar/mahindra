@@ -109,6 +109,15 @@ public class HomeController {
 				// UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
 
 				 session.setAttribute("deptId", dept);
+				 if(dept==1) {
+				 session.setAttribute("deptName", "M/C Shop");
+				 }else if(dept==2)
+				 {
+					 session.setAttribute("deptName", "mHAWK");
+				 }else if(dept==3)
+				 {
+					 session.setAttribute("deptName", "NEF-MDI");
+				 }
 				 System.out.println(dept);
 				 maping="home1";
 		

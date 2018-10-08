@@ -13,16 +13,15 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/home/css/table-style.css">
-<script
+<%-- <script
 	src="${pageContext.request.contextPath}/resources/home/js/lightbox.js"></script>
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/home/css/lightbox.css">
+	href="${pageContext.request.contextPath}/resources/home/css/lightbox.css"> --%>
  <style type="text/css">select {
      padding: 0rem 0rem; 
     text-transform: uppercase;
 }
-
 </style> 
 <style>
 * {
@@ -101,19 +100,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <form action="${pageContext.request.contextPath}/searchWhyWhyList">
 				<div class="form-group">   <div class="col-md-1">Month :</div>   <div class="col-md-3">
 <input type="month" id="myInput" onchange="myFunction()" style="border-radius: 25px;" placeholder="Search by date.." class="form-control" title="Type in a name">  
-</div> <div class="col-md-1">M/C :</div><div class="col-md-3">
-<select data-placeholder="Choose Machine"  style="width: 70% !important;"
-								tabindex="6" id="machineId" class="chosen-select"
-								name="machineId" onchange="myFunction1()"  >
+</div> <div class="col-md-1">M/C :</div><div class="col-md-5">
+<select data-placeholder="Choose Machine"  style="width: 80% !important;"
+								tabindex="6" id="machineId" 
+								name="machineId[]" class="chosen-select" onchange="onMachineChange(this.value)" multiple="multiple" ><!-- multiple class="standardSelect"  -->
 
 							 <option value="">Choose Machine</option>
+							 <option value="-1">ALL Machine</option>
                                   <c:forEach items="${machineList}" var="machineList">
-                                  <c:choose><c:when test="${machineId==machineList.machinId}">
-                                  	<option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName}</option>
+                                  <c:set var="sel" value="0"/>
+                                    <c:forEach items="${selMachines}" var="selMachines">
+                                  <c:choose><c:when test="${selMachines.machinId==machineList.machinId}">
+                                   <c:set var="sel" value="1"/>
+                                  <c:if test="${machineList.type==1}">
+                                  	<option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName} EL</option>
+                                </c:if>
+                                 <c:if test="${machineList.type==2}">
+                                <option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName} MECH</option>
+                                 
+                                 </c:if>
                                 </c:when> 
-                                <c:otherwise>
-                                  	<option value="${machineList.machinId}" >${machineList.machinNo}-${machineList.machinName}</option>
-                                </c:otherwise> 
+                               
+                                 </c:choose>
+                                 </c:forEach>
+                                 <c:choose>
+                                 <c:when test="${sel==0}">
+                               
+                                   <c:if test="${machineList.type==1}">
+                                  	<option value="${machineList.machinId}" >${machineList.machinNo}-${machineList.machinName} EL</option>
+                                </c:if>
+                                 <c:if test="${machineList.type==2}">
+                                   <option value="${machineList.machinId}" >${machineList.machinNo}-${machineList.machinName} MECH</option>
+                                 
+                                 </c:if>
+                               
+                                 </c:when>
                                  </c:choose>
                                   </c:forEach>   
 							</select>
@@ -289,8 +310,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							 <option value="">Choose Machine</option>
                                   <c:forEach items="${machineList}" var="machineList">
-                                  	<option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName}</option>
-                                  
+                                    <c:if test="${machineList.type==1}">
+                                  	<option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName} EL</option>
+                                  </c:if>
+                                    <c:if test="${machineList.type==2}">
+                                  	<option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName} MECH</option>
+                                    
+                                    </c:if>
                                   </c:forEach>   
 							</select>
 						
@@ -509,12 +535,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                   <c:forEach items="${machineList}" var="machineList">
                                   <c:choose>
                                   <c:when test="${machineList.machinId==whyWhyF18.machineId}">
-                                  <option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName}</option>
-                                  
+                                  <c:if test="${machineList.type==1}">
+                                  <option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName} EL</option>
+                                  </c:if>
+                                  <c:if test="${machineList.type==2}">
+                                  <option value="${machineList.machinId}" selected>${machineList.machinNo}-${machineList.machinName} MECH</option>
+                                   </c:if>
                                   </c:when>
                                   <c:otherwise>
-                                  <option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName}</option>
-                                  
+                                   <c:if test="${machineList.type==1}">
+                                  <option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName} EL</option>
+                                  </c:if>
+                                   <c:if test="${machineList.type==2}">
+                                     <option value="${machineList.machinId}">${machineList.machinNo}-${machineList.machinName} MECH</option>
+                                   
+                                   </c:if>
                                   </c:otherwise>
                                   </c:choose>
                                   
@@ -821,6 +856,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	 <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-2.1.4.min.js"
+		type="text/javascript"></script>  
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.min.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 function addBreakdown(key)
 {
@@ -1043,18 +1088,17 @@ function onMacTypeChange(machineType) {
 	
 	}
 	</script>
-	
+	    <script>
+        jQuery(document).ready(function() {
+            jQuery(".standardSelect").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+        });
+    </script>
 
-<!----------------------------------------Dropdown With Search----------------------------------------------- -->
-	<%-- <script
-		src="${pageContext.request.contextPath}/resources/customerBill/jquery-3.2.1.min.js"
-		type="text/javascript"></script> --%>
-	<script
-		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
-		type="text/javascript"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
-		type="text/javascript" charset="utf-8"></script>
+
 		
 <script>
 function myFunction() {
@@ -1090,6 +1134,17 @@ var repairFinishTime=$("#repairFinishTime"+key).val();
 
 }
 </script>
+<script type="text/javascript">
+function onMachineChange(id)
+{
+
+if(id=='-1')
+	{
+	window.open("${pageContext.request.contextPath}/showWhyWhyf18","_self");
+	}
+}
+</script>
+
 </body>
 
 </html>

@@ -40,6 +40,49 @@ overflow:auto;
   
   </script>
   
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+
 
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
   
@@ -319,7 +362,7 @@ overflow:auto;
 </textarea></td>
 							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
-							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							<a href="#"data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')" ><c:out value='Image1' /></a>
 							</c:when>
 							
 							</c:choose>
@@ -330,7 +373,7 @@ overflow:auto;
 </textarea></td>
 							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
-							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							<a href="#"data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
 							</c:choose>
 							</td>
@@ -339,7 +382,7 @@ overflow:auto;
 	<td><textarea rows="1" cols="20" name="date3ob" id="date3ob${cnt1}"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
 							<td><input type="file" id="myFile3${cnt1}" name="myFile3" value="${paMaintainence.date3Photo}">
-							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#"data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 				 			</c:when></c:choose>
 							</td>
 							</c:when>
@@ -350,7 +393,7 @@ overflow:auto;
 </textarea></td>
 							<td><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
-							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')"><c:out value='Image1' /></a>
 							</c:when>
 							
 							</c:choose>
@@ -361,7 +404,7 @@ overflow:auto;
 </textarea></td>
 							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
-							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
 							</c:choose>
 							</td>
@@ -370,7 +413,7 @@ overflow:auto;
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
 							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
-							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
 							</c:when>
@@ -382,7 +425,7 @@ overflow:auto;
 </textarea></td>
 							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
-							<a href="${url}${paMaintainence.date1Photo}" data-lightbox="image-1"tabindex="-1">Image1</a>
+							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')">Image1</a>
 							</c:when>
 							
 							</c:choose>
@@ -393,7 +436,7 @@ overflow:auto;
 </textarea></td>
 							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
-							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							<a href="#" data-lightbox="image-1"tabindex="-1"onclick="openImage('${url}${paMaintainence.date2Photo}')" ><c:out value='Image2' /></a>
 							</c:when>
 							</c:choose>
 							</td>
@@ -402,7 +445,7 @@ overflow:auto;
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
 							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
-							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
 							</c:when>
@@ -413,7 +456,7 @@ overflow:auto;
 </textarea></td>
 							<td hidden><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
-							<a href="${url}${paMaintainence.date1Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image1' /></a>
+							<a href="#"data-lightbox="image-1"tabindex="-1" onclick="openImage(${url}${paMaintainence.date1Photo})"><c:out value='Image8' /></a>
 							</c:when>
 							
 							</c:choose>
@@ -424,7 +467,7 @@ overflow:auto;
 </textarea></td>
 							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
-							<a href="${url}${paMaintainence.date2Photo}"data-lightbox="image-1"tabindex="-1" ><c:out value='Image2' /></a>
+							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
 							</c:choose>
 							</td>
@@ -433,7 +476,7 @@ overflow:auto;
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
 							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
-							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="${url}${paMaintainence.date3Photo}"data-lightbox="image-1"tabindex="-1"><c:out value='Image3' /></a>
+							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
 							
@@ -575,7 +618,18 @@ overflow:auto;
 		</div>
 	</div>
 	<!-- END Main Content -->
-
+<div id="myModal" class="modal">
+ <div class="modal-content">
+    <span class="close">&times;</span>
+   
+  <!-- Modal content -->
+  <!-- <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div> -->
+<img  alt="Image Not Available" id="objMachineImage" style="height: 500px; width: 500px;">
+ </div>
+</div>
 	</div>
  
 	  <!--//w3-agileits-pane-->	
@@ -1195,6 +1249,22 @@ $("#table").rowspanizer({vertical_align: 'middle'});
 	<script
 		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
 		type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+		
+		function openImage(img)
+		{
+			$("#myModal").show();
+			 
+			document.getElementById("objMachineImage").src=img;
+		}
+		var span = document.getElementsByClassName("close")[0]; 
+		span.onclick = function() {
+			$("#myModal").hide();
+		    
+		}
+		</script>
+		
 </body>
 
 </html>

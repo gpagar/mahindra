@@ -19,9 +19,20 @@ public class EqCalDetails implements Serializable{
 	
 	private int frequency;
 	
-	private Date lastCalDate;
+	private int deptId;
+	
+	private String lastCalDate;
 	
 	private int delStatus;
+
+	
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
 
 	public int getId() {
 		return id;
@@ -79,11 +90,11 @@ public class EqCalDetails implements Serializable{
 		this.frequency = frequency;
 	}
 
-	public Date getLastCalDate() {
+	public String getLastCalDate() {
 		return lastCalDate;
 	}
 
-	public void setLastCalDate(Date lastCalDate) {
+	public void setLastCalDate(String lastCalDate) {
 		this.lastCalDate = lastCalDate;
 	}
 

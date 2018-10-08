@@ -90,11 +90,11 @@ body {
 									<ul id="menu" >
 										<li><a href="home"><i class="fa fa-tachometer"></i> <span>Dashboard</span><div class="clearfix"></div></a></li>
 										
-										<li id="menu-academico" ><a href="${pageContext.request.contextPath}/showAddMachine"><i class="fa fa-cogs"></i><span>PM Masters</span><div class="clearfix"></div></a></li>
-										
-										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmPlanList"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
-										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmSchedule"><i class="fa fa-cogs"></i><span>PM Schedule</span><div class="clearfix"></div></a></li>
-										 
+<%-- 										<li id="menu-academico" ><a href="${pageContext.request.contextPath}/showAddMachine"><i class="fa fa-cogs"></i><span>PM Masters</span><div class="clearfix"></div></a></li>
+ --%>										
+										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPm"><i class="fa fa-cogs"></i><span>Preventive Maintenance</span><div class="clearfix"></div></a></li>
+<%-- 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmSchedule"><i class="fa fa-cogs"></i><span>PM Schedule</span><div class="clearfix"></div></a></li>
+ --%>										 
 <%-- 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/addPredictiveMaintenance"><i class="fa fa-gear"></i><span>Predictive Maintenance </span><div class="clearfix"></div></a></li>
  --%>									  <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showWhyWhyf18"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <br/><span>(WHY WHY Analysis) </span><div class="clearfix"></div></a></li>
 							
@@ -110,26 +110,28 @@ body {
 <%-- 									<li><a href="${pageContext.request.contextPath}/showBreakdownHistory"><i class="fa fa-h-square" aria-hidden="true"></i><span>History Card</span><div class="clearfix"></div></a></li>
  --%>									 
 <!-- 										<li><a href="showPmPlan"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>QCRT</span><div class="clearfix"></div></a></li>
- -->										
-											<li><a href="${pageContext.request.contextPath}/showTbm"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>TBM</span><div class="clearfix"></div></a></li>
-										<li><a href="${pageContext.request.contextPath}/showCalibration"><i class="fa fa-calculator" aria-hidden="true"></i><span>Calibration </span><div class="clearfix"></div></a></li>
-								 
-									<li><a href="showPmPlan"><i class="	fa fa-columns" aria-hidden="true"></i><span>DWM </span><div class="clearfix"></div></a></li>
+ -->									
+									<li><a href="#" onclick="openNav()"><i class="	fa fa-columns" aria-hidden="true"></i><span>DWM </span><div class="clearfix"></div></a></li>
 								
-								 	
+<%-- 								 		<li><a href="${pageContext.request.contextPath}/showAddTbmMachine"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>TBM Master</span><div class="clearfix"></div></a></li>
+ --%>											<li><a href="${pageContext.request.contextPath}/showPeriodicMaintainance"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>Periodic Maintainence</span><div class="clearfix"></div></a></li>
+<%-- 										<li><a href="${pageContext.request.contextPath}/showEqCal"><i class="fa fa-calculator" aria-hidden="true"></i><span>Add Equipment(Cal)</span><div class="clearfix"></div></a></li>
+ --%>										<li><a href="${pageContext.request.contextPath}/showCalMenu"><i class="fa fa-calculator" aria-hidden="true"></i><span>Calibration </span><div class="clearfix"></div></a></li>
+								 
 								<li><a href="showPmPlan"><i class="	fa fa-internet-explorer" aria-hidden="true"></i><span>Mail Alerts</span><div class="clearfix"></div></a></li>
 								
 								
-									<li><a href="showPmPlan"><i class="fa fa-calendar" aria-hidden="true"></i><span>Schedulers</span><div class="clearfix"></div></a></li>
-									
-									<li><a href="#" onclick="openNav()"><i class="fa fa-bar-chart" style="font-size:14px" aria-hidden="true"></i><span >Auto Graph Plot</span><div class="clearfix"></div></a></li>
-
-									<li id="menu-academico" ><a href="mail"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
+<!-- 									<li><a href="showPmPlan"><i class="fa fa-calendar" aria-hidden="true"></i><span>Schedulers</span><div class="clearfix"></div></a></li>
+ -->									
+<!-- 									<li><a href="#" onclick="openNav()"><i class="fa fa-bar-chart" style="font-size:14px" aria-hidden="true"></i><span >Auto Graph Plot</span><div class="clearfix"></div></a></li>
+ -->
 									 
 									 <li><a href="graph"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
 								
 								
 								 <li><a href="${pageContext.request.contextPath}/graph"><i class="fa fa-book"></i>  <span>Learning librabry</span><div class="clearfix"></div></a></li>
+									<li id="menu-academico" ><a href="mail"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
+									
 									 <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
 									 
 									

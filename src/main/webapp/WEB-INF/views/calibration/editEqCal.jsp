@@ -13,9 +13,15 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
   
 </head>
 <body>
+  <c:url var="getEqById" value="/getEqById"></c:url>
    <div class="page-container">
    
    
@@ -50,7 +56,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>  MACHINE SHOP EQUIPMENT / INSTRUMENT CALIBRATION 
+								<i class="fa fa-bars"></i> Edit MACHINE SHOP EQUIPMENT / INSTRUMENT CALIBRATION 
 							</h3>
 							<div class="box-tool">
 							
@@ -65,7 +71,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							 id="validation-form"
 										enctype="multipart/form-data" method="post">
 							<br><br>
-
+							<div class="form-group">
+				<label class="col-sm-3 col-lg-4 control-label">Select Equipment/Instrument</label>
+								<div class="col-sm-6 col-lg-4 controls">
+                   <select data-placeholder="Choose Equipment"
+								 class="chosen-select" style="width:99% !important;" tabindex="6" id="id"
+								name="id" onchange="onEqChange(this.value)">
+								<option value="" selected>Choose Equipment</option>	
+								
+								 <c:forEach items="${eqList}" var="eqList">
+                                  <option value="${eqList.id}" >${eqList.srNo}--${eqList.eqName}</option>
+                                 
+                                  </c:forEach>   
+								</select></div>
+								</div>
 					<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Equipment/Instrument Name.</label>
 									 
@@ -140,7 +159,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2">
 							<button type="submit" class="btn btn-info" id="submitbtn">Submit</button>  
-									 	<a href="${pageContext.request.contextPath}/editEqCal">	<button type="button" class="btn btn-success" >Edit Equipment</button> </a> 
 		
 
 						</div>
@@ -206,7 +224,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							  <div class="clearfix"></div>		
 							</div>
-							<script>
+					<!-- 		<script>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -225,7 +243,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
+							</script> -->
 <!--js -->
 <script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
@@ -235,7 +253,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
+<script type="text/javascript">
+	function onEqChange(id)
+	{
+		
+		document.getElementById("eqName").value="";
+		document.getElementById("eqSrNo").value="";
+		document.getElementById("cardNo").value="";
+		document.getElementById("machineNo").value="";
+		document.getElementById("line").value="";
+		document.getElementById("frequency").value="";
+		document.getElementById("lastCalDate").value="";
+		$.getJSON('${getEqById}', {
+			id : id,
+			ajax : 'true'
 
+		}, function(data) {
+			document.getElementById("eqName").value=data.eqName;
+			document.getElementById("eqSrNo").value=data.srNo;
+			document.getElementById("cardNo").value=data.cardNo;
+			document.getElementById("machineNo").value=data.machineNo;
+			document.getElementById("line").value=data.line;
+			document.getElementById("frequency").value=data.frequency;
+			document.getElementById("lastCalDate").value=data.lastCalDate;
+		});
+		
+	}
+	</script>
+		<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

@@ -153,7 +153,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				
 
 				</div>
-			</div>			     
+			</div>		<br>
+			<div class="col-sm-3 col-lg-3 controls">
+						<a href="${pageContext.request.contextPath}/showAddMachine">
+						<input type='button'  class="btn btn-primary" value="Add Machine"/>					</a>
+						</div>	     
 				</div>
 
 			</div>

@@ -13,6 +13,12 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
+
   
 </head>
 <body>
@@ -77,10 +83,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</a>
 						</div>
 						<div class="col-sm-3 col-lg-3 controls">
-						<a href="${pageContext.request.contextPath}/showAddTbmItem">Add Item
+						<a href="${pageContext.request.contextPath}/showAddTbmItem" style="text-decoration: underline; font-size: 20px;">Add Item
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-3 controls">
+						<a href="${pageContext.request.contextPath}/showAllTbmMachine">View All TBM Machine
+						
+						</a>
+						</div>  
 						<%-- <div class="col-sm-3 col-lg-3 controls">
 						<a href="${pageContext.request.contextPath}/showAddCheckpoint">Add Frequency
 						
@@ -100,19 +111,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									 
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="machine"
+								class="chosen-select" style="width:99% !important;" tabindex="6" id="machine"
 								name="machine" required>
 
 								<option value=""selected disabled="disabled">Choose Machine </option>
 
-								 <c:set var="${select}" value=""/>
+								 <c:set var="select" value=""/>
 
 								 <c:forEach items="${tbmMachineDetailsList}" var="tbmMachineDetailsList"
 									varStatus="count">
-									 <c:set var="${select}" value=""/>
+									 <c:set var="select" value=""/>
 									 <c:choose>
 									 <c:when test="${tbmMachineDetailsList.machineId==tbmMachineItem.machineId}">
-									 <c:set var="${select}" value="selected"/>
+									 <c:set var="select" value="selected"/>
 									 </c:when>
 									 </c:choose>
 									
@@ -131,21 +142,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<label class="col-sm-3 col-lg-4 control-label">Select Location  </label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<select data-placeholder="Choose Machine Type"
-								class="form-control chosen" tabindex="6" id="location"
+								class="chosen-select" style="width:99% !important;" tabindex="6" id="location"
 								name="location" required>
 
 <option disabled="disabled">Choose Location </option>
+ <c:set var="select1" value=""/>
 	 <c:forEach items="${tbmMachineLocationList}" var="tbmMachineLocationList"
 									varStatus="count">
-									 <c:set var="${select}" value=""/>
+									 <c:set var="select1" value=""/>
 									 <c:choose>
 									 <c:when test="${tbmMachineLocationList.locationId==tbmMachineItem.locationId}">
-									 <c:set var="${select}" value="selected"/>
+									 <c:set var="select1" value="selected"/>
 									 </c:when>
 									 </c:choose>
 									
 									
-									<option <c:out value="${select}"/> value="${tbmMachineLocationList.locationId}"> ${tbmMachineDetailsList.location}</option>
+									<option <c:out value="${select1}"/> value="${tbmMachineLocationList.locationId}"> ${tbmMachineLocationList.location}</option>
 								</c:forEach>					 
 
 
@@ -171,7 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="form-group">
 									<label class="col-sm-3 col-lg-4 control-label">Last Done Date.</label>
 									<div class="col-sm-6 col-lg-4 controls">
-																<input type="date" name=lastDate id="lastDate"  class="form-control "placeholder="lastDate"   data-rule-required="true" required />
+																<input type="date" value="${tbmMachineItem.lastDate}" name=lastDate id="lastDate"  class="form-control "placeholder="lastDate"   data-rule-required="true" required />
 
 						</div>
 						</div>	 
@@ -179,7 +191,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						 
 					 
 							 
-							<input name="itemId" value="${tbmMachineItem.itemId}">
+							<input type="hidden" name="itemId" value="${tbmMachineItem.itemId}">
 							
 								 
 						
@@ -289,6 +301,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- morris JavaScript -->	
 <script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
+<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	
 	 
@@ -366,6 +384,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 
 		 
 	</script>
+	
 </body>
 
 </html>

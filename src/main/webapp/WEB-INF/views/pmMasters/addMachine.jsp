@@ -80,11 +80,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-2 controls">
+						<%-- <div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
 						
 						</a>
-						</div>
+						</div> --%>
 						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
@@ -106,6 +106,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showInsertPmPlan">Insert M/C Schedule</a> 
+					    </div>
 						</div>
 						<br/>	<br/>	<br/>
 
@@ -161,7 +164,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						</div>	 
 									
-						 
+						 <div class="form-group">
+									<label class="col-sm-3 col-lg-4 control-label">Line</label>
+									<div class="col-sm-6 col-lg-4 controls">
+																<input type="text" name="line" id="line"  class="form-control "placeholder="Line"  value="${machine.line}" data-rule-required="true" required />
+
+						</div>
+						</div>	 
 					 
 							 
 							
@@ -699,14 +708,52 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 function submitForm()
 {
 	 document.getElementById("saveType").value=0;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 function submitForm1()
 {
 	 document.getElementById("saveType").value=1;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 </script>
+
+		<script type="text/javascript">
+				function validate() {
+
+				
+					var machineType = $("#machineType").val();
+					var machineName = $("#machineName").val();
+					var line = $("#line").val();
+					var isValid = true;
+
+					if (machineType == null || machineType=="" ) {
+
+						isValid = false;
+						alert("Please select Machine Type");
+
+					} else 	if (machineName == null || machineName=="" ) {
+
+						isValid = false;
+						alert("Please Enter Machine Name");
+
+					} else 	if (line == null || line=="" ) {
+
+						isValid = false;
+						alert("Please Enter Line");
+
+					}
+					return isValid;
+
+				}
+			</script>
+
+
 </body>
 
 </html>

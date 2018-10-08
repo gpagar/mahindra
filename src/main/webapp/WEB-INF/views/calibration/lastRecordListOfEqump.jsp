@@ -144,7 +144,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Last Calibaration Date</th>
 							<th>Calibration Done Date</th>  
 							<th>Edit Calibration Done Date</th>
-							<th > Edit Upload Pdf</th>
+							<th >Edit_Uploaded_Pdf</th>
 							<th >Action</th>
 						  </tr>
 						</thead>
@@ -163,9 +163,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${equmpList.lastCalDate}</td>
 				              <td>${equmpList.calibrationDoneDate}<input type="hidden" name="tEqupId" id="tEqupId" value="${equmpList.id}"/></td> 
 				               <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate"  /></td>
-				             <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"  class="form-control"  /></td>
-				              		 <td > <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Submit Edit" onclick="saveCal(${count.index})"/>
-				              		 <a href="${pageContext.request.contextPath}/deleteCalibarationEqupmentRecord/${equmpList.id}"><input type="button"  class="btn btn-primary" value="Delete Record" /></a></td>
+				             <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"    /></td>
+				              		 <td > <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Update" onclick="saveCal(${count.index})"/>&nbsp;&nbsp;
+				              		 <a href="${pageContext.request.contextPath}/deleteCalibarationEqupmentRecord/${equmpList.id}"><input type="button"  class="btn btn-primary" value="Delete"   /></a></td>
 				                
 				              </tr>
 				              </form>

@@ -296,7 +296,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Machine</th>
 							<th>M/C No</th>
 							<th>Line</th>
-						 	<th>Acti</th>
+						 	<th>Type</th>
 						    <th>Freq in Month</th>
 						    <th colspan="4">${months[(f-1)]}</th>
 						    <th colspan="4">${months[(s-1)]}</th>
@@ -342,7 +342,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${planList.machinName}</td>
 				              <td>${planList.machineNo}</td>
 				              <td>${planList.line}</td>
-				              <td>PM</td>
+				              <td><c:choose>
+				              <c:when test="${planList.type==1}">
+				              Electrical
+				              </c:when>
+				              <c:when test="${planList.type==2}">
+				              Mechanical
+				              </c:when>
+				              </c:choose></td>
 				              <td>4</td>
 				              <c:set var="month1color" value="orange"></c:set>
 				              				              <c:set var="month2color" value="orange"></c:set>

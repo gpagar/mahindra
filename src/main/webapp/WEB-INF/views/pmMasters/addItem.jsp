@@ -82,11 +82,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-2 controls">
+						<%-- <div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
 						
 						</a>
-						</div>
+						</div> --%>
 						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
@@ -108,6 +108,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showInsertPmPlan">Insert M/C Schedule</a> 
+					    </div>
 						</div>
 						<br/>	<br/>	<br/>
 						
@@ -418,7 +421,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					function() {
 
-						alert("hh");
+						
 
 						 
 
@@ -847,14 +850,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 function submitForm()
 {
 	 document.getElementById("saveType").value=0;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 function submitForm1()
 {
 	 document.getElementById("saveType").value=1;
+	 var valid=validate();
+	 if(valid==true){
   document.getElementById("validation-form").submit();
+	 }
 }
 </script>
+<script type="text/javascript">
+				function validate() {
+
+					var machineType= $("#machineType").val();
+					var machineId = $("#machineId").val();
+					var machinActivity= $("#machinActivity").val();
+					var itemName=$("#itemName").val();
+					var isValid = true;
+
+					if (machineType == null || machineType=="" ) {
+
+						isValid = false;
+						alert("Please select Machine Type");
+
+					} else 	if (machineId == null || machineId=="" ) {
+
+						isValid = false;
+						alert("Please Select Machine");
+
+					} else 	if (machinActivity == null || machinActivity=="" ) {
+
+						isValid = false;
+						alert("Please Select Activity");
+
+					}else 	if (itemName == null || itemName=="" ) {
+
+						isValid = false;
+						alert("Please Enter Item Name");
+
+					}
+					return isValid;
+
+				}
+			</script>
 </body>
 
 </html>

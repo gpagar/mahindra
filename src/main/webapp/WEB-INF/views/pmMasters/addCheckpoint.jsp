@@ -82,11 +82,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
-						<div class="col-sm-3 col-lg-2 controls">
+						<%-- <div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showUpdateMachine">Edit Machine
 						
 						</a>
-						</div>
+						</div> --%>
 						<div class="col-sm-3 col-lg-2 controls">
 						<a href="${pageContext.request.contextPath}/showAddActivity">Add Activity
 						
@@ -108,6 +108,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						</a>
 						</div>
+						<div class="col-sm-3 col-lg-2 controls">
+						<a href="${pageContext.request.contextPath}/showInsertPmPlan">Insert M/C Schedule</a> 
+					    </div>
 						</div>
 						<br/>	<br/>	<br/>
 						
@@ -947,7 +950,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			});
 
-			
 	 }
 	</script>
 	

@@ -1,6 +1,6 @@
 package com.mahindra.project.model;
- 
- 
+
+
 public class MachinDetails {
 
   
@@ -12,7 +12,8 @@ public class MachinDetails {
  
 	String machinNo;
 	
-	 
+	String line;
+	
 	int type;
  
 	String string3;
@@ -26,6 +27,14 @@ public class MachinDetails {
 	String string1;
  
 	String string2;
+	
+	
+	public String getLine() {
+		return line;
+	}
+	public void setLine(String line) {
+		this.line = line;
+	}
 	public int getMachinId() {
 		return machinId;
 	}
