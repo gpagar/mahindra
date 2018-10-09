@@ -276,7 +276,7 @@ h6{
 						</div></a>
 					</div>
 					<div class="col-md-3 four-grid">
-						<div class="four-w3ls">
+					<a href="${pageContext.request.contextPath}/showCbmSchedule">	<div class="four-w3ls">
 							<div class="icon">
 								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
 							</div>
@@ -285,7 +285,7 @@ h6{
 						
 							</div>
 							
-						</div>
+						</div></a>
 					</div>
 					
 					<div class="clearfix"></div>

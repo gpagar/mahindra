@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -36,6 +37,7 @@ import com.mahindra.project.model.SocData;
 import com.mahindra.project.model.calibration.EqCalDetails;
  
 @Controller
+@Scope("session")
 public class DataUploadController {
 	
 	@Autowired
@@ -276,7 +278,7 @@ public class DataUploadController {
 				//System.out.println("1st "+row.getCell(6).getStringCellValue());
 				data.setFrequency((int)row.getCell(3).getNumericCellValue());
 				//System.out.println("1st "+row.getCell(7).getStringCellValue());
-				data.setLastCalDate(row.getCell(5).getDateCellValue());
+				data.setLastCalDate(""+row.getCell(5).getDateCellValue());
 
 				dataLists.add(data);
 			}			

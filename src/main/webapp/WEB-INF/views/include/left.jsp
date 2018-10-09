@@ -114,7 +114,8 @@ body {
 									<li><a href="#" onclick="openNav()"><i class="	fa fa-columns" aria-hidden="true"></i><span>DWM </span><div class="clearfix"></div></a></li>
 								
 <%-- 								 		<li><a href="${pageContext.request.contextPath}/showAddTbmMachine"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>TBM Master</span><div class="clearfix"></div></a></li>
- --%>											<li><a href="${pageContext.request.contextPath}/showPeriodicMaintainance"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>Periodic Maintainence</span><div class="clearfix"></div></a></li>
+ --%>											<li><a href="${pageContext.request.contextPath}/showTbmMenu"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>Periodic Maintainence</span><div class="clearfix"></div></a></li>
+ 		<li><a href="${pageContext.request.contextPath}/showCbmSchedule"><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span>Predictive Maintainence</span><div class="clearfix"></div></a></li>
 <%-- 										<li><a href="${pageContext.request.contextPath}/showEqCal"><i class="fa fa-calculator" aria-hidden="true"></i><span>Add Equipment(Cal)</span><div class="clearfix"></div></a></li>
  --%>										<li><a href="${pageContext.request.contextPath}/showCalMenu"><i class="fa fa-calculator" aria-hidden="true"></i><span>Calibration </span><div class="clearfix"></div></a></li>
 								 
