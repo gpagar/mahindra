@@ -20,6 +20,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/home/css/lightbox.css">
+	<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 50%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 50%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
  <style type="text/css">select {
      padding: 0rem 0rem; 
     text-transform: uppercase;
@@ -27,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 #overlay {
     position: fixed;
     display: none;
-    width: 100%;
+    width: 30%;
     height: 100%;
     top: 0;
     left: 0;
@@ -79,85 +115,67 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Last Calibration Record
+								<i class="fa fa-bars"></i> Learning Library
 							</h3>
-							<div class="box-tool">
-						
-						</div><br>
+						<br>
 
 						<div class="box-content">
-			 				<form action="${pageContext.request.contextPath}/historyOfCalibreationEqumt"  class="form-horizontal"
-							 id="validation-form" 	 method="GET">
-                   
-				
-					<div class="form-group">
-							<div class="col-md-2">From Date: </div>
+			 
+		
+					<form action="${pageContext.request.contextPath}/insertFile"  class="form-horizontal"
+							 id="validation-form" enctype="multipart/form-data"	 method="POST">
+					  <div class="form-group">
+							<div class="col-md-2">Choose File: </div>
 							<div class="col-md-3">
-								<input type="date" name="fromDate" id="fromDate" value="${fromDate}"/>
+								<input type="file" name="fileName" id="fileName"     required />
 						</div>
 						
-						<label class="col-md-2">To Date: </label>
+						<label class="col-md-2">File Desc: </label>
 							<div class="col-md-3">
-								<input type="date" name="toDate" id="toDate" value="${toDate}"/>
+								<input type="text" name="fileDesc" id="fileDesc"  required/>
 						</div>
 									
-						</div>
-					
-					<div class="row" align="center">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
-							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
-							
+						</div><br> 
+							<div class="row" align="center">
+							<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
+								<input type="submit" class="btn btn-info" id="submitbtn" value="Upload File">   
+								
+							</div> 
 						</div><br>
-						<%-- <div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-5">
-								<a href="${pageContext.request.contextPath}/showTbmHistory">	<button type="button" class="btn btn-success" >TBM History</button> </a> 
-						
-						</div> --%>
-					</div>
-		</form>  
+					</form>
+<div class="row" align="right">
+						 				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" title="Type in a name" style="border-radius: 23px;">
+						  
+							
+						</div> 
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
 					<div class="w3l-table-info" style="overflow-x:auto; height:400px">
 					
-					    <table id="table"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
+					    <table id="table" width="100%" style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
 						
 						  <tr>
-							<th>Sr.No</th>
-							<th>Equipment/Instrument Name</th>
-							<th>Equip.Serial No.</th>
-							<th>M&M Card No.</th>
-						 	<th>M/c No.</th>
-						    <th>Line</th>
-							<th>Freq. (Year)</th>
-							<th>Last Calibaration Date</th>
-							<th>Calibration Done Date</th>  
-							<th>Uploaded File</th>
+							<th width="2%">Sr.No</th>
+							<th>File Name</th> 
+							<th width="10%">Uploaded_Pdf</th> 
+							<th width="10%">Action</th> 
 						  </tr>
 						</thead>
 						<tbody>
-				              <c:forEach items="${equmpList}" var="equmpList" varStatus="count">
-				              <form action="${pageContext.request.contextPath}/submitCalibarationEqupment"  class="form-horizontal"
-							 id="validation-form" 	 method="POST">
+				              <c:forEach items="${list}" var="list" varStatus="count">
+				               
 				              <tr>
 				              <td>${count.index+1}</td>
-				              <td>${equmpList.eqName}</td>
-				              <td>${equmpList.srNo}</td>
-				              <td>${equmpList.cardNo}</td>
-				              <td>${equmpList.machineNo}</td>
-				              <td>${equmpList.line}</td>
-				              <td>${equmpList.frequency}</td>
-				              <td>${equmpList.lastCalDate}</td>
-				              <td>${equmpList.calibrationDoneDate}<input type="hidden" name="mEqupId" id="mEqupId" value="${equmpList.id}"/></td> 
-				              <th>
-				               <a href="http://file:///E:/EMaintainence/pdf/${equmpList.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
-										  </a> 
-				               </th>
-				              
-				             <%--  <td>${eqCalDetailList.nextCalDate}  ${today}</td> --%>
-				                
+				              <td>${list.fileDesc}</td> 
+				               
+				              		 <td> <a href="http://file:///E:/EMaintainence/pdf/${list.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
+										  </a></td>
+				              		 <td><a href="${pageContext.request.contextPath}/deleteFile/${list.fileId}" ><i class="fa fa-trash-o" style="font-size:18px;color:red"></i> 
+				              		 </a></td>
 				              </tr>
-				              </form>
+				               
                               </c:forEach>
 							</tbody>
 					  </table>
@@ -289,6 +307,7 @@ function saveTbm(key)
 		if(data!=null){
 		alert("TBM SAVED SUCCESSFULLY")
 		off();
+		window.location.reload();
 		}
 		else{
 			
@@ -306,10 +325,26 @@ function on() {
 function off() {
     document.getElementById("overlay").style.display = "none";
 }
-
-function relocate_home()
-{
-     location.href = 'http://file:///E:/EMaintainence/pdf/qrCodes.pdf';
+</script>
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i,td1,td2,td3;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1]; 
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }    
+   
+    
+  }
 }
 </script>
 </body>
