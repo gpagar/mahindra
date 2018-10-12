@@ -143,6 +143,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<th>Freq. (Year)</th>
 							<th>Last Calibaration Date</th>
 							<th>Calibration Done Date</th>  
+							<th>Uploaded File</th>
 							<th>Edit Calibration Done Date</th>
 							<th >Edit_Uploaded_Pdf</th>
 							<th >Action</th>
@@ -161,7 +162,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${equmpList.line}</td>
 				              <td>${equmpList.frequency}</td>
 				              <td>${equmpList.lastCalDate}</td>
-				              <td>${equmpList.calibrationDoneDate}<input type="hidden" name="tEqupId" id="tEqupId" value="${equmpList.id}"/></td> 
+				              <td>${equmpList.calibrationDoneDate}<input type="hidden" name="tEqupId" id="tEqupId" value="${equmpList.id}"/></td>
+				              <th>
+				               <a href="http://file:///E:/EMaintainence/pdf/${equmpList.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-primary">
+										  </a> 
+				               </th> 
 				               <td><input type="date" name="calibrationDoneDate" id="calibrationDoneDate"  /></td>
 				             <td class="col-md-3"> <input type="file" name="caliFile" id="caliFile"    /></td>
 				              		 <td > <input type="submit" name="submit${count.index}" id="submit${count.index}" class="btn btn-primary" value="Update" onclick="saveCal(${count.index})"/>&nbsp;&nbsp;
