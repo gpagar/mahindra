@@ -17,6 +17,23 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendMail {
 	
+	/*<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>javax.mail-api</artifactId>
+	<version>1.5.5</version>
+</dependency>
+<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<version>1.4.7</version>
+</dependency>
+
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-context-support</artifactId>
+<version>${org.springframework-version}</version>
+</dependency>*/
+
 	public static void sendFileThoughMail() {
 		
 		final String emailSMTPserver = "smtp.gmail.com";
@@ -72,5 +89,50 @@ public class SendMail {
 
 		
 	}
+	
+public static void sendMsgThoughMail(String msg) {
+		
+		final String emailSMTPserver = "smtp.gmail.com";
+		final String emailSMTPPort = "587";
+		final String mailStoreType = "imaps";
+		final String username = "akshaykasar72@gmail.com";
+		final String password = "mh151889";
+
+		System.out.println("username" + username);
+		System.out.println("password" + password);
+
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			Store mailStore = session.getStore(mailStoreType);
+			mailStore.connect(emailSMTPserver, username, password); 
+			 
+			
+			Message mimeMessage = new MimeMessage(session); 
+			  mimeMessage.setFrom(new InternetAddress(username)); 
+			  mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress(("akshaykasar72@gmail.com"))); 
+			  mimeMessage.setSubject("Check Mahindra ");  
+			  mimeMessage.setText(msg);
+			  
+			  Transport.send(mimeMessage);
+			  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
 
 }
