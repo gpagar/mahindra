@@ -59,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<c:choose><c:when test="${sessionScope.deptName ne null}">	<div class="col-md-5" style="background: #8e24aa;
     background: -webkit-linear-gradient(45deg, #8e24aa 0%, #ff6e40 100%);
     background: linear-gradient(45deg, #8e24aa 0%, #ff6e40 100%);
-    box-shadow: 0 6px 20px 0 rgba(255, 110, 64, 0.5); height: 30px;color: white;padding: 2px;
+    box-shadow: 0 6px 20px 0 rgba(255, 110, 64, 0.5); height: 30px;width:100px;color: white;padding: 2px;
 }">&nbsp;&nbsp;	${sessionScope.deptName}</div></c:when></c:choose>	
 							<!--search-box-->
 								<!-- <div class="w3-search-boxc"> -->

@@ -28,7 +28,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
               <c:url var="getItemByActivity" value="/getItemByActivity"></c:url>
                  <c:url var="getCheckPointsByItem" value="/getCheckPointsByItem"></c:url>
                  <c:url var="getCheckRecordAgistMachine" value="/getCheckRecordAgistMachine"></c:url>
-                 
+                     <c:url var="getTarget" value="/getTarget"></c:url>
                  <script>
   $( function() {
     $( ".dp2" ).datepicker({
@@ -69,24 +69,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<form action="${pageContext.request.contextPath}/insertTarget"  class="form-horizontal"
 							 id="validation-form" enctype="multipart/form-data" method="post">
 								<input type="hidden" name="graphType" id="graphType" value="${graphType}"/>
+									<input type="hidden" name="targetId" id="targetId" value="0"/>
                     	<div class="row">
-									<label class="col-sm-2 col-lg-2 control-label">Year</label>
+									<label class="col-sm-2 col-lg-1 control-label">Year</label>
 									 
 									<div class="col-sm-6 col-lg-2 controls">
 										<select name="yearpicker" id="yearpicker"	class="form-control" ></select>
 										
 						</div>
 						<label class="col-sm-2 col-lg-1 control-label">Target(L3)</label>
-									<div class="col-sm-6 col-lg-2 controls">
-										<input type="number" name="l3Target" id="l3Target" required/>
+									<div class="col-sm-6 col-lg-1 controls">
+										<input type="text" name="l3Target" id="l3Target" style="width:90px" min="0" required/>
 									</div>
 					
 									<label class="col-sm-2 col-lg-2 control-label">Target(L5)</label>
-									<div class="col-sm-6 col-lg-2 controls">
-										<input type="number" name="l5Target" id="l5Target" required  />
+									<div class="col-sm-6 col-lg-1 controls">
+										<input type="text" name="l5Target" id="l5Target"  style="width:90px" min="0" required  />
+									</div>
+									<label class="col-sm-2 col-lg-2 control-label">Actual</label>
+									<div class="col-sm-6 col-lg-1 controls">
+										<input type="text" name="actual" id="actual" style="width:90px"  min="0" required  />
 									</div>
 						</div>	
-						<div class="row"></div>
+						<div class="row">
+						
+						</div>
 						
 				
 					<div class="row" align="center">
@@ -118,7 +125,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						  <td>${breakdownTarget.year}</td>
 						  <td>${breakdownTarget.targetL3}</td>
 						  <td>${breakdownTarget.targetL5}</td>
-						  <td><a href="${pageContext.request.contextPath}/deleteTarget/${breakdownTarget.targetId}/${graphType}"
+						  <td>
+						  <span class="glyphicon glyphicon-edit" onclick="updateTarget(${breakdownTarget.targetId})"></span>&nbsp;&nbsp;
+                                            
+						  <a href="${pageContext.request.contextPath}/deleteTarget/${breakdownTarget.targetId}/${graphType}"
 													    onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 						  </tr>
@@ -162,9 +172,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <!--inner block end here-->
 <!--copy rights start here-->
-<div class="copyrights">
+<!-- <div class="copyrights">
 		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
-</div>	
+</div> -->	
 <!--COPY rights end here-->
 </div>
 </div>
@@ -213,7 +223,7 @@ $(document).ready(function() {
 		year=(new Date().getFullYear())+1;
 	}
 	
-for (i = (year); i > 1900; i--)
+for (i = (year); i > 2010; i--)
 { 
 	if(i==yearsel)
 		{
@@ -227,6 +237,23 @@ for (i = (year); i > 1900; i--)
 }
 });
 
+</script>
+<script type="text/javascript">
+function updateTarget(targetId){
+	
+	$.getJSON('${getTarget}', {
+		targetId : targetId,
+	
+		ajax : 'true'
+
+	}, function(data) {
+	document.getElementById("targetId").value=data.targetId;
+	document.getElementById("yearpicker").value=data.year;
+	document.getElementById("l3Target").value=data.targetL3;
+	document.getElementById("l5Target").value=data.targetL5;
+	document.getElementById("actual").value=data.exString;
+	});
+}
 </script>
 </body>
 </html>

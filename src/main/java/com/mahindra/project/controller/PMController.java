@@ -31,6 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mahindra.project.constant.Constant;
 import com.mahindra.project.constant.VpsImageUpload;
+import com.mahindra.project.model.BreakdownMonthwise;
+import com.mahindra.project.model.BreakdownTarget;
+import com.mahindra.project.model.BreakdownTimeMonthwise;
 import com.mahindra.project.model.GetPMData;
 import com.mahindra.project.model.GetPaMaintainence;
 import com.mahindra.project.model.MachinDetails;
@@ -67,6 +70,148 @@ public class PMController {
 			List<PmRequiredValue> requiredValueList = rest.getForObject(Constant.url + "getAllPmRequiredValue",
 					List.class);
 			model.addObject("requiredValueList",requiredValueList);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	@RequestMapping(value = "/showPmTargets", method = RequestMethod.GET)
+	public ModelAndView showPmTargets(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("pmTargets");
+		try
+		{
+			String currYear="";
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			java.util.Date date= new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH)+1;
+			String fromMonth="";
+			String toMonth="";
+			int currentYear=0;
+			  String year = new SimpleDateFormat("yyyy").format(new Date());
+			if(month>3)
+			{
+				fromMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(fromMonth);
+				toMonth=(intYear+1)+"";
+				currentYear=Integer.parseInt(year);
+				currentYear=currentYear+1;
+				currYear=(Integer.parseInt(new SimpleDateFormat("yy").format(new Date()))+1)+"";
+			}
+			else
+			{
+				toMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(toMonth);
+				fromMonth=(intYear-1)+"";
+				currentYear=Integer.parseInt(year);
+				currYear=new SimpleDateFormat("yy").format(new Date());
+			}
+			System.out.println("year"+currentYear);
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			map.add("first", fromMonth+"-04");
+			map.add("second", fromMonth+"-05");
+			map.add("third", fromMonth+"-06");
+			map.add("fourth", fromMonth+"-07");
+			map.add("fifth", fromMonth+"-08");
+			map.add("sixth", fromMonth+"-09");
+			map.add("seventh", fromMonth+"-10");
+			map.add("eighth", fromMonth+"-11");
+			map.add("ninth", fromMonth+"-12");
+			map.add("tenth", toMonth+"-01");
+			map.add("eleventh", toMonth+"-02");
+			map.add("twelvth", toMonth+"-03");
+            map.add("deptId", deptId);
+			
+			BreakdownMonthwise minorStoppages = rest.postForObject(Constant.url + "/getMonthwiseBreakdowns",
+					map,BreakdownMonthwise.class);
+            System.err.println("minorStoppages:"+minorStoppages.toString());
+			
+            model.addObject("minorStoppages", minorStoppages);
+            
+            BreakdownTimeMonthwise mtbf = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
+					map,BreakdownTimeMonthwise.class);
+            System.err.println("mtbf:"+mtbf.toString());
+            model.addObject("mtbf", mtbf);
+            
+            BreakdownTimeMonthwise engineLoss = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownELoss",
+					map,BreakdownTimeMonthwise.class);
+            System.err.println("engineLoss:"+engineLoss.toString());
+            model.addObject("engineLoss", engineLoss);
+            
+            BreakdownMonthwise allBreak = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdowns",
+					map,BreakdownMonthwise.class);
+            System.err.println("allBreak:"+allBreak.toString());
+            model.addObject("allBreak", allBreak);
+        
+            map = new LinkedMultiValueMap<String, Object>();
+			map.add("graphType",1);
+			map.add("deptId", deptId);
+			map.add("year", currentYear);
+			BreakdownTarget minorTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+					BreakdownTarget.class);		
+			model.addObject("minorTarget", minorTarget);
+			
+			   map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",2);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget aRankTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("aRankTarget", aRankTarget);
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",3);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget allTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("allTarget", allTarget);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",4);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget timeTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("timeTarget", timeTarget);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",5);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget mtbfTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("mtbfTarget", mtbfTarget);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",6);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget mttrTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("mttrTarget", mttrTarget);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("graphType",7);
+				map.add("deptId", deptId);
+				map.add("year", currentYear);
+				BreakdownTarget elTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
+						BreakdownTarget.class);		
+				model.addObject("elTarget", elTarget);
+			model.addObject("YEAR", currYear);
+			Calendar c = Calendar.getInstance();
+			int monthNo=c.get(Calendar.MONTH)+1;
+			if(monthNo==1) {
+            model.addObject("monthNo", 10);
+			}else if(monthNo==2) {
+	            model.addObject("monthNo", 11);
+				}else if(monthNo==3) {
+		            model.addObject("monthNo", 12);
+				}else {
+					 model.addObject("monthNo", monthNo-3);
+				}
 		}catch(Exception e)
 		{
 			e.printStackTrace();

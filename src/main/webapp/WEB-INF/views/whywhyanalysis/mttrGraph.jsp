@@ -69,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				     <div>
 				     <table>
 				     <tr>
-				     <td width="15%" style="background:#f9eb3f; "><b>MACHINE SHOP</b></td>
+				     <td width="15%" style="background:#f9eb3f; "><b>${sessionScope.deptName}</b></td>
 				      <td width="55%"style="text-align: center;background:#f9eb3f;"><b>MTTR</b></td>
 				       <td width="30%" style="background:#f9eb3f;"><select name="userId" id="userId"  class="form-control" style="font-size:12px; max-width:250px !important;" onchange="ownerChange(this.value)">						
                         <option value="">Select Owner</option>	<c:forEach items="${userRes}" var="userRes" varStatus="cnt">
@@ -111,7 +111,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	<!-- END Main Content -->
-
+<img src="${pageContext.request.contextPath}/resources/home/images/drawing.png" alt=""><br>
+MQS/DM/F/04 Rev: 0.0
 	</div>
  
 	  <!--//w3-agileits-pane-->	
@@ -449,6 +450,13 @@ function OnInput() {
         var year3L5Target=parseInt(data.yearlyMachineBdTimeList.machineL5Target.year3lTarget);
         var year4L5Target=parseInt(data.yearlyMachineBdTimeList.machineL5Target.year4lTarget);
  
+        var  avgYear1L3Targetpm=parseInt(year1L3Target/12);
+        var  avgYear1L5Targetpm=parseInt(year1L5Target/12);
+        var  avgYear2L3Targetpm=parseInt(year2L3Target/12);
+        var  avgYear2L5Targetpm=parseInt(year2L5Target/12);
+        var  avgYear3L3Targetpm=parseInt(year3L3Target/12);
+        var  avgYear3L5Targetpm=parseInt(year3L5Target/12);
+        
        var  avgL3Targetpm=parseInt(year4L3Target/12);
        var  avgL5Targetpm=parseInt(year4L5Target/12);
         var avgL3Targetpd=parseInt(year4L3Target/30);
@@ -466,10 +474,10 @@ function OnInput() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
 		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         ['F-'+(year-3)+'',year1,year1+'',year1L3Target,false,year1L5Target],
-		         ['F-'+(year-2)+'', year2,year2+'',year2L3Target,false,year2L5Target],
-		         ['F-'+(year-1)+'',  year3,year3+'',year3L3Target,false,year3L5Target],
-		         ['F-'+year+'', year4,year4+'',year4L3Target,false,year4L5Target],
+		         ['F-'+(year-3)+'',year1,year1+'',avgYear1L3Targetpm,false,avgYear1L5Targetpm],
+		         ['F-'+(year-2)+'', year2,year2+'',avgYear2L3Targetpm,false,avgYear2L5Targetpm],
+		         ['F-'+(year-1)+'',  year3,year3+'',avgYear3L3Targetpm,false,avgYear3L5Targetpm],
+		         ['F-'+year+'', year4,year4+'',avgL3Targetpm,false,avgL5Targetpm],
 		     
 		      ]);
 

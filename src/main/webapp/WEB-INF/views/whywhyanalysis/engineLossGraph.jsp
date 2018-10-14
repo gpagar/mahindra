@@ -84,7 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				     <div>
 				     <table>
 				     <tr>
-				     <td width="15%" style="background:#f9eb3f; "><b>MACHINE SHOP</b></td>
+				     <td width="15%" style="background:#f9eb3f; "><b>${sessionScope.deptName}</b></td>
 				      <td width="55%"style="text-align: center;background:#f9eb3f;"><b>Engine loss due to machine break down</b></td>
 				       <td width="30%" style="background:#f9eb3f;"><select name="userId" id="userId"  class="form-control" style="font-size:12px; max-width:250px !important;" onchange="ownerChange(this.value)">						
                         <option value="">Select Owner</option>	<c:forEach items="${userRes}" var="userRes" varStatus="cnt">
@@ -141,7 +141,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	<!-- END Main Content -->
-
+<img src="${pageContext.request.contextPath}/resources/home/images/drawing.png" alt=""><br>
+MQS/DM/F/03 Rev: 0.0
 	</div>
  
 	  <!--//w3-agileits-pane-->	
@@ -443,7 +444,9 @@ function OnInput() {
 	{
 		 //  var machineType = document.getElementById("machineType").value;
 		 //  var machineId = document.getElementById("machineId").value;
-
+	    var d = new Date();
+        var n = d.getMonth()+1;
+        n=n-3;
 		$.getJSON('${searchBrekELossGraphData}',{
 			
 			//machineType : machineType,
@@ -458,10 +461,10 @@ function OnInput() {
 
 			}
 	    var year=parseInt(data.year);
-		var firstYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.firstYearTime);  firstYear=parseFloat(firstYear.toFixed(1));
-	    var secondYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.secondYearTime);secondYear=parseFloat(secondYear.toFixed(1));
-	    var thirdYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.thirdYearTime);thirdYear=parseFloat(thirdYear.toFixed(1));
-	    var fourthYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.fourthYearTime);fourthYear=parseFloat(fourthYear.toFixed(1));
+		var firstYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.firstYearTime);  firstYear=parseFloat((firstYear/n).toFixed(1));
+	    var secondYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.secondYearTime);secondYear=parseFloat((secondYear/n).toFixed(1));
+	    var thirdYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.thirdYearTime);thirdYear=parseFloat((thirdYear/n).toFixed(1));
+	    var fourthYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.fourthYearTime);fourthYear=parseFloat((fourthYear/n).toFixed(1));
         var year1L3Target=parseFloat(data.yearlyMachineBdTimeList.machineL3Target.year1lTtarget);
         var year2L3Target=parseFloat(data.yearlyMachineBdTimeList.machineL3Target.year2lTtarget);
         var year3L3Target=parseFloat(data.yearlyMachineBdTimeList.machineL3Target.year3lTtarget);
@@ -471,10 +474,19 @@ function OnInput() {
         var year3L5Target=parseFloat(data.yearlyMachineBdTimeList.machineL5Target.year3lTarget);
         var year4L5Target=parseFloat(data.yearlyMachineBdTimeList.machineL5Target.year4lTarget);
  
-       var  avgL3Targetpm=parseFloat(year4L3Target/12);avgL3Targetpm=parseFloat(avgL3Targetpm.toFixed(1));
+        var avgYear1L3Targetpm=parseFloat(year1L3Target/12);avgYear1L3Targetpm=parseFloat(avgYear1L3Targetpm.toFixed(1));
+        var avgYear1L5Targetpm=parseFloat(year1L5Target/12);avgYear1L5Targetpm=parseFloat(avgYear1L5Targetpm.toFixed(1));
+        var avgYear2L3Targetpm=parseFloat(year2L3Target/12);avgYear2L3Targetpm=parseFloat(avgYear2L3Targetpm.toFixed(1));
+        var avgYear2L5Targetpm=parseFloat(year2L5Target/12);avgYear2L5Targetpm=parseFloat(avgYear2L5Targetpm.toFixed(1));
+        var avgYear3L3Targetpm=parseFloat(year3L3Target/12);avgYear3L3Targetpm=parseFloat(avgYear3L3Targetpm.toFixed(1));
+        var avgYear3L5Targetpm=parseFloat(year3L5Target/12);avgYear3L5Targetpm=parseFloat(avgYear3L5Targetpm.toFixed(1));
+        
+        var avgL3Targetpm=parseFloat(year4L3Target/12);avgL3Targetpm=parseFloat(avgL3Targetpm.toFixed(1));
         var avgL5Targetpm=parseFloat(year4L5Target/12);avgL5Targetpm=parseFloat(avgL5Targetpm.toFixed(1));
+        
         var avgL3Targetpd=parseFloat(year4L3Target/30);avgL3Targetpd=parseFloat(avgL3Targetpd.toFixed(1));
         var avgL5Targetpd=parseFloat(year4L3Target/30);avgL5Targetpd=parseFloat(avgL5Targetpd.toFixed(1));
+        
     	var day1=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day1);day1=parseFloat(day1.toFixed(1));
     	var day2=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day2);day2=parseFloat(day2.toFixed(1));
     	var day3=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day3);day3=parseFloat(day3.toFixed(1));
@@ -645,10 +657,10 @@ function OnInput() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
 		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         ['F-'+(year-3)+'',firstYear,firstYear+'',year1L3Target,false,year1L5Target],
-		         ['F-'+(year-2)+'', secondYear,secondYear+'',year2L3Target,false,year2L5Target],
-		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',year3L3Target,false,year3L5Target],
-		         ['F-'+year+'', fourthYear,fourthYear+'',year4L3Target,false,year4L5Target],
+		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L5Targetpm],
+		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L5Targetpm],
+		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L5Targetpm],
+		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL5Targetpm],
 		     
 		      ]);
 

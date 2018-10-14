@@ -110,7 +110,7 @@ public class HomeController {
 
 				 session.setAttribute("deptId", dept);
 				 if(dept==1) {
-				 session.setAttribute("deptName", "M/C Shop");
+				 session.setAttribute("deptName", "M/C SHOP");
 				 }else if(dept==2)
 				 {
 					 session.setAttribute("deptName", "mHAWK");

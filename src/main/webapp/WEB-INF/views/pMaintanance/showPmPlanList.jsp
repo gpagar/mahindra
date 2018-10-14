@@ -360,7 +360,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							
 							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}"  accept="image/*"  >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="#"data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')" ><c:out value='Image1' /></a>
 							</c:when>
@@ -371,7 +371,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob${cnt1}" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}"  accept="image/*" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="#"data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
@@ -381,7 +381,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                              <td><input type="date" name="date3" id="date3${cnt1}" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
 	<td><textarea rows="1" cols="20" name="date3ob" id="date3ob${cnt1}"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile3${cnt1}" name="myFile3" value="${paMaintainence.date3Photo}">
+							<td><input type="file" id="myFile3${cnt1}" name="myFile3" value="${paMaintainence.date3Photo}"  accept="image/*" >
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#"data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 				 			</c:when></c:choose>
 							</td>
@@ -391,7 +391,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							
 							<td><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}"  accept="image/*"  >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')"><c:out value='Image1' /></a>
 							</c:when>
@@ -402,7 +402,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 							<td><textarea rows="1" cols="20" name="date2ob" id="date2ob${cnt1}" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td><input type="file" id="myFile2${cnt1}" name="myFile2" value="${paMaintainence.date2Photo}"  accept="image/*" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
@@ -412,7 +412,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                              <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}" >
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1"  onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
@@ -423,7 +423,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							
 							<td ><textarea rows="1" cols="20" name="date1ob" id="date1ob${cnt1}" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td ><input type="file" id="myFile1${cnt1}" name="myFile1" value="${paMaintainence.date1Photo}"  accept="image/*" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date1Photo}')">Image1</a>
 							</c:when>
@@ -434,7 +434,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 							<td hidden><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}"  accept="image/*" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="#" data-lightbox="image-1"tabindex="-1"onclick="openImage('${url}${paMaintainence.date2Photo}')" ><c:out value='Image2' /></a>
 							</c:when>
@@ -444,7 +444,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                              <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}"  accept="image/*" >
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>
@@ -454,7 +454,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							
 							<td hidden><textarea rows="1" cols="20" name="date1ob" id="date1ob" class="form-control">${paMaintainence.date1Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}" >
+							<td hidden><input type="file" id="myFile1" name="myFile1" value="${paMaintainence.date1Photo}"  accept="image/*" >
 							<c:choose><c:when test="${!empty paMaintainence.date1Photo}">
 							<a href="#"data-lightbox="image-1"tabindex="-1" onclick="openImage(${url}${paMaintainence.date1Photo})"><c:out value='Image8' /></a>
 							</c:when>
@@ -465,7 +465,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 							<td hidden><textarea rows="1" cols="20" name="date2ob" id="date2ob" class="form-control">${paMaintainence.date2Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}" >
+							<td hidden><input type="file" id="myFile2" name="myFile2" value="${paMaintainence.date2Photo}"  accept="image/*" >
 								<c:choose><c:when test="${!empty paMaintainence.date2Photo}">
 							<a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date2Photo}')"><c:out value='Image2' /></a>
 							</c:when>
@@ -475,7 +475,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                              <td hidden><input type="date" name="date3" id="date3" class="form-control" placeholder="dd-mm-yyyy"  style="width:200px;" value="${paMaintainence.date3}"/></td>
 	<td hidden><textarea rows="1" cols="20" name="date3ob" id="date3ob"class="form-control">${paMaintainence.date3Obervation}
 </textarea></td>
-							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}">
+							<td hidden><input type="file" id="myFile3" name="myFile3" value="${paMaintainence.date3Photo}"  accept="image/*" >
 							<c:choose><c:when test="${!empty paMaintainence.date3Photo}"><a href="#" data-lightbox="image-1"tabindex="-1" onclick="openImage('${url}${paMaintainence.date3Photo}')"><c:out value='Image3' /></a>
 							</c:when></c:choose>
 							</td>

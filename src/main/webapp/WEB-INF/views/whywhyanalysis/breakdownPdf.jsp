@@ -104,15 +104,15 @@ Workstation Name : ${whyWhyF18.machineName}</p>
  <td width="20%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:12px; text-align:left;margin:5px;">System Classification :</p> 
     </td>
-    <td width="20%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
-     <p style="color:#000; font-size:12px; text-align:left;margin:5px;">Spare Parts Replaced <c:choose>
+    <td width="21%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
+     <p style="color:#000; font-size:12px; text-align:left;margin:5px;">Spare Parts Replaced: <c:choose>
      <c:when test="${whyWhyF18.partStatus eq 'Replaced'}">
-     (Yes):
+      Yes
      </c:when>
-     <c:otherwise>(No):</c:otherwise>
+     <c:otherwise> No</c:otherwise>
      </c:choose> </p> 
     </td>
-    <td width="60%" colspan="6" style="border-top:1px solid #313131;padding:2px;color:#FFF; ">
+    <td width="59%" colspan="6" style="border-top:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:12px; text-align:left;margin:5px;">If YES details: <c:choose>
      <c:when test="${whyWhyF18.partStatus eq 'Replaced'}">
      ${whyWhyF18.partDesc}

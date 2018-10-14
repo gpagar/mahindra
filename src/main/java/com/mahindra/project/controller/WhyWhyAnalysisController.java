@@ -49,12 +49,14 @@ import com.mahindra.project.model.DailyGraphData;
 import com.mahindra.project.model.GetBreakdown;
 import com.mahindra.project.model.GetPMData;
 import com.mahindra.project.model.GetPaMaintainence;
+import com.mahindra.project.model.GetWhyWhyF18;
 import com.mahindra.project.model.GraphBCData;
 import com.mahindra.project.model.GraphData;
 import com.mahindra.project.model.GraphType;
 import com.mahindra.project.model.Info;
 import com.mahindra.project.model.MachinDetails;
 import com.mahindra.project.model.MachinDetailsList;
+import com.mahindra.project.model.MachinMaintanaceSchedule;
 import com.mahindra.project.model.PaMaintananceDetails;
 import com.mahindra.project.model.PmRequiredValue;
 import com.mahindra.project.model.TSetting;
@@ -282,12 +284,19 @@ public class WhyWhyAnalysisController {
 		{ 
 			HttpSession session = request.getSession(); 
 			int deptId = (Integer) session.getAttribute("deptId"); 
-			
+			int targetId=0;
+			try {
+				targetId=Integer.parseInt(request.getParameter("targetId"));
+			}catch (Exception e) {
+				targetId=0;
+			}
 			int year=Integer.parseInt(request.getParameter("yearpicker"));
-			int l3Target=Integer.parseInt(request.getParameter("l3Target"));
-			int l5Target=Integer.parseInt(request.getParameter("l5Target"));
+			float l3Target=Float.parseFloat(request.getParameter("l3Target"));
+			float l5Target=Float.parseFloat(request.getParameter("l5Target"));
+			int actual=Integer.parseInt(request.getParameter("actual"));
 			 graphType=Integer.parseInt(request.getParameter("graphType"));
 			BreakdownTarget brTarget=new BreakdownTarget();
+			brTarget.setTargetId(targetId);
 			brTarget.setYear(year);
 			brTarget.setAssignedBy(1);
 			brTarget.setGraphType(graphType);
@@ -295,6 +304,7 @@ public class WhyWhyAnalysisController {
             brTarget.setTargetL3(l3Target);
             brTarget.setTargetL5(l5Target);
             brTarget.setStatus(1);
+            brTarget.setExString(""+actual);
             brTarget.setExInt(deptId);
 			BreakdownTarget breakdownTargetRes=rest.postForObject(Constant.url + "/insertBreakdownTarget",brTarget, BreakdownTarget.class);
 			System.err.println(breakdownTargetRes.toString());
@@ -878,10 +888,20 @@ public class WhyWhyAnalysisController {
    				 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
 
    		 		 Date date = new Date();
-   				 date = df1.parse(whyWhyF18.getDate());
-   				 whyWhyF18.setDate(df.format(date));
-   				date = df1.parse(whyWhyF18.getPrevOccDate());
-   				whyWhyF18.setPrevOccDate(df.format(date));
+   		 		 try {
+   				 
+   		 			 date = df1.parse(whyWhyF18.getDate());
+   				     whyWhyF18.setDate(df.format(date));
+   		 		 }catch (Exception e) {
+					e.printStackTrace();
+				}
+   		 		 try {
+   				     date = df1.parse(whyWhyF18.getPrevOccDate());
+   				     whyWhyF18.setPrevOccDate(df.format(date));
+   		 		 }
+   		 		 catch (Exception e) {
+					e.printStackTrace();
+				}
    				 if(machineType==1)
    				 {
    					 model.addObject("machineType", "Electrical");
@@ -2067,23 +2087,31 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/breakdownManual");
 		try
 		{
+			String machineIdList="";
 			  try {
-				// machineType = Integer.parseInt(request.getParameter("machineType"));
-				 machineId = Integer.parseInt(request.getParameter("machineId"));
+				/* machineType = Integer.parseInt(request.getParameter("machineType"));*/
+				String[] machineIdStr = request.getParameterValues("machineId[]");
+				
+
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < machineIdStr.length; i++) {
+					sb = sb.append(machineIdStr[i] + ",");
+
+				}
+				 machineIdList = sb.toString();
+				machineIdList = machineIdList.substring(0, machineIdList.length() - 1);
+
+				System.out.println("machineIdList" + machineIdList);
 			     }
 			catch (Exception e) {
 				// TODO: handle exception
 			}
 				RestTemplate rest = new RestTemplate();
-				MultiValueMap<String, Object>  map1 = new LinkedMultiValueMap<String,Object>();
-		
-			map1 = new LinkedMultiValueMap<String,Object>();
-			map1.add("machineId", machineId);
-			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
-
+			
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("machineIdList",machineId);
+			map.add("machineIdList",machineIdList);
 			WhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getAllWhyWhyF18",map,
 					WhyWhyF18[].class);
 			ArrayList<WhyWhyF18> whyWhyF18List=new ArrayList<WhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
@@ -2100,14 +2128,144 @@ public class WhyWhyAnalysisController {
 			//-----------------------------------
 			//model.addObject("machineType", machineType);
 			model.addObject("machineId", machineId);
-			
-              model.addObject("machinDetails", machinDetails);
+			List<String> prevSel = Arrays.asList(machineIdList.split("\\s*,\\s*"));
+
+			List<MachinDetails> selMachines = new ArrayList<MachinDetails>();
+
+			for (int i = 0; i < prevSel.size(); i++) {
+				for (int j = 0; j <machinDetailsList.getMachinDetailsList().size(); j++) {
+					if (Integer.parseInt(prevSel.get(i)) == machinDetailsList.getMachinDetailsList().get(j)
+							.getMachinId()) {
+						selMachines.add(machinDetailsList.getMachinDetailsList().get(j));
+
+					}
+				}
+
+			}
+			model.addObject("selMachines", selMachines);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		return model;
 	}
+	@RequestMapping(value = "/showBreakdownData", method = RequestMethod.GET)
+	public ModelAndView showBreakdownData(HttpServletRequest request, HttpServletResponse response) {
+		RestTemplate rest = new RestTemplate();
+
+		ModelAndView model = new ModelAndView("whywhyanalysis/newBreakdown");
+		try
+		{
+			String machineIdList="";
+			String bdMsPt="";
+			 String month=""; 
+		  try {
+			String[] machineIdStr = request.getParameterValues("machineId[]");
+			if(machineIdStr!=null) {
+			StringBuilder sb = new StringBuilder();
+            
+			for (int i = 0; i < machineIdStr.length; i++) {
+				sb = sb.append(machineIdStr[i] + ",");
+
+			}
+			 machineIdList = sb.toString();
+			machineIdList = machineIdList.substring(0, machineIdList.length() - 1);
+
+			System.out.println("machineIdList" + machineIdList);
+			}
+		     }
+		catch (Exception e) {
+			e.printStackTrace();
+		}try {
+		   bdMsPt = request.getParameter("bd_ms_pt");
+		   month = request.getParameter("month");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			if(bdMsPt.equals("")) {
+				map.add("bdMsPt",0);
+
+			}else {
+				map.add("bdMsPt",bdMsPt);
+
+			}
+			if(month.equals("")) {
+				map.add("month",0);
+
+			}else {
+				map.add("month",month);
+
+			}
+			map.add("machineIdList",machineIdList);
+			GetWhyWhyF18[] whyWhyF18ListRes = rest.postForObject(Constant.url + "getBreakdownData",map,
+					GetWhyWhyF18[].class);
+			ArrayList<GetWhyWhyF18> whyWhyF18List=new ArrayList<GetWhyWhyF18>(Arrays.asList(whyWhyF18ListRes));
+           System.out.println("whyWhyF18List"+whyWhyF18List.toString());
+			model.addObject("whyWhyF18List",whyWhyF18List);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+
+			//------------------------------------
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			MultiValueMap<String, Object> 	map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
+					MachinDetailsList.class);
+			 model.addObject("machineList", machinDetailsList.getMachinDetailsList());
+			//-----------------------------------
+				model.addObject("machineId", machineId);
+				model.addObject("month", month);
+				model.addObject("bdMsPt", bdMsPt);
+				try {
+					if(machineIdList!="") {
+  			List<String> prevSel = Arrays.asList(machineIdList.split("\\s*,\\s*"));
+
+  			List<MachinDetails> selMachines = new ArrayList<MachinDetails>();
+
+  			for (int i = 0; i < prevSel.size(); i++) {
+  				for (int j = 0; j <machinDetailsList.getMachinDetailsList().size(); j++) {
+  					if (Integer.parseInt(prevSel.get(i)) == machinDetailsList.getMachinDetailsList().get(j)
+  							.getMachinId()) {
+  						selMachines.add(machinDetailsList.getMachinDetailsList().get(j));
+
+  					}
+  				}
+
+  			}
+  			model.addObject("selMachines", selMachines);
+					}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/getTarget", method = RequestMethod.GET)
+	@ResponseBody
+	public BreakdownTarget getTarget(HttpServletRequest request, HttpServletResponse response) {
+		BreakdownTarget breakdownTarget = new BreakdownTarget();
+		try {
+			int targetId = Integer.parseInt(request.getParameter("targetId"));
+			RestTemplate rest=new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("targetId",targetId);
+			breakdownTarget=rest.postForObject(Constant.url + "getBreakdownTargetByTargetId",map, BreakdownTarget.class);
+			
+			System.out.println("breakdownTarget" + breakdownTarget);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return breakdownTarget;
+
+	}
+	
 	private Dimension format = PD4Constants.A4;
 	private boolean landscapeValue = false;
 	private int topValue = 8;
@@ -2127,8 +2285,8 @@ public class WhyWhyAnalysisController {
 		String url = request.getParameter("url");
 		System.out.println("URL " + url);
 		// http://monginis.ap-south-1.elasticbeanstalk.com
-	    File f = new File("E:/tomcat/webapps/Emaintanance/pdf/report.pdf");
-	    //File f = new File("/usr/local/tomcat7/webapps/report.pdf");
+	   File f = new File("E:/tomcat/webapps/Emaintanance/report.pdf");
+	   //File f = new File("D:/apache-tomcat-9.0.12/webapps/Emaintanance/report.pdf");
 		//File f = new File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
 		System.out.println("I am here " + f.toString());
@@ -2146,8 +2304,8 @@ public class WhyWhyAnalysisController {
 		String appPath = context.getRealPath("");
 		String filename = "ordermemo221.pdf";
 		// String filePath = "/usr/local/tomcat7/webapps/report.pdf";
-		//String filePath = "/home/ats-11/pdf/ordermemo221.pdf";
-		String filePath = "E:/tomcat/webapps/Emaintanance/pdf/report.pdf";
+		 //String filePath = "D:/apache-tomcat-9.0.12/webapps/Emaintanance/report.pdf";
+		String filePath = "E:/tomcat/webapps/Emaintanance/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

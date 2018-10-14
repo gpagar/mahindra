@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -64,14 +65,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> BREAKDOWN MANUAL
+								<i class="fa fa-bars"></i>M/C BREAKDOWNS
 							</h3>
 							<div class="box-tool">
 							
 						</div>
 
 						<div class="box-content">
-				<form action="${pageContext.request.contextPath}/searchBreakdownManual"  class="form-horizontal"
+				<form action="${pageContext.request.contextPath}/showBreakdownData"  class="form-horizontal"
 							 id="validation-form"
 										enctype="multipart/form-data" method="get">
 						<%-- 	<div class="form-group">
@@ -106,14 +107,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>	 --%>
 								
 								<div class="form-group">
-									<label class="col-sm-3 col-lg-4 control-label">Machine name & No.</label>
-									<div class="col-sm-6 col-lg-4 controls">
+									<label class="col-sm-3 col-lg-1 control-label">Machine</label>
+									<div class="col-sm-6 col-lg-3 controls">
 										<select data-placeholder="Choose Machine"
 								 class="chosen-select" style="width:99% !important;"  tabindex="6" id="machineId" onchange="onMachineChange(this.value)"
-								name="machineId[]" multiple="multiple" required>
+								name="machineId[]" multiple="multiple">
 
 								<option value="" disabled="disabled">Choose Machine</option>
-                                    <c:forEach items="${machineList}" var="machineList">
+                                   <c:forEach items="${machineList}" var="machineList">
                                   <c:set var="sel" value="0"/>
                                     <c:forEach items="${selMachines}" var="selMachines">
                                   <c:choose><c:when test="${selMachines.machinId==machineList.machinId}">
@@ -142,11 +143,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                
                                  </c:when>
                                  </c:choose>
-                                  </c:forEach> 
+                                  </c:forEach>  
 							</select>
 						</div>
-									
-						<!-- </div> -->
+						<label class="col-sm-3 col-lg-1 control-label">BD/MS/PT</label>
+									<div class="col-sm-6 col-lg-1 controls">
+									<select id="bd_ms_pt" class="chosen-select" name="bd_ms_pt" >
+									  <option value="" selected>--</option>
+						         <c:choose>
+						         <c:when test="${bdMsPt eq 'BD'}">
+						            <option value="BD" selected>BD</option>
+						            <option value="MS">MS</option>
+						            <option value="PT">PT</option>
+						         </c:when>
+						           <c:when test="${bdMsPt eq 'MS'}">
+						             <option value="BD" >BD</option>
+						            <option value="MS" selected>MS</option>
+						             <option value="PT">PT</option>
+						         </c:when>
+						          <c:when test="${bdMsPt eq 'PT'}">
+						               <option value="BD" >BD</option>
+						            <option value="MS">MS</option>
+						            <option value="PT" selected>PT</option>
+						         </c:when>
+						         <c:otherwise>
+						             <option value="BD" >BD</option>
+						            <option value="MS">MS</option>
+						            <option value="PT" >PT</option>
+						         </c:otherwise>
+						         </c:choose>
+                              
+                        </select>
+                        </div>
+                        <div class="col-md-1">Month :</div>  <div class="col-md-3">
+<input type="month" id="month" name="month" style="border-radius: 25px;" value="${month}"  class="form-control" >  
+					</div>	<!-- </div> -->
 					<!-- 	<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-8 col-lg-offset-2"> -->
 							<button type="submit" class="btn btn-info" id="submitbtn">Search</button>  
@@ -156,6 +187,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- 						</div> -->
 					</div>
 				</form>
+	
 			<div class="agile-grids" >	
 				<!-- tables -->
 				<div class="agile-tables">
@@ -165,15 +197,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<thead>
 						  <tr>
 							<th>Sr.No</th>
-							<th>Breakdown Incidence</th>
-							<th>Date of Occurrence</th>
-							<th>Root Cause.</th>
-							<th>Action Taken</th>
-							<th>Type of BreakDown</th>
-							<th>Spare Details.</th>
-							<th>Doc reference no.</th>
-							<th>SAP Notification Number</th>
-							<th>Action</th>
+							<th>Production Line</th>
+							<th >Date </th>
+							<th>M/C No/Name</th>
+							<th>Problem</th>
+							<th>BD Time(Min)</th>
+							<th>Comp.loss</th>
+							<th>Root Cause</th>
+							<th>Action Taken(ICA)</th>
+							<th>Counter measure (PCA)</th>
+							<th>Responsibility</th>
+							<th>Status</th>
+							<th>View</th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -183,27 +218,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						<td>${count.index+1}</td>
 				
+						<td> <c:choose><c:when test="${whyWhyF18.cellCircle eq 'HL'}">HeadLine</c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'BL'}">BlockLine</c:when>
+						  <c:when test="${whyWhyF18.cellCircle eq 'CL'}">CamLine</c:when></c:choose>
+						</td>
+						<td width="13%"><fmt:parseDate value="${whyWhyF18.date}" pattern="yyyy-MM-dd" var="myDate"/>
+<fmt:formatDate value="${myDate}"  pattern="dd-MM-yyyy"/></td>
+
+						<td>${whyWhyF18.machineNo}--${whyWhyF18.machineName}
+						</td>
 						<td>${whyWhyF18.problemReported}
 						</td>
-						<td><input id="date${count.index}" type="date" name="date${count.index}" value="${whyWhyF18.date}"disabled/>
-
+					
+						<td>${whyWhyF18.bdTimeLoss}
+						</td>
+							<td>${whyWhyF18.engineLoss}
+						</td>
 						<td>${whyWhyF18.rootCause}
 						</td>
 						<td>${whyWhyF18.action}
-						</td>
-					
-						<td> <c:choose>
-						         <c:when test="${whyWhyF18.status eq '0'}"><c:out value="Closed"></c:out>
-						         </c:when>
-						           <c:when test="${whyWhyF18.status eq '1'}"><c:out value="Open"></c:out>
-						         </c:when>
-						      </c:choose>
-						</td>
-							<td>${whyWhyF18.partDesc}
-						</td>
-						<td>${whyWhyF18.refNo}
-						</td>
-						<td>${whyWhyF18.sapNotifNo}
+						</td>	<td>${whyWhyF18.counterMeasure}
+						</td>		<td>
+						</td><td>${whyWhyF18.status}
 						</td>
 						 <td>   
                                
@@ -221,7 +257,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				</div>
 				<!-- //tables -->
-			</div>			 
+			</div>			  
 				</div>
 
 			</div>

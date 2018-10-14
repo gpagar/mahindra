@@ -5,7 +5,6 @@
  
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
   
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -112,15 +111,15 @@ Workstation Name : ${whyWhyF18.machineName}</p>
  <td width="20%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:12px; text-align:left;margin:5px;">System Classification :</p> 
     </td>
-    <td width="20%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
-     <p style="color:#000; font-size:12px; text-align:left;margin:5px;">Spare Parts Replaced <c:choose>
+    <td width="21%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
+     <p style="color:#000; font-size:12px; text-align:left;margin:5px;">Spare Parts Replaced: <c:choose>
      <c:when test="${whyWhyF18.partStatus eq 'Replaced'}">
-     (Yes):
+      Yes
      </c:when>
-     <c:otherwise>(No):</c:otherwise>
+     <c:otherwise> No</c:otherwise>
      </c:choose> </p> 
     </td>
-    <td width="50%" colspan="5" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
+    <td width="49%" colspan="5" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:12px; text-align:left;margin:5px;">If YES details: <c:choose>
      <c:when test="${whyWhyF18.partStatus eq 'Replaced'}">
      ${whyWhyF18.partDesc}

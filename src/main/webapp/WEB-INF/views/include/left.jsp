@@ -96,9 +96,9 @@ body {
 <%-- 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showPmSchedule"><i class="fa fa-cogs"></i><span>PM Schedule</span><div class="clearfix"></div></a></li>
  --%>										 
 <%-- 										 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/addPredictiveMaintenance"><i class="fa fa-gear"></i><span>Predictive Maintenance </span><div class="clearfix"></div></a></li>
- --%>									  <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showWhyWhyf18"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <br/><span>(WHY WHY Analysis) </span><div class="clearfix"></div></a></li>
+ --%>									  <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showWhyWhyf18"><i class="fa fa-exclamation-triangle"></i>WHY WHY Analysis<div class="clearfix"></div></a></li>
 							
-							
+					 <li id="menu-academico" ><a href="${pageContext.request.contextPath}/showBreakdownData"><i class="fa fa-exclamation-triangle"></i><span>BreakDown</span> <div class="clearfix"></div></a></li>		
 								
 <!-- 									<li><a href="showPmPlan"><i class="fa fa-wrench" aria-hidden="true"></i><span>Repair & Maintenance</span><div class="clearfix"></div></a></li>
  -->								

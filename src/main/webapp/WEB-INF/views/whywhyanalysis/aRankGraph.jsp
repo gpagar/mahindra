@@ -84,7 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				     <div>
 				     <table>
 				     <tr>
-				     <td width="15%" style="background:#f9eb3f; "><b>MACHINE SHOP</b></td>
+				     <td width="15%" style="background:#f9eb3f; "><b>${sessionScope.deptName}</b></td>
 				      <td width="55%"style="text-align: center;background:#f9eb3f;"><b>A-Rank Machines Breakdown Incidences</b></td>
 				       <td width="30%" style="background:#f9eb3f;"><select name="userId" id="userId"  class="form-control" style="font-size:12px; max-width:250px !important;" onchange="ownerChange(this.value)">						
                         <option value="">Select Owner</option>	<c:forEach items="${userRes}" var="userRes" varStatus="cnt">
@@ -140,7 +140,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	<!-- END Main Content -->
-
+<img src="${pageContext.request.contextPath}/resources/home/images/drawing.png" alt=""><br>
+MQS/DM/F/03 Rev: 0.0
 	</div>
  
 	  <!--//w3-agileits-pane-->	
@@ -442,7 +443,21 @@ function OnInput() {
 	{
 		 //  var machineType = document.getElementById("machineType").value;
 		 //  var machineId = document.getElementById("machineId").value;
-
+         var d = new Date();
+         var n = d.getMonth()+1;
+         if(n==1){
+        	 n=10;
+         }else if(n==2)
+        	 {
+        	  n=11;
+        	 }else if(n==3)
+        		 {
+        		 n=12;
+        		 }
+        	 else
+        		 {
+        		 n=n-3;
+        		 }
 		$.getJSON('${searchARankGraphData}',{
 			
 			//machineType : machineType,
@@ -457,10 +472,10 @@ function OnInput() {
 
 			}
 	    var year=parseInt(data.year);
-		var firstYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.firstYear); 
-	    var secondYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.secondYear);
-	    var thirdYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.thirdYear);
-	    var fourthYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.fourthYear);
+		var firstYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.firstYear/n); 
+	    var secondYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.secondYear/n);
+	    var thirdYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.thirdYear/n);
+	    var fourthYear=parseInt(data.breakdownYearlyListRes.breakdownYearly.fourthYear/n);
         var year1L3Target=parseInt(data.breakdownYearlyListRes.machineL3Target.year1lTtarget);
         var year2L3Target=parseInt(data.breakdownYearlyListRes.machineL3Target.year2lTtarget);
         var year3L3Target=parseInt(data.breakdownYearlyListRes.machineL3Target.year3lTtarget);
@@ -470,6 +485,14 @@ function OnInput() {
         var year3L5Target=parseInt(data.breakdownYearlyListRes.machineL5Target.year3lTarget);
         var year4L5Target=parseInt(data.breakdownYearlyListRes.machineL5Target.year4lTarget);
  
+        var avgYear1L3Targetpm=parseFloat(year1L3Target/12);avgYear1L3Targetpm=parseFloat(avgYear1L3Targetpm.toFixed(1));
+        var avgYear1L5Targetpm=parseFloat(year1L5Target/12);avgYear1L5Targetpm=parseFloat(avgYear1L5Targetpm.toFixed(1));
+        var avgYear2L3Targetpm=parseFloat(year2L3Target/12);avgYear2L3Targetpm=parseFloat(avgYear2L3Targetpm.toFixed(1));
+        var avgYear2L5Targetpm=parseFloat(year2L5Target/12);avgYear2L5Targetpm=parseFloat(avgYear2L5Targetpm.toFixed(1));
+        var avgYear3L3Targetpm=parseFloat(year3L3Target/12);avgYear3L3Targetpm=parseFloat(avgYear3L3Targetpm.toFixed(1));
+        var avgYear3L5Targetpm=parseFloat(year3L5Target/12);avgYear3L5Targetpm=parseFloat(avgYear3L5Targetpm.toFixed(1));
+        
+        
         var avgL3Targetpm=parseInt(year4L3Target/12);
         var avgL5Targetpm=parseInt(year4L5Target/12);
         var avgL3Targetpd=parseInt(year4L3Target/30);
@@ -644,10 +667,10 @@ function OnInput() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
 		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         ['F-'+(year-3)+'',firstYear,firstYear+'',year1L3Target,false,year1L5Target],
-		         ['F-'+(year-2)+'', secondYear,secondYear+'',year2L3Target,false,year2L5Target],
-		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',year3L3Target,false,year3L5Target],
-		         ['F-'+year+'', fourthYear,fourthYear+'',year4L3Target,false,year4L5Target],
+		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L5Targetpm],
+		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L5Targetpm],
+		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L5Targetpm],
+		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL5Targetpm],
 		     
 		      ]);
 

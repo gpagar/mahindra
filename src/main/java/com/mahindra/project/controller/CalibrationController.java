@@ -335,6 +335,7 @@ public class CalibrationController {
 				
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
+				model.addObject("URL", Constant.PDF_URL);
 			}
 			
 			
