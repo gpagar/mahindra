@@ -54,6 +54,8 @@ public class CbmSchedule implements Serializable{
 	private String oda;
 	
 	private String pa;
+	
+	private int deptId;
 
 	public int getId() {
 		return id;
@@ -255,6 +257,14 @@ public class CbmSchedule implements Serializable{
 		this.pa = pa;
 	}
 
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+
 	@Override
 	public String toString() {
 		return "CbmSchedule [id=" + id + ", machineNo=" + machineNo + ", line=" + line + ", machineName=" + machineName
@@ -262,7 +272,7 @@ public class CbmSchedule implements Serializable{
 				+ ", svQ1=" + svQ1 + ", svQ3=" + svQ3 + ", stcQ1=" + stcQ1 + ", stcQ3=" + stcQ3 + ", tg=" + tg
 				+ ", erH1=" + erH1 + ", erH2=" + erH2 + ", ahmH1=" + ahmH1 + ", ahmH2=" + ahmH2 + ", vmH1=" + vmH1
 				+ ", vmH2=" + vmH2 + ", mmcH1=" + mmcH1 + ", mmcH2=" + mmcH2 + ", hpp=" + hpp + ", oda=" + oda + ", pa="
-				+ pa + "]";
+				+ pa + ", deptId=" + deptId + "]";
 	}
 	
 	
