@@ -218,10 +218,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						
 						<td>${count.index+1}</td>
 				
-						<td> <c:choose><c:when test="${whyWhyF18.cellCircle eq 'HL'}">HeadLine</c:when>
-						 <c:when test="${whyWhyF18.cellCircle eq 'BL'}">BlockLine</c:when>
-						  <c:when test="${whyWhyF18.cellCircle eq 'CL'}">CamLine</c:when></c:choose>
-						</td>
+						<td> ${whyWhyF18.cellCircle}</td>
 						<td width="13%"><fmt:parseDate value="${whyWhyF18.date}" pattern="yyyy-MM-dd" var="myDate"/>
 <fmt:formatDate value="${myDate}"  pattern="dd-MM-yyyy"/></td>
 

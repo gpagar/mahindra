@@ -150,8 +150,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${equmpList.lastCalDate}</td>
 				              <td>${equmpList.calibrationDoneDate}<input type="hidden" name="mEqupId" id="mEqupId" value="${equmpList.id}"/></td> 
 				              <th>
-				               <a href="http://file:///E:/EMaintainence/pdf/${equmpList.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
-										  </a> 
+				              <a href="${URL}${equmpList.fileName}"  target="_blank">Show File</a>
+										
 				               </th>
 				              
 				             <%--  <td>${eqCalDetailList.nextCalDate}  ${today}</td> --%>

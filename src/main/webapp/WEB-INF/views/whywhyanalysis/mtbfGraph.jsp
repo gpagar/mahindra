@@ -98,6 +98,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<center> <div id="loading2"><br><br><br><br><br><br><br>
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
+
 					</div>
 						</div>
 				

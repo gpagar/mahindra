@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -88,7 +89,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title"><br>
 							<div class="col-md-7" style="font-size: 23px">
-								<i class="fa fa-bars"></i>  CBM Schedule 
+								<i class="fa fa-bars"></i>Ball Bar Test 
 								
 							</div>
 									<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Machine No." title="Type in a name" style="border-radius: 23px;">
@@ -96,6 +97,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="box-tool">
 						
 						</div>
+						<form:form action="${pageContext.request.contextPath}/submitBallBarTest" modelAttribute="uploadItem" class="form-horizontal"  enctype="multipart/form-data"
+							 id="validation-form"  	 method="POST">
 					<div class="box-content">
 					
 					<div class="agile-grids" >	
@@ -106,95 +109,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					    <table id="table1"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
 						
-						  <tr>
-							<!-- <th rowspan="2">Sr.No</th>
-							<th rowspan="2">M/c No.</th>
-							<th rowspan="2">Machine No.</th>
-							<th rowspan="2">Line</th>
-							<th rowspan="2">M/c Name</th>
-							<th >Spindle Clamping Force</th>
-							<th rowspan="2">Ball Bar Test</th>
-							<th rowspan="2">Spindle Vibration</th>
-							<th rowspan="2">Spindle Taper check</th>
-							<th >Thermo Graphy</th>
-							<th >Earthing Resistance</th>
-							<th >ASRS Humidity Monitoring</th>
-							<th >Voltage Monitoring</th>
-							<th >Makino Magazine chain</th>
-							<th rowspan="2">Heller Pallet Pin</th>
-							<th rowspan="2">Oil debris anyalisis</th>
-							<th rowspan="2">Profibus Analyser</th> -->
-							<th rowspan="2">Sr.No</th>
-							<th rowspan="2">Machine No.</th>
-							<th rowspan="2">Line</th>
-							<th rowspan="2">M/c Name</th>
-							<th colspan="4"><a href="${pageContext.request.contextPath}/showSpindleClimpingForce" style="color:green;">Spindle Clamping Force</a></th>
-							<th ><a href="${pageContext.request.contextPath}/showBallBarTest" style="color:green;">Ball Bar Test</a></th>
-							<th colspan="2">Spindle Vibration</th>
-							<th colspan="2"><a href="${pageContext.request.contextPath}/showSpindleTapper" style="color:green;">Spindle Taper check</a></th>
-							<th >Thermo Graphy</th>
-							<th colspan="2">Earthing Resistance</th>
-							<th colspan="2">ASRS Humidity Monitoring</th>
-							<th colspan="2">Voltage Monitoring</th>
-							<th colspan="2">Makino Magazine chain</th>
-							<th >Heller Pallet Pin</th>
-							<th >Oil debris anyalisis</th>
-							<th >Profibus Analyser</th>
+						<tr>
+							 
+							<th colspan="2" style="text-align: center;">M/C Shop</th>
+							<th colspan="3" style="text-align: center;">Ball Bar Test</th>
+							<th colspan="2" style="text-align: center;">Month : ${monthName} &nbsp; <input type="date" style="color: black;" value="${date}" name="date" id="date" required/></th>
+
 						  </tr>
-						    <tr>
-            <th>Q1</th>
-            <th>Q2</th>
-            <th>Q3</th>
-            <th>Q4</th>
-            <th>H2</th>
-            <th>Q1</th>
-            <th>Q3</th>
-            <th>Q1</th>
-            <th>Q3</th>
-            <th></th>
-             <th>H1</th>
-            <th>H2</th>
-            <th>H1</th>
-            <th>H2</th>
-            <th>H1</th>
-            <th>H2</th>
-            <th>H1</th>
-            <th>H2</th>
-            <th></th>
-            <th></th>
-             <th></th>
-         </tr>  
+						 
+						  
+						  <tr>
+							 
+							<th >Sr.No</th>
+							<th >M/C No.</th> 
+							<th >Line.</th> 
+							<th >Machine Name</th>
+							<th >File</th>
+							<th >Remark</th>
+							
+						  </tr>
+						     
 						</thead>
 						<tbody>
-				              <c:forEach items="${scheduleList}" var="scheduleList" varStatus="count">
+				             <c:forEach items="${ballBarTestList}" var="ballBarTestList" varStatus="count">
 				               <tr>
-				                 <td>${scheduleList.id}</td>
-				                  <td>${scheduleList.machineNo}</td>
-				                   <td>${scheduleList.line}</td>
-				                    <td>${scheduleList.machineName}</td>
-				                     <td>${months[scheduleList.scfQ1]}</td>
-				                      <td>${months[scheduleList.scfQ2]}</td>
-				                       <td>${months[scheduleList.scfQ3]}</td>
-				                        <td>${months[scheduleList.scfQ4]}</td>
-				                         <td>${months[scheduleList.bbtH2]}</td>
-				                          <td>${months[scheduleList.svQ1]}</td>
-				                           <td>${months[scheduleList.svQ3]}</td>
-				                            <td>${months[scheduleList.stcQ1]}</td>
-				                             <td>${months[scheduleList.stcQ3]}</td>
-				                              <td>${months[scheduleList.tg]}</td>
-				                               <td>${months[scheduleList.erH1]}</td>
-				                                <td>${months[scheduleList.erH2]}</td>
-				                                 <td>${months[scheduleList.ahmH1]}</td>
-				                                  <td>${months[scheduleList.ahmH2]}</td>
-				                                   <td>${months[scheduleList.vmH1]}</td>
-				                                    <td>${months[scheduleList.vmH2]}</td>
-				                                    <td>${months[scheduleList.mmcH1]}</td>
-				                                    <td>${months[scheduleList.mmcH2]}</td>
-				                                    <td>${months[scheduleList.hpp]}</td>
-				                                    <td>${months[scheduleList.oda]}</td>
-				                                       <td>${months[scheduleList.pa]}</td>
-                              </tr>
-                              </c:forEach>
+				                 <td>${count.index+1}</td>
+				                  <td>${ballBarTestList.machineNo}</td> 
+				                   <td>${ballBarTestList.line}</td> 
+				                    <td>${ballBarTestList.machineName}</td>
+				                     <td><input type="file"   name="fileData[${count.index}]" id="file${ballBarTestList.schId}"  /> <a href="${URL}${ballBarTestList.file}"  target="_blank">View File</a></td>
+				                      <td width="15%"><input type="text" class="form-control" value="${ballBarTestList.remark}" name="remark${ballBarTestList.schId}" id="remark${ballBarTestList.schId}"  /> </td>
+				                         </tr>
+                              </c:forEach> 
 							</tbody>
 					  </table>
 					</div>
@@ -202,7 +148,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				</div>
 			</div>		 
-				</div>
+				</div> 
+				
+				<div class="row" align="center">
+						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-5">
+							<input type="submit" class="btn btn-info" id="submitbtn" value="Submit"/>
+							
+						</div><br>
+						 
+					</div>
+				</form:form>
+				
+				
 
 			</div>
 

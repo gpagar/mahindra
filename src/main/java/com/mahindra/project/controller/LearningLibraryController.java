@@ -54,7 +54,8 @@ public class LearningLibraryController {
 			List<LearningLibrary> list = new ArrayList<LearningLibrary>(Arrays.asList(learningLibrary));
 			
 			model.addObject("list",list);
-			 
+			model.addObject("URL", Constant.PDF_URL);
+
 		}catch(Exception e)
 		{
 			e.printStackTrace();

@@ -166,13 +166,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									class="chosen-select" tabindex="6" id="fmonth" style="width:99% !important;"
 								name="fmonth" required>
 								<option value=""selected  >Select first Month</option>
- 							<c:forEach var = "i" begin = "1" end = "12">
-       
-      
-								<option value="${i}"   >${i}</option>
-								 
-
-								  </c:forEach>
+ 						
+								  <option value="1"   >Jan</option>
+								  <option value="2"   >Feb</option>
+                                  <option value="3"   >March</option>
+                                  <option value="4"   >April</option>
+                                  <option value="5"   >May</option>
+                                  <option value="6"   >June</option>
+                                  <option value="7"   >July</option>
+                                  <option value="8"   >Aug</option>
+                                  <option value="9"   >Sept</option>
+                                  <option value="10"   >Oct</option>
+                                  <option value="11"   >Nov</option>
+                                  <option value="12"   >Dec</option>
+								
 							</select>
 							</div>
 									
@@ -208,13 +215,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									class="chosen-select" tabindex="6" id="smonth" style="width:99% !important;"
 								name="smonth" required>
 								<option value=""selected  >Select Second Month</option>
- 							<c:forEach var = "i" begin = "1" end = "12">
-       
-      
-								<option value="${i}"   >${i}</option>
-								 
-
-								  </c:forEach>
+ 							 <option value="1"   >Jan</option>
+								  <option value="2"   >Feb</option>
+                                  <option value="3"   >March</option>
+                                  <option value="4"   >April</option>
+                                  <option value="5"   >May</option>
+                                  <option value="6"   >June</option>
+                                  <option value="7"   >July</option>
+                                  <option value="8"   >Aug</option>
+                                  <option value="9"   >Sept</option>
+                                  <option value="10"   >Oct</option>
+                                  <option value="11"   >Nov</option>
+                                  <option value="12"   >Dec</option>
 							</select>
 							</div>
 									
@@ -250,14 +262,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<select data-placeholder="Choose Machine Month"
 									class="chosen-select" tabindex="6" id="tmonth" style="width:99% !important;"
 								name="tmonth" required>
-								<option value=""selected  >Select third Month</option>
- 							<c:forEach var = "i" begin = "1" end = "12">
-       
-      
-								<option value="${i}"   >${i}</option>
-								 
-
-								  </c:forEach>
+								<option value=""selected  >Select Third Month</option>
+ 							 <option value="1"   >Jan</option>
+								  <option value="2"   >Feb</option>
+                                  <option value="3"   >March</option>
+                                  <option value="4"   >April</option>
+                                  <option value="5"   >May</option>
+                                  <option value="6"   >June</option>
+                                  <option value="7"   >July</option>
+                                  <option value="8"   >Aug</option>
+                                  <option value="9"   >Sept</option>
+                                  <option value="10"   >Oct</option>
+                                  <option value="11"   >Nov</option>
+                                  <option value="12"   >Dec</option>
 							</select>
 							</div>
 									

@@ -225,7 +225,7 @@ public class CalibrationController {
 			  lastRecordList = new ArrayList<TCalibaration>(Arrays.asList(tCalibaration));
 		  
 			model.addObject("equmpList", lastRecordList);
-			
+			model.addObject("URL", Constant.PDF_URL);
 		}catch(Exception e)
 		{
 			e.printStackTrace();

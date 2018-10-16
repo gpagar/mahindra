@@ -119,19 +119,19 @@ body {
 <%-- 										<li><a href="${pageContext.request.contextPath}/showEqCal"><i class="fa fa-calculator" aria-hidden="true"></i><span>Add Equipment(Cal)</span><div class="clearfix"></div></a></li>
  --%>										<li><a href="${pageContext.request.contextPath}/showCalMenu"><i class="fa fa-calculator" aria-hidden="true"></i><span>Calibration </span><div class="clearfix"></div></a></li>
 								 
-								<li><a href="showPmPlan"><i class="	fa fa-internet-explorer" aria-hidden="true"></i><span>Mail Alerts</span><div class="clearfix"></div></a></li>
-								
+<!-- 								<li><a href="showPmPlan"><i class="	fa fa-internet-explorer" aria-hidden="true"></i><span>Mail Alerts</span><div class="clearfix"></div></a></li>
+ -->								
 								
 <!-- 									<li><a href="showPmPlan"><i class="fa fa-calendar" aria-hidden="true"></i><span>Schedulers</span><div class="clearfix"></div></a></li>
  -->									
 <!-- 									<li><a href="#" onclick="openNav()"><i class="fa fa-bar-chart" style="font-size:14px" aria-hidden="true"></i><span >Auto Graph Plot</span><div class="clearfix"></div></a></li>
  -->
 									 
-									 <li><a href="graph"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
+									 <li><a href="#"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
+	 <li><a href="${pageContext.request.contextPath}/showPmTargets"><i class="fa fa-book"></i>  <span>MIS</span><div class="clearfix"></div></a></li>							
 								
-								
-								 <li><a href="${pageContext.request.contextPath}/graph"><i class="fa fa-book"></i>  <span>Learning librabry</span><div class="clearfix"></div></a></li>
-									<li id="menu-academico" ><a href="mail"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
+								 <li><a href="${pageContext.request.contextPath}/addFile"><i class="fa fa-book"></i>  <span>Learning library</span><div class="clearfix"></div></a></li>
+									<li id="menu-academico" ><a href="#"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
 									
 									 <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
 									 

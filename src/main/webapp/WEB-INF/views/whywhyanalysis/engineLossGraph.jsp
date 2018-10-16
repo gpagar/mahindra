@@ -446,7 +446,19 @@ function OnInput() {
 		 //  var machineId = document.getElementById("machineId").value;
 	    var d = new Date();
         var n = d.getMonth()+1;
-        n=n-3;
+        if(n==1){
+       	 n=10;
+        }else if(n==2)
+       	 {
+       	  n=11;
+       	 }else if(n==3)
+       		 {
+       		 n=12;
+       		 }
+       	 else
+       		 {
+       		 n=n-3;
+       		 }
 		$.getJSON('${searchBrekELossGraphData}',{
 			
 			//machineType : machineType,

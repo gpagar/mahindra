@@ -170,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				              <td>${count.index+1}</td>
 				              <td>${list.fileDesc}</td> 
 				               
-				              		 <td> <a href="http://file:///E:/EMaintainence/pdf/${list.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
+				              		 <td> <a href="${URL}${list.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
 										  </a></td>
 				              		 <td><a href="${pageContext.request.contextPath}/deleteFile/${list.fileId}" ><i class="fa fa-trash-o" style="font-size:18px;color:red"></i> 
 				              		 </a></td>

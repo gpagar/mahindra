@@ -1,5 +1,6 @@
 package com.mahindra.project.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,11 @@ public class CbmController {
 			List<CbmSchedule> scheduleList = rest.postForObject(Constant.url + "getCbmSchedule",map,
 					List.class);
 			model.addObject("scheduleList",scheduleList);
+			
+			
+			List<String> months = Arrays.asList("N/A","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+			model.addObject("months", months);
 		}catch(Exception e)
 		{
 			e.printStackTrace();

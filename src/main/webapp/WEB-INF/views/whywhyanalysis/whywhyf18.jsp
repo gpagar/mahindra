@@ -298,9 +298,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<td>
 						<select id="cellcircle-1" name="cellcircle-1" class="chosen-select" onchange="calculateEngineLoss(-1)" required>
 						 <option value="">Select Cell/Circle</option>
+						 <c:choose><c:when test="${deptId eq '1'}">
                                  <option value="HL">HeadLine</option>
                                  <option value="BL">BlockLine</option>
                                 <option value="CL">CamLine</option>
+                                </c:when>
+                                <c:when test="${deptId eq '2'}">
+                                <option value="Assembly">Assembly</option>
+                                 <option value="Testing">Testing</option>
+                                </c:when>
+                                  <c:when test="${deptId eq '3'}">
+                                <option value="NEF">NEF</option>
+                                 <option value="CD">CD</option>
+                                <option value="MDI">MDI</option>
+                                  <option value="TESTING">TESTING</option>
+                                </c:when>
+                                </c:choose>
+                                
                         </select>
 						</td>
 						<td><%-- <textarea id="machine_no-1"   name="machine_no-1">${machinDetails.machinNo}</textarea> --%>
@@ -502,6 +516,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<td>
 						<select id="cellcircle${count.index}" class="chosen-select" name="cellcircle${count.index}" onchange="calculateEngineLoss(${count.index})" required>
 						 <option value="">Select Cell/Circle</option>
+						 <c:choose><c:when test="${deptId eq '1'}">
 						 <c:choose><c:when test="${whyWhyF18.cellCircle eq 'HL'}">
 						         <option value="HL" selected>HeadLine</option>
                                  <option value="BL">BlockLine</option>
@@ -509,7 +524,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						 </c:when>
 						 <c:when test="${whyWhyF18.cellCircle eq 'BL'}">
 						         <option value="HL" >HeadLine</option>
-                                 <option value="BL"selected>BlockLine</option>
+                                 <option value="BL" selected>BlockLine</option>
                                  <option value="CL">CamLine</option>
 						 </c:when>
 						 <c:when test="${whyWhyF18.cellCircle eq 'CL'}">
@@ -522,6 +537,57 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                  <option value="BL">BlockLine</option>
                                  <option value="CL">CamLine</option>
 						 </c:otherwise>
+						 </c:choose>
+						 </c:when>
+						 <c:when test="${deptId eq '2'}">
+						  <c:choose><c:when test="${whyWhyF18.cellCircle eq 'Assembly'}">
+						         <option value="Assembly" selected>Assembly</option>
+                                 <option value="Testing">Testing</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'Testing'}">
+						         <option value="Assembly" >Assembly</option>
+                                 <option value="Testing" selected>Testing</option>
+						 </c:when>
+						
+						 <c:otherwise>
+						   <option value="Assembly" >Assembly</option>
+                                 <option value="Testing">Testing</option>
+						 </c:otherwise>
+						 </c:choose>
+						 </c:when>
+						  <c:when test="${deptId eq '3'}">
+						  <c:choose><c:when test="${whyWhyF18.cellCircle eq 'NEF'}">
+						         <option value="NEF" selected>NEF</option>
+                                 <option value="CD">CD</option>
+                                <option value="MDI">MDI</option>
+                                  <option value="TESTING">TESTING</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'CD'}">
+						         <option value="NEF" >NEF</option>
+                                 <option value="CD" selected>CD</option>
+                                <option value="MDI">MDI</option>
+                                  <option value="TESTING">TESTING</option>
+						 </c:when>
+						 <c:when test="${whyWhyF18.cellCircle eq 'MDI'}">
+						         <option value="NEF" >NEF</option>
+                                 <option value="CD" >CD</option>
+                                <option value="MDI" selected>MDI</option>
+                                  <option value="TESTING">TESTING</option>
+						 </c:when>
+						  <c:when test="${whyWhyF18.cellCircle eq 'TESTING'}">
+						         <option value="NEF" >NEF</option>
+                                 <option value="CD" >CD</option>
+                                <option value="MDI">MDI</option>
+                                  <option value="TESTING" selected>TESTING</option>
+						 </c:when>
+						 <c:otherwise>
+						     <option value="NEF" >NEF</option>
+                                 <option value="CD" >CD</option>
+                                <option value="MDI">MDI</option>
+                                  <option value="TESTING">TESTING</option>
+						 </c:otherwise>
+						 </c:choose>
+						 </c:when>
 						 </c:choose>
                                 
                         </select>

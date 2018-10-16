@@ -1959,7 +1959,7 @@ public class WhyWhyAnalysisController {
 
             graphData.setBreakdownTimeMonthwise(breakdownMothwiseList);
             graphData.setYearlyMachineBdTimeList(yearlyMachinBreakdownList);
-           
+            graphData.getYearlyMachineBdTimeList().setBreakdownYearly(breakdownYearly);
 		    graphData.setYear(currentYear);
 		}catch(Exception e)
 		{
