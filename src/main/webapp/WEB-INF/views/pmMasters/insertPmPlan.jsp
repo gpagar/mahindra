@@ -687,14 +687,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	function onMachineChange(machineId)
 	{
 		
-		document.getElementById("rank").value="0";
-		document.getElementById("fmonth").value="";
-		document.getElementById("fweek").value="";
-		document.getElementById("smonth").value="";
-		document.getElementById("sweek").value="";
-		document.getElementById("tmonth").value="";
-		document.getElementById("tweek").value="";
-		document.getElementById("maintId").value=0;
+		document.getElementById("rank").value="0";$("#rank").trigger("chosen:updated");
+		document.getElementById("fmonth").value="";$("#fmonth").trigger("chosen:updated");
+		document.getElementById("fweek").value="";$("#fweek").trigger("chosen:updated");
+		document.getElementById("smonth").value="";$("#smonth").trigger("chosen:updated");
+		document.getElementById("sweek").value="";	$("#sweek").trigger("chosen:updated");
+		document.getElementById("tmonth").value="";$("#tmonth").trigger("chosen:updated");
+		document.getElementById("tweek").value="";$("#tweek").trigger("chosen:updated");
+		document.getElementById("maintId").value=0;	$("#maintId").trigger("chosen:updated");
 		$.getJSON('${getScheduleById}', {
 			machineId : machineId,
 			ajax : 'true'

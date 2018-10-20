@@ -12,7 +12,7 @@ public class VpsImageUpload {
 
 	
 	//public static final String pm = "/usr/local/tomcat7/uploads/";
-	public static final String cal = "/home/ats-12/";//E:/tomcat/webapps/Emaintanance/cal_pdf/";
+	public static final String cal = "E:/tomcat/webapps/Emaintanance/cal_pdf/";
 
 	public static final String pm = "E:/tomcat/webapps/Emaintanance/PM_images/";
 

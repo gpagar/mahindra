@@ -135,16 +135,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<input type="text" name="fileDesc" id="fileDesc"  required/>
 						</div>
 									
-						</div><br> 
+						<!-- <br> 
 							<div class="row" align="center">
-							<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
+							<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4"> -->
 								<input type="submit" class="btn btn-info" id="submitbtn" value="Upload File">   
 								
-							</div> 
-						</div><br>
+							<!-- </div> 
+						</div> --></div>
 					</form>
 <div class="row" align="right">
-						 				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" title="Type in a name" style="border-radius: 23px;">
+						 				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" title="Type in a name" style="width: 30%;border-radius: 23px;">
 						  
 							
 						</div> 
