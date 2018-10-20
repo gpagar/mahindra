@@ -115,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Learning Library
+								<i class="fa fa-bars"></i> Learning Library <c:choose><c:when test="${sectionId==1}">SOP</c:when><c:when test="${sectionId==2}">OPL</c:when><c:when test="${sectionId==3}">MP</c:when></c:choose>
 							</h3>
 						<br>
 
@@ -133,6 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<label class="col-md-2">File Desc: </label>
 							<div class="col-md-3">
 								<input type="text" name="fileDesc" id="fileDesc"  required/>
+								<input type="hidden" name="sectionId" id="sectionId" value="${sectionId}"  />
 						</div>
 									
 						<!-- <br> 
@@ -172,7 +173,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				               
 				              		 <td> <a href="${URL}${list.fileName}" target="_blank" > <input  type="button" value="Show File" class="btn btn-success">
 										  </a></td>
-				              		 <td><a href="${pageContext.request.contextPath}/deleteFile/${list.fileId}" ><i class="fa fa-trash-o" style="font-size:18px;color:red"></i> 
+				              		 <td><a href="${pageContext.request.contextPath}/deleteFile/${list.fileId}/${sectionId}" ><i class="fa fa-trash-o" style="font-size:18px;color:red"></i> 
 				              		 </a></td>
 				              </tr>
 				               

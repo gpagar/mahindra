@@ -41,21 +41,46 @@ import com.mahindra.project.model.calibration.TCalibaration;
 @Scope("session")
 public class LearningLibraryController {
 	
-	@RequestMapping(value = "/addFile", method = RequestMethod.GET)
-	public ModelAndView addFile(HttpServletRequest request, HttpServletResponse response) {
+	
+	@RequestMapping(value = "/selectSectionforAddFile", method = RequestMethod.GET)
+	public ModelAndView selectSectionforAddFile(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView model = new ModelAndView("learningLibrary/sectionMenu");
+		
+		try
+		{
+			 
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/addFile/{sectionId}", method = RequestMethod.GET)
+	public ModelAndView addFile(@PathVariable int sectionId, HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView model = new ModelAndView("learningLibrary/addFile");
 		
 		try
 		{
+			HttpSession session = request.getSession();  
+			 int deptId = (Integer) session.getAttribute("deptId") ;
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("deptId", deptId);
+			 map.add("sectionId", sectionId);
 			RestTemplate rest = new RestTemplate();
-			LearningLibrary[] learningLibrary = rest.getForObject(Constant.url + "/getFileList",
+			LearningLibrary[] learningLibrary = rest.postForObject(Constant.url + "/getFileList",map,
 					LearningLibrary[].class);
 			List<LearningLibrary> list = new ArrayList<LearningLibrary>(Arrays.asList(learningLibrary));
 			
 			model.addObject("list",list);
 			model.addObject("URL", Constant.PDF_URL);
-
+			model.addObject("sectionId",sectionId);
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -68,18 +93,16 @@ public class LearningLibraryController {
 	@RequestMapping(value = "/insertFile", method = RequestMethod.POST)
 	public String insertFile(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "fileName", required = false)List<MultipartFile> fileName) {
 		
+		String sectionId =  request.getParameter("sectionId") ;
 		try {
 			
 		 
 		String fileDesc =  request.getParameter("fileDesc") ;
-		 
+		
+		
 		HttpSession session = request.getSession();  
 		 int deptId = (Integer) session.getAttribute("deptId") ;
-		
-		CalibrationDetails calibrationDetails = new CalibrationDetails();
-		
-		 
-		
+		  
 		VpsImageUpload vpsImageUpload=new VpsImageUpload();
 		
 		String fileNme=""; 
@@ -113,6 +136,8 @@ public class LearningLibraryController {
 		save.setDate(sf.format(date));
 		save.setFileName(fileNme);
 		save.setFileDesc(fileDesc);
+		save.setVarchar1(String.valueOf(deptId));
+		save.setVarchar2(String.valueOf(sectionId));
 		RestTemplate rest=new RestTemplate();
 		
 		System.err.println("save " + save); 
@@ -121,11 +146,11 @@ public class LearningLibraryController {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/addFile";
+		return "redirect:/addFile/"+sectionId;
 	}
 	
-	@RequestMapping(value = "/deleteFile/{fileId}", method = RequestMethod.GET)
-	public String deleteFile(@PathVariable int fileId, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/deleteFile/{fileId}/{sectionId}", method = RequestMethod.GET)
+	public String deleteFile(@PathVariable int fileId,@PathVariable int sectionId, HttpServletRequest request, HttpServletResponse response) {
 		 
 		try
 		{
@@ -141,7 +166,7 @@ public class LearningLibraryController {
 		}
 		
 
-		return "redirect:/addFile";
+		return "redirect:/addFile/"+sectionId;
 	}
 
 }
