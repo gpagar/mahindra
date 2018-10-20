@@ -1,3 +1,6 @@
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <!DOCTYPE html>
 <html>
 <head>
@@ -132,10 +135,16 @@ body {
 								
 								 <li><a href="${pageContext.request.contextPath}/selectSectionforAddFile"><i class="fa fa-book"></i>  <span>Learning library</span><div class="clearfix"></div></a></li>
 									<li id="menu-academico" ><a href="#"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
-									
+									 
+									 <c:choose>
+									 	<c:when test="${sessionScope.userDetail.type>=2}">
+									 	<li><a href="${pageContext.request.contextPath}/addUser"><i class="fa fa-align-justify"></i>  <span> Add User</span><div class="clearfix"></div></a></li>
+									 	<li><a href="${pageContext.request.contextPath}/getUserList"><i class="fa fa-align-justify"></i>  <span> User List</span><div class="clearfix"></div></a></li>
+									 
+									 	</c:when>
+									 </c:choose>
 									 <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>
 									 
-									
 									
 								  </ul>
 								</div>
