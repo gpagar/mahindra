@@ -102,7 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                        </select></td>
 				     </tr>
 				     </table>
-				     </div>
+		 		     </div>
 				<div class="box-content">
 				<div id="chart" >
 				    <div id="chart_div" style="width:48%; height:360px; float:left;" >
