@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+ <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
  
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -294,7 +295,7 @@ Workstation Name : ${whyWhyF18.machineName}</p>
       <td width="40%" colspan="3" style="border-top:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:12px; text-align:left;margin:5px;">
          <c:choose>
-     <c:when test="${whyWhyF18.linkageWith.equalsIgnoreCase('pm')}">
+     <c:when test="${whyWhyF18.linkageWith.equalsIgnoreCase('pm') || whyWhyF18.linkageWith.equalsIgnoreCase('tbm') || whyWhyF18.linkageWith.equalsIgnoreCase('cbm') || fn:contains(whyWhyF18.linkageWith, 'pm') || fn:contains(whyWhyF18.linkageWith, 'PM')}">
    <input type="checkbox"  checked="checked"/>  ${breakdownDetail.prevenReccur}
      </c:when>
      </c:choose>

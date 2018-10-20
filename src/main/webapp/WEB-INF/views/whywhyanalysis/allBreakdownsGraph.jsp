@@ -107,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				   <center>  <div id="loading1"><br><br><br><br><br><br><br>
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
-				    </div>				      <img src="${pageContext.request.contextPath}/resources/home/images/up.png" width="35" height="42">
+				    </div>				      <img src="${pageContext.request.contextPath}/resources/home/images/down.jpg" width="35" height="42">
 				    
 					<div id="chart_div1" style="width:48%; height:360px; float:right;" >
 					<center> <div id="loading2"><br><br><br><br><br><br><br>
@@ -128,7 +128,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   <img id="loading-image1" src="${pageContext.request.contextPath}/resources/home/images/loader1.gif" alt="Loading..." />
 <br><br><br><br><br><br><br></div> </center>
 						</div>
-				  <img src="${pageContext.request.contextPath}/resources/home/images/up.png" width="35" height="42" style="float:right;">
+				  <img src="${pageContext.request.contextPath}/resources/home/images/down.jpg" width="35" height="42" style="float:right;">
 	           
 	             
 	             
@@ -483,18 +483,18 @@ function OnInput() {
         var year3L5Target=parseInt(data.breakdownYearlyListRes.machineL5Target.year3lTarget);
         var year4L5Target=parseInt(data.breakdownYearlyListRes.machineL5Target.year4lTarget);
  
-        var avgYear1L3Targetpm=parseFloat(year1L3Target/12);avgYear1L3Targetpm=parseFloat(avgYear1L3Targetpm.toFixed(1));
-        var avgYear1L5Targetpm=parseFloat(year1L5Target/12);avgYear1L5Targetpm=parseFloat(avgYear1L5Targetpm.toFixed(1));
-        var avgYear2L3Targetpm=parseFloat(year2L3Target/12);avgYear2L3Targetpm=parseFloat(avgYear2L3Targetpm.toFixed(1));
-        var avgYear2L5Targetpm=parseFloat(year2L5Target/12);avgYear2L5Targetpm=parseFloat(avgYear2L5Targetpm.toFixed(1));
-        var avgYear3L3Targetpm=parseFloat(year3L3Target/12);avgYear3L3Targetpm=parseFloat(avgYear3L3Targetpm.toFixed(1));
-        var avgYear3L5Targetpm=parseFloat(year3L5Target/12);avgYear3L5Targetpm=parseFloat(avgYear3L5Targetpm.toFixed(1));
+        var avgYear1L3Targetpm=parseFloat(year1L3Target);avgYear1L3Targetpm=parseFloat(avgYear1L3Targetpm.toFixed(1));
+        var avgYear1L5Targetpm=parseFloat(year1L5Target);avgYear1L5Targetpm=parseFloat(avgYear1L5Targetpm.toFixed(1));
+        var avgYear2L3Targetpm=parseFloat(year2L3Target);avgYear2L3Targetpm=parseFloat(avgYear2L3Targetpm.toFixed(1));
+        var avgYear2L5Targetpm=parseFloat(year2L5Target);avgYear2L5Targetpm=parseFloat(avgYear2L5Targetpm.toFixed(1));
+        var avgYear3L3Targetpm=parseFloat(year3L3Target);avgYear3L3Targetpm=parseFloat(avgYear3L3Targetpm.toFixed(1));
+        var avgYear3L5Targetpm=parseFloat(year3L5Target);avgYear3L5Targetpm=parseFloat(avgYear3L5Targetpm.toFixed(1));
         
         
-        var avgL3Targetpm=parseInt(year4L3Target/12);
-        var avgL5Targetpm=parseInt(year4L5Target/12);
-        var avgL3Targetpd=parseInt(year4L3Target/30);
-        var avgL5Targetpd=parseInt(year4L3Target/30);
+        var avgL3Targetpm=parseInt(year4L3Target);
+        var avgL5Targetpm=parseInt(year4L5Target);
+       // var avgL3Targetpd=parseInt(year4L3Target/30);
+        //var avgL5Targetpd=parseInt(year4L3Target/30);
     	var day1=parseInt(data.breakdownYearlyListRes.dailyBreakdowns.day1);
     	var day2=parseInt(data.breakdownYearlyListRes.dailyBreakdowns.day2);
     	var day3=parseInt(data.breakdownYearlyListRes.dailyBreakdowns.day3);

@@ -130,7 +130,7 @@ body {
 									 <li><a href="#"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
 	 <li><a href="${pageContext.request.contextPath}/showPmTargets"><i class="fa fa-book"></i>  <span>MIS</span><div class="clearfix"></div></a></li>							
 								
-								 <li><a href="${pageContext.request.contextPath}/addFile"><i class="fa fa-book"></i>  <span>Learning library</span><div class="clearfix"></div></a></li>
+								 <li><a href="${pageContext.request.contextPath}/selectSectionforAddFile"><i class="fa fa-book"></i>  <span>Learning library</span><div class="clearfix"></div></a></li>
 									<li id="menu-academico" ><a href="#"><i class="fa fa-users"></i><span>User Roles Management </span><div class="clearfix"></div></a></li>
 									
 									 <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i>  <span>Log out</span><div class="clearfix"></div></a></li>

@@ -439,17 +439,17 @@ function OnInput() {
         var year3L5Target=parseInt(data.yearlyMachineBdTimeList.machineL5Target.year3lTarget);
         var year4L5Target=parseInt(data.yearlyMachineBdTimeList.machineL5Target.year4lTarget);
  
-        var  avgYear1L3Targetpm=parseInt(year1L3Target/12);
-        var  avgYear1L5Targetpm=parseInt(year1L5Target/12);
-        var  avgYear2L3Targetpm=parseInt(year2L3Target/12);
-        var  avgYear2L5Targetpm=parseInt(year2L5Target/12);
-        var  avgYear3L3Targetpm=parseInt(year3L3Target/12);
-        var  avgYear3L5Targetpm=parseInt(year3L5Target/12);
+        var  avgYear1L3Targetpm=parseInt(year1L3Target);
+        var  avgYear1L5Targetpm=parseInt(year1L5Target);
+        var  avgYear2L3Targetpm=parseInt(year2L3Target);
+        var  avgYear2L5Targetpm=parseInt(year2L5Target);
+        var  avgYear3L3Targetpm=parseInt(year3L3Target);
+        var  avgYear3L5Targetpm=parseInt(year3L5Target);
         
-       var  avgL3Targetpm=parseInt(year4L3Target/12);
-       var  avgL5Targetpm=parseInt(year4L5Target/12);
-        var avgL3Targetpd=parseInt(year4L3Target/30);
-        var avgL5Targetpd=parseInt(year4L3Target/30);
+       var  avgL3Targetpm=parseInt(year4L3Target);
+       var  avgL5Targetpm=parseInt(year4L5Target);
+       // var avgL3Targetpd=parseInt(year4L3Target/30);
+       // var avgL5Targetpd=parseInt(year4L3Target/30);
     
 
 
