@@ -462,11 +462,11 @@ function OnInput() {
 		      function drawVisualization() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
-		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L5Targetpm],
-		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L5Targetpm],
-		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L5Targetpm],
-		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL5Targetpm],
+		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},{type: 'number', role: 'annotation'},'Target L5',{type: 'number', role: 'annotation'}],
+		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L3Targetpm,avgYear1L5Targetpm,avgYear1L5Targetpm],
+		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L3Targetpm,avgYear2L5Targetpm,avgYear2L5Targetpm],
+		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L3Targetpm,avgYear3L5Targetpm,avgYear3L5Targetpm],
+		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL3Targetpm,avgL5Targetpm,avgL5Targetpm],
 		     
 		      ]);
 

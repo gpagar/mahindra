@@ -81,8 +81,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<h3>
 								<i class="fa fa-bars"></i> User List
 							</h3>
-							<div class="box-tool">
-						
+							<div class="box-tool" align="right">
+						<a href="${pageContext.request.contextPath}/addUser"><input type="button" class="btn btn-primary" value="Add User"></a>
 						</div>
 
 						<div class="box-content">
@@ -156,7 +156,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				               <c:set var="typeName" value="Associate"></c:set>
 				              </c:when>
 				              <c:when test="${list.type==1}">
-				               <c:set var="typeName" value="Supervisor"></c:set>
+				               <c:set var="typeName" value="Officer"></c:set>
 				              </c:when>
 				              <c:when test="${list.type==2}">
 				               <c:set var="typeName" value="Manager"></c:set>

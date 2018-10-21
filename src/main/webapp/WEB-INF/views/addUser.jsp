@@ -27,6 +27,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- lined-icons -->
 <link rel="stylesheet" href="resources/home/css/icon-font.min.css" type='text/css' />
 <!-- //lined-icons -->
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/customerBill/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
+
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
@@ -195,7 +201,7 @@ h6{
   <form action="${pageContext.request.contextPath}/insertUser"  class="form-horizontal"
 							 id="validation-form" 	 method="POST">
    					<div class="form-group">
-							<div class="col-md-2" align="left">Name : </div>
+							<div class="col-md-2" align="right">Name : </div>
 							<div class="col-md-3">
 								<input type="text" name="name" id="name" value="${userDetails.name}" class="form-control"   required />
 								<input type="hidden" name="userId" id="userId" value="${userDetails.userId}" />
@@ -207,14 +213,14 @@ h6{
 				<br>
 				
 				<div class="form-group">
-							<div class="col-md-2" align="left">User Name : </div>
+							<div class="col-md-2" align="right">User Name : </div>
 							<div class="col-md-3">
 							<c:choose>
 								<c:when test=" ${isEdit==1} ">
 								<input type="text" name="userName" id="userName" value="${userDetails.email}" onchange="checkUser();"  class="form-control"   required />
 								</c:when>
 								<c:otherwise>
-								<input type="text" name="userName" id="userName" value="${userDetails.email}" onchange="checkUser();"  class="form-control"   readonly />
+								<input type="text" name="userName" id="userName" value="${userDetails.email}" onchange="checkUser();"  class="form-control"    />
 								</c:otherwise>
 							</c:choose>
 								
@@ -239,7 +245,7 @@ h6{
 							</c:choose> --%>
 				
 				<div class="form-group">
-							<div class="col-md-2" align="left">Password : </div>
+							<div class="col-md-2" align="right">Password : </div>
 							<div class="col-md-3">
 								<input type="password" name="pass" id="pass" onchange="matchPassword();" class="form-control"   required />
 						</div>
@@ -248,7 +254,7 @@ h6{
 				<br>
 				
 				<div class="form-group">
-							<div class="col-md-2" align="left">Re-Password : </div>
+							<div class="col-md-2" align="right">Re-Password : </div>
 							<div class="col-md-3">
 								<input type="password" name="rePass" id="rePass" onchange="matchPassword();" class="form-control"   required />
 						</div>
@@ -257,32 +263,32 @@ h6{
 				<br>
 				
 				<div class="form-group">
-							<div class="col-md-2" align="left">Select Type : </div>
+							<div class="col-md-2" align="right">Select Type : </div>
 							<div class="col-md-3">
 								 
-								 <select  class="chosen-select"   id="type"
+								 <select  class="chosen-select"   style="width:90% !important;" id="type"
 								name="type" required>
 								
 								<c:choose> 
 				               <c:when test="${userDetails.type==0}"> 
 								<option value="0"   selected>Associate</option>
-								<option value="1"   >Supervisor</option>
+								<option value="1"   >Officer</option>
 								<option value="2"   >Manager</option>
 				              </c:when>
 				              <c:when test="${userDetails.type==1}"> 
 								<option value="0"   >Associate</option>
-								<option value="1"   selected>Supervisor</option>
+								<option value="1"   selected>Officer</option>
 								<option value="2"   >Manager</option>
 				              </c:when>
 				              <c:when test="${userDetails.type==2}"> 
 								<option value="0"   >Associate</option>
-								<option value="1"   >Supervisor</option>
+								<option value="1"   >Officer</option>
 								<option value="2"   selected>Manager</option>
 				              </c:when>
 				              <c:otherwise>
 				              <option value=""  >Select Type</option>
 								<option value="0"   >Associate</option>
-								<option value="1"   >Supervisor</option>
+								<option value="1"   >Officer</option>
 								<option value="2"   >Manager</option>
 				              </c:otherwise>
 				              </c:choose>
@@ -295,7 +301,7 @@ h6{
 				<br>
 				
 				<div class="row" align="center">
-						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
+						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-3">
 							<button type="submit" class="btn btn-info" id="submitbtn" disabled>Submit</button>  
 						</div><br>
 						 
@@ -336,7 +342,16 @@ COPY rights end here
    <!-- /Bootstrap Core JavaScript -->	   
 <!-- morris JavaScript -->	
 <script src="resources/home/js/raphael-min.js"></script>
- 
+ <!----------------------------------------Dropdown With Search----------------------------------------------- -->
+	 <script
+		src="${pageContext.request.contextPath}/resources/customerBill/jquery-2.1.4.min.js"
+		type="text/javascript"></script>  
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/chosen.jquery.min.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/customerBill/init.js"
+		type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
 var tabs = $('.tabs');

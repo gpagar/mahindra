@@ -293,7 +293,7 @@ public class WhyWhyAnalysisController {
 			int year=Integer.parseInt(request.getParameter("yearpicker"));
 			float l3Target=Float.parseFloat(request.getParameter("l3Target"));
 			float l5Target=Float.parseFloat(request.getParameter("l5Target"));
-			int actual=Integer.parseInt(request.getParameter("actual"));
+			float actual=Float.parseFloat(request.getParameter("actual"));
 			 graphType=Integer.parseInt(request.getParameter("graphType"));
 			BreakdownTarget brTarget=new BreakdownTarget();
 			brTarget.setTargetId(targetId);

@@ -473,9 +473,9 @@ function OnInput() {
 
 			}
 	    var year=parseInt(data.year);
-		var firstYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.firstYearTime);  firstYear=parseFloat((firstYear/n).toFixed(1));
-	    var secondYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.secondYearTime);secondYear=parseFloat((secondYear/n).toFixed(1));
-	    var thirdYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.thirdYearTime);thirdYear=parseFloat((thirdYear/n).toFixed(1));
+		var firstYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.firstYearTime);  firstYear=parseFloat((firstYear/12).toFixed(1));
+	    var secondYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.secondYearTime);secondYear=parseFloat((secondYear/12).toFixed(1));
+	    var thirdYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.thirdYearTime);thirdYear=parseFloat((thirdYear/12).toFixed(1));
 	    var fourthYear=parseFloat(data.yearlyMachineBdTimeList.breakdownYearly.fourthYearTime);fourthYear=parseFloat((fourthYear/n).toFixed(1));
         var year1L3Target=parseFloat(data.yearlyMachineBdTimeList.machineL3Target.year1lTtarget);
         var year2L3Target=parseFloat(data.yearlyMachineBdTimeList.machineL3Target.year2lTtarget);
@@ -668,11 +668,11 @@ function OnInput() {
 		      function drawVisualization() {
 		        // Some raw data (not necessarily accurate)
 		        var data = google.visualization.arrayToDataTable([
-		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},'Target L5'],
-		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L5Targetpm],
-		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L5Targetpm],
-		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L5Targetpm],
-		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL5Targetpm],
+		         ['F YEAR', 'Actual',{ role: 'annotation' } , 'Target L3',{type:'boolean',role:'certainty'},{type: 'number', role: 'annotation'},'Target L5',{type: 'number', role: 'annotation'}],
+		         ['F-'+(year-3)+'',firstYear,firstYear+'',avgYear1L3Targetpm,false,avgYear1L3Targetpm,avgYear1L5Targetpm,avgYear1L5Targetpm],
+		         ['F-'+(year-2)+'', secondYear,secondYear+'',avgYear2L3Targetpm,false,avgYear2L3Targetpm,avgYear2L5Targetpm,avgYear2L5Targetpm],
+		         ['F-'+(year-1)+'',  thirdYear,thirdYear+'',avgYear3L3Targetpm,false,avgYear3L3Targetpm,avgYear3L5Targetpm,avgYear3L5Targetpm],
+		         ['F-'+year+'', fourthYear,fourthYear+'',avgL3Targetpm,false,avgL3Targetpm,avgL5Targetpm,avgL5Targetpm],
 		     
 		      ]);
 

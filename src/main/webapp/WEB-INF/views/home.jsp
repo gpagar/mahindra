@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -180,6 +182,8 @@ h6{
   <br>  <br>  <br>
    <div class="row" >
   <div class="col-md-1"></div> 
+   <c:choose>
+   <c:when test="${sessionScope.userDetail.type==3}">
 					<div class="col-md-3 four-grid">
 					<a href="${pageContext.request.contextPath}/showDept/1">	<div class="four-agileits">
 							<div class="icon">
@@ -190,6 +194,78 @@ h6{
 							</div>
 							
 						</div></a>
+					</div>
+					<div class="col-md-3 four-grid">
+					  <a href="${pageContext.request.contextPath}/showDept/2"> <div class="four-agileinfo">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>m-Hawk</h3>
+						</div>
+							
+						</div>  </a> 
+					</div>
+					<div class="col-md-3 four-grid">
+						 <a href="${pageContext.request.contextPath}/showDept/3">  	<div class="four-w3ls">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3> NEF-mDI </h3>
+						
+							</div>
+							
+						</div>  </a> 
+					</div>
+			</c:when>
+	<c:when test="${sessionScope.userDetail.int1==1}">
+					<div class="col-md-3 four-grid">
+					<a href="${pageContext.request.contextPath}/showDept/1">	<div class="four-agileits">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>Machine Shop</h3>
+							</div>
+							
+						</div></a>
+					</div>
+					<div class="col-md-3 four-grid">
+					 	<%-- <a href="${pageContext.request.contextPath}/showDept/2"> --%><div class="four-agileinfo">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>m-Hawk</h3>
+						</div>
+							
+						</div><!--  </a>  -->
+					</div>
+					<div class="col-md-3 four-grid">
+						<%-- <a href="${pageContext.request.contextPath}/showDept/3"> --%> 	<div class="four-w3ls">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3> NEF-mDI </h3>
+						
+							</div>
+							
+						</div> <!-- </a> -->
+					</div>
+			</c:when>
+			<c:when test="${sessionScope.userDetail.int1==2}">
+				<div class="col-md-3 four-grid">
+					<%-- <a href="${pageContext.request.contextPath}/showDept/1"> --%>	<div class="four-agileits">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>Machine Shop</h3>
+							</div>
+							
+						</div><!-- </a> -->
 					</div>
 					<div class="col-md-3 four-grid">
 					 	<a href="${pageContext.request.contextPath}/showDept/2"><div class="four-agileinfo">
@@ -203,6 +279,42 @@ h6{
 						</div> </a> 
 					</div>
 					<div class="col-md-3 four-grid">
+					<%-- 	<a href="${pageContext.request.contextPath}/showDept/3">  --%>	<div class="four-w3ls">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3> NEF-mDI </h3>
+						
+							</div>
+							
+						</div> <!-- </a> -->
+					</div>
+			</c:when>
+			<c:when test="${sessionScope.userDetail.int1==3}">
+				<div class="col-md-3 four-grid">
+					<%-- <a href="${pageContext.request.contextPath}/showDept/1"> --%>	<div class="four-agileits">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>Machine Shop</h3>
+							</div>
+							
+						</div><!-- </a> -->
+					</div>
+					<div class="col-md-3 four-grid">
+					 <%-- 	<a href="${pageContext.request.contextPath}/showDept/2"> --%><div class="four-agileinfo">
+							<div class="icon">
+								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+							</div>
+							<div class="four-text">
+								<h3>m-Hawk</h3>
+						</div>
+							
+						</div><!--  </a>  -->
+					</div>
+					<div class="col-md-3 four-grid">
 						<a href="${pageContext.request.contextPath}/showDept/3"> 	<div class="four-w3ls">
 							<div class="icon">
 								<i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
@@ -214,7 +326,8 @@ h6{
 							
 						</div> </a>
 					</div>
-					
+			</c:when>
+			</c:choose>		
 					<div class="clearfix"></div>
 				</div> 
   <%-- <div class="four-grids"id="dept1">

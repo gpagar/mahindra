@@ -249,7 +249,7 @@ Workstation Name : ${whyWhyF18.machineName}</p>
   
     <td width="20%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
      <p style="color:#000; font-size:20px; text-align:center;margin:5px;"><b>
-     <c:if test="${whyWhyF18.clarificationOfCause eq 'Inadequate basic condition'}">
+     <c:if test="${whyWhyF18.clarificationOfCause eq 'Inadequate Basic Condition'}">
      &#x2714;</c:if></b></p> 
     </td>
      <td width="30%" colspan="2" style="border-top:1px solid #313131;border-right:1px solid #313131;padding:2px;color:#FFF; ">
