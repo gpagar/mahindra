@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -171,10 +172,18 @@ public class CalibrationController {
 		
 		VpsImageUpload vpsImageUpload=new VpsImageUpload();
 		
-		String fileNme=""; 
+		String fileNme="";
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+		int day = now.get(Calendar.DAY_OF_MONTH);
+		int hour = now.get(Calendar.HOUR);
+		int minute = now.get(Calendar.MINUTE);
+		int second = now.get(Calendar.SECOND);
+		int millis = now.get(Calendar.MILLISECOND);
 		
 		if(caliFile.get(0).getOriginalFilename()!="")
-			fileNme=caliFile.get(0).getOriginalFilename();
+			fileNme=day+""+month+""+year+""+hour+""+minute+""+second+""+millis+""+caliFile.get(0).getOriginalFilename();
 		 
 
 		try {
@@ -259,9 +268,17 @@ public class CalibrationController {
 		VpsImageUpload vpsImageUpload=new VpsImageUpload();
 		
 		String fileNme=""; 
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+		int day = now.get(Calendar.DAY_OF_MONTH);
+		int hour = now.get(Calendar.HOUR);
+		int minute = now.get(Calendar.MINUTE);
+		int second = now.get(Calendar.SECOND);
+		int millis = now.get(Calendar.MILLISECOND);
 		
 		if(caliFile.get(0).getOriginalFilename()!="") {
-			fileNme=caliFile.get(0).getOriginalFilename();
+			fileNme=day+""+month+""+year+""+hour+""+minute+""+second+""+millis+""+caliFile.get(0).getOriginalFilename();
 			try {
 				vpsImageUpload.saveUploadedFiles(caliFile, 1,fileNme); 
 
