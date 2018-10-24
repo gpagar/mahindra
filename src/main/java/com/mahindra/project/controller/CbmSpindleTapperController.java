@@ -26,6 +26,7 @@ import com.mahindra.project.constant.VpsImageUpload;
 import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.calibration.CalibrationDetails;
 import com.mahindra.project.model.calibration.TCalibaration;
+import com.mahindra.project.model.cbm.CbmEarthingResistance;
 import com.mahindra.project.model.cbm.CbmSchedule;
 import com.mahindra.project.model.cbm.CbmSpindleClampingForce;
 import com.mahindra.project.model.cbm.CbmSpindleTemper;
@@ -36,6 +37,8 @@ public class CbmSpindleTapperController {
 	
 	List<CbmSpindleTemper> cbmSpindleTemperList = new ArrayList<>();
 	List<CbmSpindleClampingForce> cbmSpindleClampingForceList = new ArrayList<>();
+	List<CbmEarthingResistance> cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>();
+	
 	@RequestMapping(value = "/showSpindleTapper", method = RequestMethod.GET)
 	public ModelAndView showSpindleTapper(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("cbm/showSpindleTapper");
@@ -279,6 +282,123 @@ public class CbmSpindleTapperController {
 			e.printStackTrace();
 		}
 		return "redirect:/showSpindleClimpingForce";
+	}
+	
+	@RequestMapping(value = "/showrEarthingResistance", method = RequestMethod.GET)
+	public ModelAndView showrEarthingResistance(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("cbm/showrEarthingResistance");
+		try
+		{
+			cbmSpindleClampingForceList = new ArrayList<>();
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			CbmSchedule[] scheduleList = rest.postForObject(Constant.url + "/getCbmScheduleListForEarthingResistance",map,
+					CbmSchedule[].class);
+			List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
+			model.addObject("cbmMchineScheduleList",cbmMchineScheduleList);
+			
+			CbmEarthingResistance[] cbmEarthingResistance = rest.postForObject(Constant.url + "/getCbmEarthingResistance",map,
+					CbmEarthingResistance[].class);
+			cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>(Arrays.asList(cbmEarthingResistance));
+			
+			for(int i=0 ;i < cbmMchineScheduleList.size() ; i++) {
+				 
+				int flag=0;
+				
+				for(int j=0 ;j < cbmEarthingResistanceList.size() ; j++) {
+					
+					if(cbmEarthingResistanceList.get(j).getSchId()==cbmMchineScheduleList.get(i).getId()) {
+						flag=1;
+						break;
+					}
+					
+				}
+				
+				if(flag==0) {
+					
+					CbmEarthingResistance cbmEarthingResistanc = new CbmEarthingResistance();
+					cbmEarthingResistanc.setSchId(cbmMchineScheduleList.get(i).getId());
+					cbmEarthingResistanc.setMachineNo(cbmMchineScheduleList.get(i).getMachineNo());
+					cbmEarthingResistanc.setMachineName(cbmMchineScheduleList.get(i).getMachineName()); 
+					cbmEarthingResistanc.setDept(cbmMchineScheduleList.get(i).getLine());
+					cbmEarthingResistanceList.add(cbmEarthingResistanc);
+				}
+				
+			}
+			
+			model.addObject("cbmEarthingResistanceList",cbmEarthingResistanceList);
+			
+			try {
+			String[] str = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"}; 
+			String monthName1 = str[Integer.parseInt(cbmMchineScheduleList.get(0).getErH1())-1];
+			String monthName2 = str[Integer.parseInt(cbmMchineScheduleList.get(0).getErH2())-1]; 
+			model.addObject("monthName1",monthName1);
+			model.addObject("monthName2",monthName2); 
+			}catch(Exception e) {
+				 
+			}
+			
+			try {
+				  
+				 String date1 = DateConvertor.convertToYMD(cbmEarthingResistanceList.get(0).getDate1())  ; 
+				 String date2 = DateConvertor.convertToYMD(cbmEarthingResistanceList.get(0).getDate2())  ; 
+				 
+				model.addObject("date1",date1);
+				model.addObject("date2",date2); 
+				}catch(Exception e) {
+					 e.printStackTrace();
+				}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitEarthingResistance", method = RequestMethod.POST)
+	public String submitEarthingResistance(HttpServletRequest request, HttpServletResponse response ) {
+		
+		try {
+		 
+		String date1 =  request.getParameter("date1") ;
+		String date2 =  request.getParameter("date2") ; 
+		 
+		HttpSession session = request.getSession();  
+		int deptId = (Integer) session.getAttribute("deptId") ; 
+		UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
+		 
+		for(int i=0 ; i<cbmEarthingResistanceList.size() ; i++) {
+			 
+			cbmEarthingResistanceList.get(i).setDate1(DateConvertor.convertToDMY(date1));
+			cbmEarthingResistanceList.get(i).setDate2(DateConvertor.convertToDMY(date2));
+			cbmEarthingResistanceList.get(i).setResistance1(request.getParameter("resistance1"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setResistance2(request.getParameter("resistance2"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setObsrvn1(request.getParameter("obsrvn1"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setObsrvn2(request.getParameter("obsrvn2"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setRemark1(request.getParameter("remark1"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setRemark2(request.getParameter("remark2"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setStatus1(request.getParameter("status1"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setStatus2(request.getParameter("status2"+cbmEarthingResistanceList.get(i).getSchId()));
+			cbmEarthingResistanceList.get(i).setDeptId(deptId);
+			cbmEarthingResistanceList.get(i).setExtra1(userDetail.getUserId());
+			System.out.println(cbmEarthingResistanceList.get(i));
+		}
+		
+ 
+		RestTemplate rest=new RestTemplate();
+		 
+		List<CbmEarthingResistance> res = rest.postForObject(Constant.url + "/saveCbmEarthingResistance", cbmEarthingResistanceList, List.class); 
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showrEarthingResistance";
 	}
 
 }
