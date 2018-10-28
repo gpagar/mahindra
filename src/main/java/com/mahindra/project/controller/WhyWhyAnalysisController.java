@@ -57,8 +57,13 @@ import com.mahindra.project.model.Info;
 import com.mahindra.project.model.MachinDetails;
 import com.mahindra.project.model.MachinDetailsList;
 import com.mahindra.project.model.MachinMaintanaceSchedule;
+import com.mahindra.project.model.MachineL3Target;
+import com.mahindra.project.model.MachineL5Target;
 import com.mahindra.project.model.PaMaintananceDetails;
+import com.mahindra.project.model.PmActualGData;
 import com.mahindra.project.model.PmRequiredValue;
+import com.mahindra.project.model.PmScheduleGraphData;
+import com.mahindra.project.model.PmTargetGData;
 import com.mahindra.project.model.TSetting;
 import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.WhyWhyF18;
@@ -76,6 +81,8 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
 		try
 		{
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			String machineIdList="";
 			  try {
 				/* machineType = Integer.parseInt(request.getParameter("machineType"));*/
@@ -119,8 +126,18 @@ public class WhyWhyAnalysisController {
 				int intYear =Integer.parseInt(formattedDate);
 				actYear=intYear;
 			}
+			if(deptId==1)
+			{
+				map1.add("settingKey", "breakdown_ref_no1");
+			}else
+			if(deptId==2)
+			{
+					map1.add("settingKey", "breakdown_ref_no2");
+			}else if(deptId==3)
+				{
+					map1.add("settingKey", "breakdown_ref_no3");
+			}
 			
-			map1.add("settingKey", "breakdown_ref_no");
 			TSetting tSettingRes=rest.postForObject(Constant.url + "/getSettingValue",map1, TSetting.class);
 			int refValue=tSettingRes.getSettingValue()+1;
 			refNo=refNo+""+actYear+"/"+refValue;
@@ -181,8 +198,7 @@ public class WhyWhyAnalysisController {
 			map1.add("machineId", machineId);
 			MachinDetails machinDetails=rest.postForObject(Constant.url + "/getMachineById",map1, MachinDetails.class);
 */
-			HttpSession session = request.getSession(); 
-			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("deptId",deptId);
 			MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
@@ -341,6 +357,8 @@ public class WhyWhyAnalysisController {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhyf18");
 		try
 		{ 
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 			RestTemplate rest = new RestTemplate();
 
 			int key=Integer.parseInt(request.getParameter("key"));		
@@ -501,13 +519,34 @@ public class WhyWhyAnalysisController {
 			if(key==-1)
 			{
 				MultiValueMap<String, Object>  map = new LinkedMultiValueMap<String,Object>();
-				map.add("settingKey", "breakdown_ref_no");
+
+				if(deptId==1)
+				{
+					map.add("settingKey", "breakdown_ref_no1");
+				}else
+				if(deptId==2)
+				{
+						map.add("settingKey", "breakdown_ref_no2");
+				}else if(deptId==3)
+					{
+						map.add("settingKey", "breakdown_ref_no3");
+				}
 				TSetting tSettingRes=rest.postForObject(Constant.url + "/getSettingValue",map, TSetting.class);
 				int refValue=tSettingRes.getSettingValue()+1;
 				
 				map = new LinkedMultiValueMap<String,Object>();
 				map.add("settingValue",refValue);
-				map.add("settingKey","breakdown_ref_no");
+				if(deptId==1)
+				{
+					map.add("settingKey", "breakdown_ref_no1");
+				}else
+				if(deptId==2)
+				{
+						map.add("settingKey", "breakdown_ref_no2");
+				}else if(deptId==3)
+					{
+						map.add("settingKey", "breakdown_ref_no3");
+				}
 				Info settingRes=rest.postForObject(Constant.url+"/updateSetingValue",map,Info.class);
 			}
 			WhyWhyF18 whyWhyF18Res = rest.postForObject(Constant.url + "insertWhyWhyF18", whyWhyF18,WhyWhyF18.class);
@@ -538,7 +577,7 @@ public class WhyWhyAnalysisController {
 		
 		}
 	@RequestMapping(value = "/showWhyWhyGraph", method = RequestMethod.GET)
-	public ModelAndView showPmPlan(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView showWhyWhyGraph(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("whywhyanalysis/whywhygraph");
 		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
 		HttpSession session = request.getSession(); 
@@ -547,6 +586,94 @@ public class WhyWhyAnalysisController {
 
 		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
 		map1.add("graphType",1);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
+        model.addObject("currentMonth", currentMonth);
+		return model;
+	}
+	@RequestMapping(value = "/showPmScheduleAdherence", method = RequestMethod.GET)
+	public ModelAndView showPmScheduleAdherence(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/pmScheduleGraph");
+		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",8);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
+        model.addObject("currentMonth", currentMonth);
+		return model;
+	}
+	@RequestMapping(value = "/showTbmScheduleAdherence", method = RequestMethod.GET)
+	public ModelAndView showTbmScheduleAdherence(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/tbmScheduleGraph");
+		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",9);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
+        model.addObject("currentMonth", currentMonth);
+		return model;
+	}
+	@RequestMapping(value = "/showCbmScheduleAdherence", method = RequestMethod.GET)
+	public ModelAndView showCbmScheduleAdherence(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/cbmScheduleGraph");
+		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",10);
+		map1.add("deptId",deptId);
+		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
+		
+		map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("deptId",deptId);
+		List<UserDetails> userRes=rest.postForObject(Constant.url + "/getAllUsers",map1, List.class);
+		
+		model.addObject("graphType", graphTypeRes);
+		model.addObject("userRes", userRes);
+        model.addObject("currentMonth", currentMonth);
+		return model;
+	}
+	@RequestMapping(value = "/showCalibrationScheduleAdherence", method = RequestMethod.GET)
+	public ModelAndView showCalibrationScheduleAdherence(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/calibrationScheduleGraph");
+		String currentMonth =new SimpleDateFormat("yyyy-MM").format(new Date());
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
+		RestTemplate rest = new RestTemplate();
+
+		MultiValueMap<String,Object> map1 = new LinkedMultiValueMap<String,Object>();
+		map1.add("graphType",11);
 		map1.add("deptId",deptId);
 		GraphType graphTypeRes=rest.postForObject(Constant.url + "/getGraphOwner",map1, GraphType.class);
 		
@@ -681,6 +808,475 @@ public class WhyWhyAnalysisController {
             graphData.setBreakdownMothwiseRes(breakdownMothwiseList);
             graphData.setBreakdownYearlyListRes(breakdownYearlyList);
            
+		    graphData.setYear(currentYear);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return graphData;
+	}
+	
+	@RequestMapping(value = "/searchPmScheduleGraphData", method = RequestMethod.GET)
+	public @ResponseBody PmScheduleGraphData searchPmScheduleGraphData(HttpServletRequest request, HttpServletResponse response) {
+		
+		PmScheduleGraphData graphData=new PmScheduleGraphData();
+		
+		try
+		{  
+			
+			
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			UserDetails userDetailRes=(UserDetails)session.getAttribute("userDetail");
+			java.util.Date date= new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH)+1;
+			String fromMonth="";
+			String toMonth="";
+			int currentYear=0;
+			  String year = new SimpleDateFormat("yyyy").format(new Date());
+			if(month>3)
+			{
+				fromMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(fromMonth);
+				toMonth=(intYear+1)+"";
+				currentYear=Integer.parseInt(year);
+				currentYear=currentYear+1;
+			}
+			else
+			{
+				toMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(toMonth);
+				fromMonth=(intYear-1)+"";
+				currentYear=Integer.parseInt(year);
+			}
+			System.out.println("year"+currentYear);
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			if(userDetailRes.getType()==1) {
+			map.add("status1",1);
+			map.add("status2",3);
+			map.add("status3",5);
+			}
+			else
+			{
+				map.add("status1",2);
+				map.add("status2",4);
+				map.add("status3",6);
+			}
+            map.add("deptId", deptId);
+			
+            PmActualGData pmActualGDataRes = rest.postForObject(Constant.url + "/getPmPlanActualData",
+					map,PmActualGData.class);
+            System.err.println("pmActualGDataRes:"+pmActualGDataRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+			
+            map.add("deptId", deptId);
+			
+            PmTargetGData pmTargetGDataRes = rest.postForObject(Constant.url + "/getPmPlanTargetData",
+					map,PmTargetGData.class);
+            System.err.println("pmTargetGDataRes:"+pmTargetGDataRes.toString());
+		
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",8);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL5Target machineL5TargetRes = rest.postForObject(Constant.url + "/getMachineL5Target",
+					map,MachineL5Target.class);
+			
+            System.err.println("machineL5TargetRes:"+machineL5TargetRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType", 8);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL3Target machineL3TargetRes = rest.postForObject(Constant.url + "/getMachineL3Target",
+					map,MachineL3Target.class);
+			
+            System.err.println("machineL3TargetRes:"+machineL3TargetRes.toString());
+            
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType", 8);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			BreakdownYearly breakdownYearly = rest.postForObject(Constant.url + "/getPreviousActualSchedule",
+					map,BreakdownYearly.class);
+			
+            System.err.println("breakdownYearly:"+breakdownYearly.toString());
+            graphData.setBreakdownYearly(breakdownYearly);
+            graphData.setMachineL3Target(machineL3TargetRes);
+            graphData.setMachineL5Target(machineL5TargetRes);
+            graphData.setPmActualGData(pmActualGDataRes);
+            graphData.setPmTargetGData(pmTargetGDataRes);
+		    graphData.setYear(currentYear);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return graphData;
+	}
+	@RequestMapping(value = "/searchTbmScheduleGraphData", method = RequestMethod.GET)
+	public @ResponseBody PmScheduleGraphData searchTbmScheduleGraphData(HttpServletRequest request, HttpServletResponse response) {
+		
+		PmScheduleGraphData graphData=new PmScheduleGraphData();
+		
+		try
+		{  
+			
+			
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			UserDetails userDetailRes=(UserDetails)session.getAttribute("userDetail");
+			java.util.Date date= new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH)+1;
+			String fromMonth="";
+			String toMonth="";
+			int currentYear=0;
+			  String year = new SimpleDateFormat("yyyy").format(new Date());
+			if(month>3)
+			{
+				fromMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(fromMonth);
+				toMonth=(intYear+1)+"";
+				currentYear=Integer.parseInt(year);
+				currentYear=currentYear+1;
+			}
+			else
+			{
+				toMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(toMonth);
+				fromMonth=(intYear-1)+"";
+				currentYear=Integer.parseInt(year);
+			}
+			System.out.println("year"+currentYear);
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			if(userDetailRes.getType()==1) {
+			map.add("status1",1);
+			map.add("status2",3);
+			map.add("status3",5);
+			}
+			else
+			{
+				map.add("status1",2);
+				map.add("status2",4);
+				map.add("status3",6);
+			}
+            map.add("deptId", deptId);
+			
+            PmActualGData pmActualGDataRes = new PmActualGData();//.postForObject(Constant.url + "/getPmPlanActualData",
+			//		map,PmActualGData.class);
+            System.err.println("pmActualGDataRes:"+pmActualGDataRes.toString());
+            PmTargetGData pmTargetGDataRes=new PmTargetGData();
+            for(int i=1;i<=12;i++) {
+            map = new LinkedMultiValueMap<String,Object>();
+			
+            map.add("deptId", deptId);
+            if(i>3) {
+            map.add("year", currentYear-1);
+            }else
+            {
+            	map.add("year", currentYear);
+            }
+			map.add("month", i);
+
+            Integer target = rest.postForObject(Constant.url + "/getTbmPlanActualData",
+					map,Integer.class);
+            if(i==1) {
+                pmTargetGDataRes.setJanTarget(target);
+               }else
+            if(i==2) {
+                pmTargetGDataRes.setFebTarget(target);
+               }else
+            if(i==3) {
+                pmTargetGDataRes.setMarchTarget(target);
+               }else
+            if(i==4) {
+            pmTargetGDataRes.setAprTarget(target);
+           }else if(i==5)
+           {
+        	   pmTargetGDataRes.setMayTarget(target);
+           }else if(i==6)
+           {
+        	   pmTargetGDataRes.setJuneTarget(target);
+           }else if(i==7)
+           {
+        	   pmTargetGDataRes.setJulyTarget(target);
+           }else if(i==8)
+           {
+        	   pmTargetGDataRes.setAugTarget(target);
+           }else if(i==9)
+           {
+        	   pmTargetGDataRes.setSeptTarget(target);
+           }else if(i==10)
+           {
+        	   pmTargetGDataRes.setOctTarget(target);
+           }else if(i==11)
+           {
+        	   pmTargetGDataRes.setNovTarget(target);
+           }else if(i==12)
+           {
+        	   pmTargetGDataRes.setDecTarget(target);
+           }
+            }
+			
+          //  PmTargetGData pmTargetGDataRes = rest.postForObject(Constant.url + "/getPmPlanTargetData",
+			//		map,PmTargetGData.class);
+            System.err.println("pmTargetGDataRes:"+pmTargetGDataRes.toString());
+		
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",9);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL5Target machineL5TargetRes = rest.postForObject(Constant.url + "/getMachineL5Target",
+					map,MachineL5Target.class);
+			
+            System.err.println("machineL5TargetRes:"+machineL5TargetRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",9);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL3Target machineL3TargetRes = rest.postForObject(Constant.url + "/getMachineL3Target",
+					map,MachineL3Target.class);
+			
+            System.err.println("machineL3TargetRes:"+machineL3TargetRes.toString());
+            
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",9);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			BreakdownYearly breakdownYearly = rest.postForObject(Constant.url + "/getPreviousActualSchedule",
+					map,BreakdownYearly.class);
+			
+            System.err.println("breakdownYearly:"+breakdownYearly.toString());
+            graphData.setBreakdownYearly(breakdownYearly);
+            graphData.setMachineL3Target(machineL3TargetRes);
+            graphData.setMachineL5Target(machineL5TargetRes);
+            graphData.setPmActualGData(pmActualGDataRes);
+            graphData.setPmTargetGData(pmTargetGDataRes);
+		    graphData.setYear(currentYear);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return graphData;
+	}
+	@RequestMapping(value = "/searchCbmScheduleGraphData", method = RequestMethod.GET)
+	public @ResponseBody PmScheduleGraphData searchCbmScheduleGraphData(HttpServletRequest request, HttpServletResponse response) {
+		
+		PmScheduleGraphData graphData=new PmScheduleGraphData();
+		
+		try
+		{  
+			
+			
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			UserDetails userDetailRes=(UserDetails)session.getAttribute("userDetail");
+			java.util.Date date= new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH)+1;
+			String fromMonth="";
+			String toMonth="";
+			int currentYear=0;
+			  String year = new SimpleDateFormat("yyyy").format(new Date());
+			if(month>3)
+			{
+				fromMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(fromMonth);
+				toMonth=(intYear+1)+"";
+				currentYear=Integer.parseInt(year);
+				currentYear=currentYear+1;
+			}
+			else
+			{
+				toMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(toMonth);
+				fromMonth=(intYear-1)+"";
+				currentYear=Integer.parseInt(year);
+			}
+			System.out.println("year"+currentYear);
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			if(userDetailRes.getType()==1) {
+			map.add("status1",1);
+			map.add("status2",3);
+			map.add("status3",5);
+			}
+			else
+			{
+				map.add("status1",2);
+				map.add("status2",4);
+				map.add("status3",6);
+			}
+            map.add("deptId", deptId);
+			
+            PmActualGData pmActualGDataRes = rest.postForObject(Constant.url + "/getPmPlanActualData",
+					map,PmActualGData.class);
+            System.err.println("pmActualGDataRes:"+pmActualGDataRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+			
+            map.add("deptId", deptId);
+			
+            PmTargetGData pmTargetGDataRes = rest.postForObject(Constant.url + "/getCbmTargetData",
+					map,PmTargetGData.class);
+            System.err.println("pmTargetGDataRes:"+pmTargetGDataRes.toString());
+		
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",10);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL5Target machineL5TargetRes = rest.postForObject(Constant.url + "/getMachineL5Target",
+					map,MachineL5Target.class);
+			
+            System.err.println("machineL5TargetRes:"+machineL5TargetRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",10);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL3Target machineL3TargetRes = rest.postForObject(Constant.url + "/getMachineL3Target",
+					map,MachineL3Target.class);
+			
+            System.err.println("machineL3TargetRes:"+machineL3TargetRes.toString());
+            
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",10);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			BreakdownYearly breakdownYearly = rest.postForObject(Constant.url + "/getPreviousActualSchedule",
+					map,BreakdownYearly.class);
+			
+            System.err.println("breakdownYearly:"+breakdownYearly.toString());
+            graphData.setBreakdownYearly(breakdownYearly);
+            graphData.setMachineL3Target(machineL3TargetRes);
+            graphData.setMachineL5Target(machineL5TargetRes);
+            graphData.setPmActualGData(pmActualGDataRes);
+            graphData.setPmTargetGData(pmTargetGDataRes);
+		    graphData.setYear(currentYear);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return graphData;
+	}
+	@RequestMapping(value = "/searchCalibrationScheduleGraphData", method = RequestMethod.GET)
+	public @ResponseBody PmScheduleGraphData searchCalibrationScheduleGraphData(HttpServletRequest request, HttpServletResponse response) {
+		
+		PmScheduleGraphData graphData=new PmScheduleGraphData();
+		
+		try
+		{  
+			
+			
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			UserDetails userDetailRes=(UserDetails)session.getAttribute("userDetail");
+			java.util.Date date= new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			int month = cal.get(Calendar.MONTH)+1;
+			String fromMonth="";
+			String toMonth="";
+			int currentYear=0;
+			  String year = new SimpleDateFormat("yyyy").format(new Date());
+			if(month>3)
+			{
+				fromMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(fromMonth);
+				toMonth=(intYear+1)+"";
+				currentYear=Integer.parseInt(year);
+				currentYear=currentYear+1;
+			}
+			else
+			{
+				toMonth = new SimpleDateFormat("yyyy").format(new Date());
+				int intYear =Integer.parseInt(toMonth);
+				fromMonth=(intYear-1)+"";
+				currentYear=Integer.parseInt(year);
+			}
+			System.out.println("year"+currentYear);
+			MultiValueMap<String,Object> map = new LinkedMultiValueMap<String,Object>();
+			if(userDetailRes.getType()==1) {
+			map.add("status1",1);
+			map.add("status2",3);
+			map.add("status3",5);
+			}
+			else
+			{
+				map.add("status1",2);
+				map.add("status2",4);
+				map.add("status3",6);
+			}
+            map.add("deptId", deptId);
+			
+            PmActualGData pmActualGDataRes = rest.postForObject(Constant.url + "/getPmPlanActualData",
+					map,PmActualGData.class);
+            System.err.println("pmActualGDataRes:"+pmActualGDataRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+			
+            map.add("deptId", deptId);
+			
+            PmTargetGData pmTargetGDataRes = rest.postForObject(Constant.url + "/getPmPlanTargetData",
+					map,PmTargetGData.class);
+            System.err.println("pmTargetGDataRes:"+pmTargetGDataRes.toString());
+		
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType",11);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL5Target machineL5TargetRes = rest.postForObject(Constant.url + "/getMachineL5Target",
+					map,MachineL5Target.class);
+			
+            System.err.println("machineL5TargetRes:"+machineL5TargetRes.toString());
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType", 11);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			MachineL3Target machineL3TargetRes = rest.postForObject(Constant.url + "/getMachineL3Target",
+					map,MachineL3Target.class);
+			
+            System.err.println("machineL3TargetRes:"+machineL3TargetRes.toString());
+            
+            
+            map = new LinkedMultiValueMap<String,Object>();
+            map.add("graphType", 11);
+			map.add("year", year);
+			map.add("month", month);
+			map.add("deptId", deptId);
+			BreakdownYearly breakdownYearly = rest.postForObject(Constant.url + "/getPreviousActualSchedule",
+					map,BreakdownYearly.class);
+			
+            System.err.println("breakdownYearly:"+breakdownYearly.toString());
+            graphData.setBreakdownYearly(breakdownYearly);
+            graphData.setMachineL3Target(machineL3TargetRes);
+            graphData.setMachineL5Target(machineL5TargetRes);
+            graphData.setPmActualGData(pmActualGDataRes);
+            graphData.setPmTargetGData(pmTargetGDataRes);
 		    graphData.setYear(currentYear);
 		}catch(Exception e)
 		{
@@ -1062,6 +1658,96 @@ public class WhyWhyAnalysisController {
 			model.addObject("brTargetList", brTargetList);
 			model.addObject("graphType",7);
 			model.addObject("graph", "Engine loss due to machine break down");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/showTargetG8", method = RequestMethod.GET)
+	public ModelAndView showTargetG8(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
+		RestTemplate rest=new RestTemplate();
+		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("graphType",8);
+			map.add("deptId", deptId);
+			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
+					List.class);		
+			model.addObject("brTargetList", brTargetList);
+			model.addObject("graphType",8);
+			model.addObject("graph", "PM Schedule Adherance");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/showTargetG9", method = RequestMethod.GET)
+	public ModelAndView showTargetG9(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
+		RestTemplate rest=new RestTemplate();
+		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("graphType",9);
+			map.add("deptId", deptId);
+			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
+					List.class);		
+			model.addObject("brTargetList", brTargetList);
+			model.addObject("graphType",9);
+			model.addObject("graph", "TBM Schedule Adherance");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+	@RequestMapping(value = "/showTargetG10", method = RequestMethod.GET)
+	public ModelAndView showTargetG10(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
+		RestTemplate rest=new RestTemplate();
+		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("graphType",10);
+			map.add("deptId", deptId);
+			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
+					List.class);		
+			model.addObject("brTargetList", brTargetList);
+			model.addObject("graphType",10);
+			model.addObject("graph", "CBM Schedule Adherance");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+	@RequestMapping(value = "/showTargetG11", method = RequestMethod.GET)
+	public ModelAndView showTargetG11(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("whywhyanalysis/showTarget");
+		RestTemplate rest=new RestTemplate();
+		try {
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("graphType",11);
+			map.add("deptId", deptId);
+			List<BreakdownTarget> brTargetList = rest.postForObject(Constant.url + "getBreakdownTargetById",map,
+					List.class);		
+			model.addObject("brTargetList", brTargetList);
+			model.addObject("graphType",11);
+			model.addObject("graph", "Calibration Schedule Adherance");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2152,7 +2838,8 @@ public class WhyWhyAnalysisController {
 	@RequestMapping(value = "/showBreakdownData", method = RequestMethod.GET)
 	public ModelAndView showBreakdownData(HttpServletRequest request, HttpServletResponse response) {
 		RestTemplate rest = new RestTemplate();
-
+		  HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
 		ModelAndView model = new ModelAndView("whywhyanalysis/newBreakdown");
 		try
 		{
@@ -2179,9 +2866,9 @@ public class WhyWhyAnalysisController {
 		}try {
 		   bdMsPt = request.getParameter("bd_ms_pt");
 		   month = request.getParameter("month");
-			
+		 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			
+			map.add("deptId",deptId);
 			if(bdMsPt.equals("")) {
 				map.add("bdMsPt",0);
 
@@ -2207,8 +2894,7 @@ public class WhyWhyAnalysisController {
 		}
 
 			//------------------------------------
-			HttpSession session = request.getSession(); 
-			int deptId = (Integer) session.getAttribute("deptId"); 
+			
 			MultiValueMap<String, Object> 	map = new LinkedMultiValueMap<String, Object>();
 			map.add("deptId",deptId);
 			MachinDetailsList machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
@@ -2285,7 +2971,7 @@ public class WhyWhyAnalysisController {
 		String url = request.getParameter("url");
 		System.out.println("URL " + url);
 		// http://monginis.ap-south-1.elasticbeanstalk.com
-	   File f = new File("E:/tomcat/webapps/Emaintanance/report.pdf");
+	   File f = new File("D:/xamp/tomcat/webapps/Emaintanance/report.pdf");
 	   //File f = new File("D:/apache-tomcat-9.0.12/webapps/Emaintanance/report.pdf");
 		//File f = new File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
@@ -2305,7 +2991,7 @@ public class WhyWhyAnalysisController {
 		String filename = "ordermemo221.pdf";
 		// String filePath = "/usr/local/tomcat7/webapps/report.pdf";
 		 //String filePath = "D:/apache-tomcat-9.0.12/webapps/Emaintanance/report.pdf";
-		String filePath = "E:/tomcat/webapps/Emaintanance/report.pdf";
+		String filePath = "D:/xamp/tomcat/webapps/Emaintanance/report.pdf";
 
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;

@@ -157,7 +157,7 @@ h6{
 </style>
 </head>
 <body>
-<div id="myNav" class="overlay">
+<%-- <div id="myNav" class="overlay">
    <!--/content-inner-->
 <div class="left-content"> <div id="main-content"><br></br><br></br><br></br>
 	   <div class="mother-grid-inner"> 
@@ -171,7 +171,7 @@ h6{
     <h1><a href="${pageContext.request.contextPath}/showMttrGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; MTTR GRAPH</a> </h1> 
   <h1>  <a href="${pageContext.request.contextPath}/showEngineLossGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; ENGINE LOSS DUE TO MACHINE BREKDOWN</a> </h1> 
   </div></div></div></div>
-</div>
+</div> --%>
    <div class="page-container sidebar-collapsed">
    <!--/content-inner-->
 <div class="left-content">

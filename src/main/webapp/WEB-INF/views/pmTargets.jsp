@@ -1,25 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  
-<html xmlns="http://www.w3.org/1999/xhtml">
+	 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Mahindra</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>PM Targets</title>
+<meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/home/css/table-style.css">
-</head>
-<body>   <div class="page-container">
+<script
+	src="${pageContext.request.contextPath}/resources/home/js/lightbox.js"></script>
 
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/home/css/lightbox.css">
+  
+</head>
+<body>
+   <div class="page-container">
+   
+  
+         
+   
+   
+   <!--/content-inner-->
 <div class="left-content">
 	   <div class="mother-grid-inner"> 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+             <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
+            
+                 <script>
+  $( function() {
+    $( ".dp2" ).datepicker({
+    	 autoclose: true, 
+    	format: "dd-mm-yyyy"
+    		
+    });
+ 
+  } );
+  </script>
 
+		<!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a> <i class="fa fa-angle-right"></i></li>
+            </ol> -->
+ 
               <div id="main-content">
 			<!-- BEGIN Page Title -->
 			 
@@ -43,7 +73,7 @@
 					<div class="agile-grids" >	
 				
 				<div class="agile-tables">
-					<div class="w3l-table-info" style="overflow-x:auto; height:450px; font-size: 13px; ">		
+					<div class="w3l-table-info"style="overflow-x:auto; height:450px; font-size: 13px; ">		
 <table >
 <thead >
   <tr>
@@ -60,9 +90,9 @@
      <th>Oct-${YEAR-1}</th>  
      <th>Nov-${YEAR-1}</th>  
      <th>Dec-${YEAR-1}</th>  
-      <th>Jan-${YEAR-1}</th>  
-     <th>Feb-${YEAR-1}</th>  
-     <th>March-${YEAR-1}</th>  
+      <th>Jan-${YEAR}</th>  
+     <th>Feb-${YEAR}</th>  
+     <th>March-${YEAR}</th>  
        <th>Avg-F-${YEAR}</th>  
   </tr>
   </thead>
@@ -279,11 +309,106 @@
      <td>0</td>  
      <td>0</td>
       <td style="font-weight: bold;  background-color:#6bbf2d;font-size:14px;">0</td> 
-</tr>
+</tr><%-- 
 <tr>
      <td style="background-color:#bcbcbc;color:black; font-weight: bold;">PM compliance</td>
     <td style="background-color:#bcbcbc;color:black; font-weight: bold;">%</td>
- <td style="background-color:#b6d4ea;font-weight: bold;font-size: 14px;">0</td>
+ <td style="background-color:#b6d4ea;font-weight: bold;font-size: 14px;">100</td>
+    <td style="background-color:#b6d4ea;font-weight: bold;font-size: 14px;"> <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${machineL3TargetRes.year4lTtarget/(machineL5TargetRes.year4lTarget/100)}" var="pmL3Target"/> ${pmL3Target}</td>
+     <td> <c:set var = "total"  value ="0"/>
+     <c:choose><c:when test="${pmActualGDataRes.apr>1}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.apr/pmTargetGDataRes.aprTarget)*100}"/>
+           <c:set var = "total"  value = "${total+(pmTargetGDataRes.aprTarget/pmActualGDataRes.apr)}"/>
+     
+     </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td> 
+     <td> <c:choose><c:when test="${pmActualGDataRes.may>1}">
+    <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.may/pmTargetGDataRes.mayTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.mayTarget/pmActualGDataRes.may)}"/>
+         </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td>    
+     <td><c:choose><c:when test="${pmActualGDataRes.june>1}">
+      <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.june/pmTargetGDataRes.juneTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.juneTarget/pmActualGDataRes.june)}"/>
+     </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td>  
+     <td> <c:choose><c:when test="${pmActualGDataRes.july>1}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.july/pmTargetGDataRes.julyTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.julyTarget/pmActualGDataRes.july)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td>  
+     <td> <c:choose><c:when test="${pmActualGDataRes.aug>1}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.aug/pmTargetGDataRes.augTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.augTarget/pmActualGDataRes.aug)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+     <td>
+      <c:choose><c:when test="${pmActualGDataRes.sept>0}">
+      <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.sept/pmTargetGDataRes.septTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.septTarget/pmActualGDataRes.sept)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+     <td> <c:choose><c:when test="${pmActualGDataRes.oct>0}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.oct/pmTargetGDataRes.octTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.octTarget/pmActualGDataRes.oct)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+     <td> <c:choose><c:when test="${pmActualGDataRes.nov>0}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.nov/pmTargetGDataRes.novTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.novTarget/pmActualGDataRes.nov)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+     <td>
+      <c:choose><c:when test="${pmActualGDataRes.dec>0}">
+     <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = " ${(pmActualGDataRes.dec/pmTargetGDataRes.decTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.decTarget/pmActualGDataRes.dec)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+      <td> <c:choose><c:when test="${pmActualGDataRes.jan>0}">
+       <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.jan/pmTargetGDataRes.janTarget)*100}"/>
+       <c:set var = "total"  value = "${total+(pmTargetGDataRes.janTarget/pmActualGDataRes.jan)}"/>
+       </c:when>
+     <c:otherwise>0</c:otherwise></c:choose></td>  
+     <td> <c:choose><c:when test="${pmActualGDataRes.feb>0}">
+      <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.feb/pmTargetGDataRes.febTarget)*100}"/>
+    <c:set var = "total"  value = "${total+(pmTargetGDataRes.febTarget/pmActualGDataRes.feb)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td>  
+     <td>
+      <c:choose><c:when test="${pmActualGDataRes.march>0}">
+    <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${(pmActualGDataRes.march/pmTargetGDataRes.marchTarget)*100}"/>
+      <c:set var = "total"  value = "${total+(pmTargetGDataRes.marchTarget/pmActualGDataRes.march)}"/>
+      </c:when>
+     <c:otherwise>0</c:otherwise></c:choose>
+     </td>
+       <c:choose><c:when test="${(pmL3Target)>(total/monthNo)}"> <td style="font-weight: bold; color:white; background-color:#f92018; font-size:14px;"> <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${total/monthNo}" /></td> </c:when><c:otherwise> <td style="font-weight: bold; color:white;background-color:#6bbf2d; font-size:14px;"> <fmt:formatNumber type = "number" 
+         minFractionDigits = "2"   maxFractionDigits = "2" value = "${total/monthNo}" /></td> </c:otherwise>  </c:choose>        
+         
+         
+</tr> --%>
+<tr>
+     <td style="background-color:#bcbcbc;color:black; font-weight: bold;">PM compliance</td>
+    <td style="background-color:#bcbcbc;color:black; font-weight: bold;">%</td>
+   <td style="background-color:#b6d4ea;font-weight: bold;font-size: 14px;">0</td>
     <td style="background-color:#b6d4ea;font-weight: bold;font-size: 14px;">0</td>
      <td>0</td> 
      <td>0</td>    
@@ -360,24 +485,80 @@
       </div>
       
 						
-      </div></div></div></div></div></div></div>
+      </div></div></div></div>
     
-    <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
-    </div>
- 
-<script src="resources/home/js/jquery.nicescroll.js"></script>
-<script src="resources/home/js/scripts.js"></script>
+	 
+		 
+		   
+	  <!--//w3-agileits-pane-->	
+<!-- script-for sticky-nav -->
+		<script>
+		$(document).ready(function() {
+			 var navoffeset=$(".header-main").offset().top;
+			 $(window).scroll(function(){
+				var scrollpos=$(window).scrollTop(); 
+				if(scrollpos >=navoffeset){
+					$(".header-main").addClass("fixed");
+				}else{
+					$(".header-main").removeClass("fixed");
+				}
+			 });
+			 
+		});
+		</script>
+		<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+		 <p>© 2017-18 . All Rights Reserved |  <a href="www.mahindra.com/" target="_blank">Mahindra rise</a> </p></div>	
+</div>	
+<!--COPY rights end here-->
+</div>
+</div>
+  <!--//content-inner-->
+			<!--/sidebar-menu-->
+				
+
+
+
+
+
+							  <div class="clearfix"></div>		
+							</div>
+							<script>
+							var toggle = true;
+										
+							$(".sidebar-icon").click(function() {                
+							  if (toggle)
+							  {
+								$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+								$("#menu span").css({"position":"absolute"});
+							  }
+							  else
+							  {
+								$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+								setTimeout(function() {
+								  $("#menu span").css({"position":"relative"});
+								}, 400);
+							  }
+											
+											toggle = !toggle;
+										});
+							</script>
+<!--js -->
+<script src="${pageContext.request.contextPath}/resources/home/js/jquery.nicescroll.js"></script>
+<script src="${pageContext.request.contextPath}/resources/home/js/scripts.js"></script>
 <!-- Bootstrap Core JavaScript -->
-   <script src="resources/home/js/bootstrap.min.js"></script>
+   <script src="${pageContext.request.contextPath}/resources/home/js/bootstrap.min.js"></script>
    <!-- /Bootstrap Core JavaScript -->	   
 <!-- morris JavaScript -->	
-<script src="resources/home/js/raphael-min.js"></script>
-   <script type="text/javascript">
-function breakdownPdf()
-{
-	   var id=$("#id").val();
-	   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showWhyWhyPdf/'+id);
-}
-</script>
+<script src="${pageContext.request.contextPath}/resources/home/js/raphael-min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/home/js/morris.js"></script>
+
 </body>
+
 </html>

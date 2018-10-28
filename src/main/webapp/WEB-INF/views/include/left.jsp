@@ -82,6 +82,8 @@ body {
    <h1><a href="${pageContext.request.contextPath}/showMtbfGraph"> <i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;MTBF GRAPH</a> </h1> 
     <h1><a href="${pageContext.request.contextPath}/showMttrGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; MTTR GRAPH</a> </h1> 
   <h1>  <a href="${pageContext.request.contextPath}/showEngineLossGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; ENGINE LOSS DUE TO MACHINE BREKDOWN</a> </h1> 
+   <h1>  <a href="${pageContext.request.contextPath}/showPmScheduleAdherence"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; PM Schedule Adherance</a> </h1> 
+ <h1>  <a href="${pageContext.request.contextPath}/showCbmScheduleAdherence"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; CBM Schedule Adherance</a> </h1> 
   </div></div></div></div>
 </div>
 <div class="sidebar-menu" style="overflow: scroll;" >
@@ -130,7 +132,7 @@ body {
 <!-- 									<li><a href="#" onclick="openNav()"><i class="fa fa-bar-chart" style="font-size:14px" aria-hidden="true"></i><span >Auto Graph Plot</span><div class="clearfix"></div></a></li>
  -->
 									 
-									 <li><a href="#"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li>
+								<!-- 	 <li><a href="#"><i class="fa fa-align-justify"></i>  <span>Inventory & spares</span><br/><span> management</span><div class="clearfix"></div></a></li> -->
 	 <li><a href="${pageContext.request.contextPath}/showPmTargets"><i class="fa fa-book"></i>  <span>MIS</span><div class="clearfix"></div></a></li>							
 								
 								 <li><a href="${pageContext.request.contextPath}/selectSectionforAddFile"><i class="fa fa-book"></i>  <span>Learning library</span><div class="clearfix"></div></a></li>

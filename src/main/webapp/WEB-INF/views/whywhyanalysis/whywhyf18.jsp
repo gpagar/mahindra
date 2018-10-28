@@ -264,9 +264,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						  <input type="hidden" name="id-1" id="id-1" value="0"/>			
 						
 						<td>Insert Breakdown</td>
-						<td><input id="month-1" type="month" name="month-1" />
+						<td><input id="month-1" type="month" name="month-1" required/>
 						</td>
-						<td><input id="date-1" type="date" name="date-1" format="dd-MM-yyyy"/>
+						<td><input id="date-1" type="date" name="date-1" format="dd-MM-yyyy" required/>
 						</td>
 						<td><!-- <textarea id="dept-1"   name="dept-1"></textarea> -->
 						<select id="dept-1" name="dept-1" class="chosen-select"  required>
@@ -954,6 +954,7 @@ function validation(key) {
 	var dept = $("#dept"+key).val();
 	var cellCircle=$("#cellcircle"+key).val();
 	var machineNo=$("#machine_no"+key).val();
+	var machineId=$("#machine_id"+key).val();
 	var rank=$("#rank"+key).val();
 	var problemReported=$("#problem_reported"+key).val();
 	var bdTimeLoss=$("#bd_time_loss"+key).val();
@@ -977,7 +978,13 @@ function validation(key) {
 	} else if ( cellCircle==""||cellCircle==null) {
 		isValid = false;
 		alert("Please Enter Valid Cell Circle");
-	} else if (rank==""||rank==null) {
+	}
+	else if (machineId==""||machineId==null) {
+		isValid = false;
+		alert("Please Select M/C");
+	}
+	
+	else if (rank==""||rank==null) {
 		isValid = false;
 		alert("Please Select Rank");
 	} else if ( problemReported==""||problemReported==null) {
@@ -1197,7 +1204,7 @@ var repairFinishTime=$("#repairFinishTime"+key).val();
 	var timeDiff = Math.abs(startDate - endDate);
 	var mm = Math.floor(timeDiff/1000/60);
     document.getElementById('bd_time_loss'+key).value=mm;
-
+    calculateEngineLoss(key);
 }
 </script>
 <script type="text/javascript">

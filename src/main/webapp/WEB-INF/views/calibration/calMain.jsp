@@ -157,21 +157,7 @@ h6{
 </style>
 </head>
 <body>
-<div id="myNav" class="overlay">
-   <!--/content-inner-->
-<div class="left-content"> <div id="main-content"><br></br><br></br><br></br>
-	   <div class="mother-grid-inner"> 
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <div class="overlay-content">
-   <h1><a href="${pageContext.request.contextPath}/showWhyWhyGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;MINOR STOPPAGE INCIDENCES</a> </h1> 
-    <h1><a href="${pageContext.request.contextPath}/showArankBreakdownGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; A-RANK MACHINES BREAKDOWN INCIDENCES</a> </h1> 
-   <h1><a href="${pageContext.request.contextPath}/showAllBreakdownGraph"> <i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;ALL  MACHINES BREAKDOWN INCIDENCES</a> </h1> 
-   <h1> <a href="${pageContext.request.contextPath}/showBreakdownTimeGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;BREAKDOWN MONITORING TREND(Time Graph)</a> </h1> 
-   <h1><a href="${pageContext.request.contextPath}/showMtbfGraph"> <i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp;MTBF GRAPH</a> </h1> 
-    <h1><a href="${pageContext.request.contextPath}/showMttrGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; MTTR GRAPH</a> </h1> 
-  <h1>  <a href="${pageContext.request.contextPath}/showEngineLossGraph"><i class="fa fa-bar-chart"style="font-size:16px; color:  white;" ></i> &nbsp; &nbsp; ENGINE LOSS DUE TO MACHINE BREKDOWN</a> </h1> 
-  </div></div></div></div>
-</div>
+
    <div class="page-container sidebar-collapsed">
    <!--/content-inner-->
 <div class="left-content">

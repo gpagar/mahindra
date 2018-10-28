@@ -198,7 +198,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						  <tr>
 							<th>Sr.No</th>
 							<th>Production Line</th>
-							<th >Date </th>
+							<th >Date_Of_BD</th>
 							<th>M/C No/Name</th>
 							<th>Problem</th>
 							<th>BD Time(Min)</th>
@@ -235,7 +235,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</td>
 						<td>${whyWhyF18.action}
 						</td>	<td>${whyWhyF18.counterMeasure}
-						</td>		<td>
+						</td>		<td>${whyWhyF18.repairedBy}
 						</td><td>${whyWhyF18.status}
 						</td>
 						 <td>   

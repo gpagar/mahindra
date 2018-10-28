@@ -499,36 +499,36 @@ function OnInput() {
         //var avgL3Targetpd=parseFloat(year4L3Target/30);avgL3Targetpd=parseFloat(avgL3Targetpd.toFixed(1));
         //var avgL5Targetpd=parseFloat(year4L3Target/30);avgL5Targetpd=parseFloat(avgL5Targetpd.toFixed(1));
         
-    	var day1=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day1);day1=parseFloat(day1.toFixed(1));
-    	var day2=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day2);day2=parseFloat(day2.toFixed(1));
-    	var day3=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day3);day3=parseFloat(day3.toFixed(1));
-    	var day4=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day4);day4=parseFloat(day4.toFixed(1));
-    	var day5=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day5);day5=parseFloat(day5.toFixed(1));
-    	var day6=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day6);day6=parseFloat(day6.toFixed(1));
-    	var day7=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day7);day7=parseFloat(day7.toFixed(1));
-    	var day8=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day8);day8=parseFloat(day8.toFixed(1));
-    	var day9=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day9);day9=parseFloat(day9.toFixed(1));
-    	var day10=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day10);day10=parseFloat(day10.toFixed(1));
-    	var day11=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day11);day11=parseFloat(day11.toFixed(1));
-    	var day12=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day12);day12=parseFloat(day12.toFixed(1));
-    	var day13=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day13);day13=parseFloat(day13.toFixed(1));
-    	var day14=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day14);day14=parseFloat(day14.toFixed(1));
-    	var day15=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day15);day15=parseFloat(day15.toFixed(1));
-    	var day16=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day16);day16=parseFloat(day16.toFixed(1));
-    	var day17=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day17);day17=parseFloat(day17.toFixed(1));
-    	var day18=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day18);day18=parseFloat(day18.toFixed(1));
-    	var day19=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day19);day19=parseFloat(day19.toFixed(1));
-    	var day20=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day20);day20=parseFloat(day20.toFixed(1));
-    	var day21=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day21);day21=parseFloat(day21.toFixed(1));
-    	var day22=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day22);day22=parseFloat(day22.toFixed(1));
-    	var day23=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day23);day23=parseFloat(day23.toFixed(1));
-    	var day24=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day24);day24=parseFloat(day24.toFixed(1));
-    	var day25=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day25);day25=parseFloat(day25.toFixed(1));
-    	var day26=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day26);day26=parseFloat(day26.toFixed(1));
-    	var day27=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day27);day27=parseFloat(day27.toFixed(1));
-    	var day28=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day28);day28=parseFloat(day28.toFixed(1));
-    	var day29=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day29);day29=parseFloat(day29.toFixed(1));
-    	var day30=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day30);day30=parseFloat(day30.toFixed(1));
+    	var day1=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day1);
+    	var day2=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day2);
+    	var day3=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day3);
+    	var day4=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day4);
+    	var day5=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day5);
+    	var day6=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day6);
+    	var day7=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day7);
+    	var day8=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day8);
+    	var day9=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day9);
+    	var day10=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day10);
+    	var day11=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day11);
+    	var day12=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day12);
+    	var day13=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day13);
+    	var day14=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day14);
+    	var day15=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day15);
+    	var day16=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day16);
+    	var day17=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day17);
+    	var day18=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day18);
+    	var day19=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day19);
+    	var day20=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day20);
+    	var day21=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day21);
+    	var day22=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day22);
+    	var day23=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day23);
+    	var day24=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day24);
+    	var day25=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day25);
+    	var day26=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day26);
+    	var day27=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day27);
+    	var day28=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day28);
+    	var day29=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day29);
+    	var day30=parseFloat(data.yearlyMachineBdTimeList.dailyBreakdowns.day30);
 
     	var day1bd="1 \n Actual: "+day1;var day2bd="2 \n Actual: "+day2;var day3bd="3 \n Actual: "+day3;var day4bd="4 \n Actual: "+day4;var day5bd="5 \n Actual: "+day5;
     	var day6bd="6 \n Actual: "+day6;var day7bd="7 \n Actual: "+day7;var day8bd="8 \n Actual: "+day8;var day9bd="9 \n Actual: "+day9;var day10bd="10 \n Actual: "+day10;
@@ -798,7 +798,8 @@ function OnInput() {
 			    	  [{v: 27, f:'27'},day27,day27bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 28, f:'28'},day28,day28bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 29, f:'29'},day29,day29bd, avgL3Targetpm, false,avgL5Targetpm],
-			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm]
+			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm],
+			    	  [{v: 31, f:'31'},0,0+'', avgL3Targetpm, false,avgL5Targetpm]
 		    	]);
 		    	var options = {
 		    			
@@ -817,7 +818,7 @@ function OnInput() {
 		    	           ticks: [{v: 1, f:'1'},{v: 2, f:'2'},{v:3, f:'3'},{v: 4, f:'4'},{v:5, f:'5'},{v:6, f:'6'},{v: 7, f:'7'},{v:8, f:'8'}
 		    	           ,{v: 9, f:'9'},{v:10, f:'10'},{v: 11, f:'11'},{v: 12, f:'12'},{v: 13, f:'13'},{v: 14, f:'14'},{v: 15, f:'15'},{v: 16, f:'16'}
 		    	           ,{v: 17, f:'17'},{v: 18, f:'18'},{v: 19, f:'19'},{v: 20, f:'20'},{v: 21, f:'21'},{v:22, f:'22'},{v: 23, f:'23'},{v: 24, f:'24'}
-		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'}
+		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'},{v: 31, f:'31'}
 		    	           ]
 		    	        },
 		    	        vAxis: { 
@@ -1064,7 +1065,8 @@ function OnInput() {
 			    	  [{v: 27, f:'27'},day27,day27bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 28, f:'28'},day28,day28bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 29, f:'29'},day29,day29bd, avgL3Targetpm, false,avgL5Targetpm],
-			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm]
+			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm],
+			    	  [{v: 31, f:'31'},0,0+'', avgL3Targetpm, false,avgL5Targetpm]
 		    	]);
 		    	var options = {
 		    			
@@ -1083,7 +1085,7 @@ function OnInput() {
 		    	           ticks: [{v: 1, f:'1'},{v: 2, f:'2'},{v:3, f:'3'},{v: 4, f:'4'},{v:5, f:'5'},{v:6, f:'6'},{v: 7, f:'7'},{v:8, f:'8'}
 		    	           ,{v: 9, f:'9'},{v:10, f:'10'},{v: 11, f:'11'},{v: 12, f:'12'},{v: 13, f:'13'},{v: 14, f:'14'},{v: 15, f:'15'},{v: 16, f:'16'}
 		    	           ,{v: 17, f:'17'},{v: 18, f:'18'},{v: 19, f:'19'},{v: 20, f:'20'},{v: 21, f:'21'},{v:22, f:'22'},{v: 23, f:'23'},{v: 24, f:'24'}
-		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'}
+		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'},{v: 31, f:'31'}
 		    	           ]
 		    	        },
 		    	        vAxis: { title: 'Hours(Cum)',

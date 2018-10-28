@@ -792,7 +792,8 @@ function OnInput() {
 			    	  [{v: 27, f:'27'},day27,day27bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 28, f:'28'},day28,day28bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 29, f:'29'},day29,day29bd, avgL3Targetpm, false,avgL5Targetpm],
-			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm]
+			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm],
+			    	  [{v: 31, f:'31'},0,0+'', avgL3Targetpm, false,avgL5Targetpm]
 		    	]);
 		    	var options = {
 		    			
@@ -811,7 +812,7 @@ function OnInput() {
 		    	           ticks: [{v: 1, f:'1'},{v: 2, f:'2'},{v:3, f:'3'},{v: 4, f:'4'},{v:5, f:'5'},{v:6, f:'6'},{v: 7, f:'7'},{v:8, f:'8'}
 		    	           ,{v: 9, f:'9'},{v:10, f:'10'},{v: 11, f:'11'},{v: 12, f:'12'},{v: 13, f:'13'},{v: 14, f:'14'},{v: 15, f:'15'},{v: 16, f:'16'}
 		    	           ,{v: 17, f:'17'},{v: 18, f:'18'},{v: 19, f:'19'},{v: 20, f:'20'},{v: 21, f:'21'},{v:22, f:'22'},{v: 23, f:'23'},{v: 24, f:'24'}
-		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'}
+		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'},{v: 31, f:'31'}
 		    	           ]
 		    	        },
 		    	        vAxis: { 
@@ -1054,7 +1055,8 @@ function OnInput() {
 			    	  [{v: 27, f:'27'},day27,day27bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 28, f:'28'},day28,day28bd, avgL3Targetpm, false,avgL5Targetpm],
 			    	  [{v: 29, f:'29'},day29,day29bd, avgL3Targetpm, false,avgL5Targetpm],
-			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm]
+			    	  [{v: 30, f:'30'},day30,day30bd, avgL3Targetpm, false,avgL5Targetpm],
+			    	  [{v: 31, f:'31'},0,0+'', avgL3Targetpm, false,avgL5Targetpm]
 		    	]);
 		    	var options = {
 		    			
@@ -1073,7 +1075,7 @@ function OnInput() {
 		    	           ticks: [{v: 1, f:'1'},{v: 2, f:'2'},{v:3, f:'3'},{v: 4, f:'4'},{v:5, f:'5'},{v:6, f:'6'},{v: 7, f:'7'},{v:8, f:'8'}
 		    	           ,{v: 9, f:'9'},{v:10, f:'10'},{v: 11, f:'11'},{v: 12, f:'12'},{v: 13, f:'13'},{v: 14, f:'14'},{v: 15, f:'15'},{v: 16, f:'16'}
 		    	           ,{v: 17, f:'17'},{v: 18, f:'18'},{v: 19, f:'19'},{v: 20, f:'20'},{v: 21, f:'21'},{v:22, f:'22'},{v: 23, f:'23'},{v: 24, f:'24'}
-		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'}
+		    	          ,{v: 25, f:'25'},{v: 26, f:'26'},{v: 27, f:'27'},{v: 28, f:'28'},{v:29, f:'29'},{v: 30, f:'30'},{v: 31, f:'31'}
 		    	           ]
 		    	        },
 		    	        vAxis: { 

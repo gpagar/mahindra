@@ -39,12 +39,16 @@ import com.mahindra.project.model.GetPaMaintainence;
 import com.mahindra.project.model.MachinDetails;
 import com.mahindra.project.model.MachinDetailsList;
 import com.mahindra.project.model.MachinMaintanaceSchedule;
+import com.mahindra.project.model.MachineL3Target;
+import com.mahindra.project.model.MachineL5Target;
 import com.mahindra.project.model.PMActivityDetails;
 import com.mahindra.project.model.PMCheckPoints;
 import com.mahindra.project.model.PMItemDetails;
 import com.mahindra.project.model.PaMaintananceDetails;
+import com.mahindra.project.model.PmActualGData;
 import com.mahindra.project.model.PmPlan;
 import com.mahindra.project.model.PmRequiredValue;
+import com.mahindra.project.model.PmTargetGData;
 import com.mahindra.project.model.TSetting;
 import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.WhyWhyF18;
@@ -87,6 +91,7 @@ public class PMController {
 			RestTemplate rest = new RestTemplate();
 			HttpSession session = request.getSession(); 
 			int deptId = (Integer) session.getAttribute("deptId"); 
+			UserDetails userDetailRes=(UserDetails)session.getAttribute("userDetail");
 			java.util.Date date= new Date();
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
@@ -127,28 +132,39 @@ public class PMController {
 			map.add("eleventh", toMonth+"-02");
 			map.add("twelvth", toMonth+"-03");
             map.add("deptId", deptId);
-			
+			try {
 			BreakdownMonthwise minorStoppages = rest.postForObject(Constant.url + "/getMonthwiseBreakdowns",
 					map,BreakdownMonthwise.class);
             System.err.println("minorStoppages:"+minorStoppages.toString());
 			
             model.addObject("minorStoppages", minorStoppages);
-            
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
             BreakdownTimeMonthwise mtbf = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownTime",
 					map,BreakdownTimeMonthwise.class);
             System.err.println("mtbf:"+mtbf.toString());
             model.addObject("mtbf", mtbf);
-            
+			}catch (Exception e) {
+				// TODO: handle exception
+			}try {
             BreakdownTimeMonthwise engineLoss = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdownELoss",
 					map,BreakdownTimeMonthwise.class);
             System.err.println("engineLoss:"+engineLoss.toString());
             model.addObject("engineLoss", engineLoss);
-            
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
             BreakdownMonthwise allBreak = rest.postForObject(Constant.url + "/getAllBrekMonthwiseBreakdowns",
 					map,BreakdownMonthwise.class);
             System.err.println("allBreak:"+allBreak.toString());
             model.addObject("allBreak", allBreak);
-        
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
             map = new LinkedMultiValueMap<String, Object>();
 			map.add("graphType",1);
 			map.add("deptId", deptId);
@@ -156,7 +172,10 @@ public class PMController {
 			BreakdownTarget minorTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 					BreakdownTarget.class);		
 			model.addObject("minorTarget", minorTarget);
-			
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 			   map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",2);
 				map.add("deptId", deptId);
@@ -164,7 +183,10 @@ public class PMController {
 				BreakdownTarget aRankTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("aRankTarget", aRankTarget);
-				
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",3);
 				map.add("deptId", deptId);
@@ -172,6 +194,10 @@ public class PMController {
 				BreakdownTarget allTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("allTarget", allTarget);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",4);
 				map.add("deptId", deptId);
@@ -179,6 +205,10 @@ public class PMController {
 				BreakdownTarget timeTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("timeTarget", timeTarget);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",5);
 				map.add("deptId", deptId);
@@ -186,6 +216,10 @@ public class PMController {
 				BreakdownTarget mtbfTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("mtbfTarget", mtbfTarget);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",6);
 				map.add("deptId", deptId);
@@ -193,6 +227,10 @@ public class PMController {
 				BreakdownTarget mttrTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("mttrTarget", mttrTarget);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("graphType",7);
 				map.add("deptId", deptId);
@@ -200,7 +238,73 @@ public class PMController {
 				BreakdownTarget elTarget = rest.postForObject(Constant.url + "getBreakdownTargetByNo",map,
 						BreakdownTarget.class);		
 				model.addObject("elTarget", elTarget);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 			model.addObject("YEAR", currYear);
+			//------------------------------------------PM Schedule---------------------------------------------
+			try {
+			map = new LinkedMultiValueMap<String,Object>();
+			if(userDetailRes.getType()==1) {
+			map.add("status1",1);
+			map.add("status2",3);
+			map.add("status3",5);
+			}
+			else
+			{
+				map.add("status1",2);
+				map.add("status2",4);
+				map.add("status3",6);
+			}
+            map.add("deptId", deptId);
+			
+            PmActualGData pmActualGDataRes = rest.postForObject(Constant.url + "/getPmPlanActualData",
+					map,PmActualGData.class);
+            System.err.println("pmActualGDataRes:"+pmActualGDataRes.toString());
+            model.addObject("pmActualGDataRes", pmActualGDataRes);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+            map = new LinkedMultiValueMap<String,Object>();
+			
+            map.add("deptId", deptId);
+			
+            PmTargetGData pmTargetGDataRes = rest.postForObject(Constant.url + "/getPmPlanTargetData",
+					map,PmTargetGData.class);
+            System.err.println("pmTargetGDataRes:"+pmTargetGDataRes.toString());
+			
+            model.addObject("pmTargetGDataRes", pmTargetGDataRes);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+			map = new LinkedMultiValueMap<String,Object>();
+	            map.add("graphType",8);
+				map.add("year", year);
+				map.add("month", month);
+				map.add("deptId", deptId);
+				MachineL5Target machineL5TargetRes = rest.postForObject(Constant.url + "/getMachineL5Target",
+						map,MachineL5Target.class);
+				model.addObject("machineL5TargetRes", machineL5TargetRes);
+	            System.err.println("machineL5TargetRes:"+machineL5TargetRes.toString());
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+	            map = new LinkedMultiValueMap<String,Object>();
+	            map.add("graphType", 8);
+				map.add("year", year);
+				map.add("month", month);
+				map.add("deptId", deptId);
+				MachineL3Target machineL3TargetRes = rest.postForObject(Constant.url + "/getMachineL3Target",
+						map,MachineL3Target.class);
+				model.addObject("machineL3TargetRes", machineL3TargetRes);
+	            System.err.println("machineL3TargetRes:"+machineL3TargetRes.toString());
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+			
 			Calendar c = Calendar.getInstance();
 			int monthNo=c.get(Calendar.MONTH)+1;
 			if(monthNo==1) {
@@ -331,6 +435,8 @@ public class PMController {
 		MachinDetailsList machinDetailsList=new MachinDetailsList();
 	try
 	{
+		HttpSession session = request.getSession(); 
+		int deptId = (Integer) session.getAttribute("deptId"); 
 		RestTemplate rest = new RestTemplate();
 		
 		MultiValueMap<String, Object>  map1 = new LinkedMultiValueMap<String,Object>();
@@ -356,7 +462,17 @@ public class PMController {
 		actYear=intYear;
 	}
 	
-	map1.add("settingKey", "breakdown_ref_no");
+	if(deptId==1)
+	{
+		map1.add("settingKey", "breakdown_ref_no1");
+	}else
+	if(deptId==2)
+	{
+			map1.add("settingKey", "breakdown_ref_no2");
+	}else if(deptId==3)
+		{
+			map1.add("settingKey", "breakdown_ref_no3");
+	}
 	TSetting tSettingRes=rest.postForObject(Constant.url + "/getSettingValue",map1, TSetting.class);
 	int refValue=tSettingRes.getSettingValue()+1;
 	refNo=refNo+""+actYear+"/"+refValue;
@@ -413,8 +529,7 @@ public class PMController {
           failureCodeList.put("M/c Level", "M/c Level");
           model.addObject("failureCodeList", failureCodeList);	
 		
-		HttpSession session = request.getSession(); 
-		int deptId = (Integer) session.getAttribute("deptId"); 
+		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("deptId",deptId);
 		 machinDetailsList = rest.postForObject(Constant.url + "getMachineByDeptId", map,
