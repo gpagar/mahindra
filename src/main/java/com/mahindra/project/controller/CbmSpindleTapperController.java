@@ -27,6 +27,7 @@ import com.mahindra.project.model.UserDetails;
 import com.mahindra.project.model.calibration.CalibrationDetails;
 import com.mahindra.project.model.calibration.TCalibaration;
 import com.mahindra.project.model.cbm.CbmEarthingResistance;
+import com.mahindra.project.model.cbm.CbmMagazineChain;
 import com.mahindra.project.model.cbm.CbmSchedule;
 import com.mahindra.project.model.cbm.CbmSpindleClampingForce;
 import com.mahindra.project.model.cbm.CbmSpindleTemper;
@@ -35,9 +36,10 @@ import com.mahindra.project.model.cbm.CbmSpindleTemper;
 @Scope("session")
 public class CbmSpindleTapperController {
 	
-	List<CbmSpindleTemper> cbmSpindleTemperList = new ArrayList<>();
-	List<CbmSpindleClampingForce> cbmSpindleClampingForceList = new ArrayList<>();
-	List<CbmEarthingResistance> cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>();
+	List<CbmSpindleTemper> cbmSpindleTemperList = new ArrayList<CbmSpindleTemper>();
+	List<CbmSpindleClampingForce> cbmSpindleClampingForceList = new ArrayList<CbmSpindleClampingForce>();
+	List<CbmEarthingResistance> cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>(); 
+	List<CbmMagazineChain> cbmMagazineChainList = new ArrayList<CbmMagazineChain>();
 	
 	@RequestMapping(value = "/showSpindleTapper", method = RequestMethod.GET)
 	public ModelAndView showSpindleTapper(HttpServletRequest request, HttpServletResponse response) {
@@ -387,7 +389,7 @@ public class CbmSpindleTapperController {
 			cbmEarthingResistanceList.get(i).setStatus2(request.getParameter("status2"+cbmEarthingResistanceList.get(i).getSchId()));
 			cbmEarthingResistanceList.get(i).setDeptId(deptId);
 			cbmEarthingResistanceList.get(i).setExtra1(userDetail.getUserId());
-			System.out.println(cbmEarthingResistanceList.get(i));
+			 
 		}
 		
  
@@ -399,6 +401,121 @@ public class CbmSpindleTapperController {
 			e.printStackTrace();
 		}
 		return "redirect:/showrEarthingResistance";
+	}
+	
+	@RequestMapping(value = "/showCbmMagazineChain", method = RequestMethod.GET)
+	public ModelAndView showCbmMagazineChain(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("cbm/showrCbmMagazineChain");
+		try
+		{
+			cbmMagazineChainList = new ArrayList<>();
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			CbmSchedule[] scheduleList = rest.postForObject(Constant.url + "/getCbmScheduleListForCbmMagazineChain",map,
+					CbmSchedule[].class);
+			List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
+			model.addObject("cbmMchineScheduleList",cbmMchineScheduleList);
+			
+			CbmMagazineChain[] cbmMagazineChain = rest.postForObject(Constant.url + "/getCbmMagazineChain",map,
+					CbmMagazineChain[].class);
+			cbmMagazineChainList = new ArrayList<CbmMagazineChain>(Arrays.asList(cbmMagazineChain));
+			
+			for(int i=0 ;i < cbmMchineScheduleList.size() ; i++) {
+				 
+				int flag=0;
+				
+				for(int j=0 ;j < cbmMagazineChainList.size() ; j++) {
+					
+					if(cbmMagazineChainList.get(j).getSchId()==cbmMchineScheduleList.get(i).getId()) {
+						flag=1;
+						break;
+					}
+					
+				}
+				
+				if(flag==0) {
+					
+					CbmMagazineChain cbmMagazine = new CbmMagazineChain();
+					cbmMagazine.setSchId(cbmMchineScheduleList.get(i).getId());
+					cbmMagazine.setMachineNo(cbmMchineScheduleList.get(i).getMachineNo());
+					cbmMagazine.setMachineName(cbmMchineScheduleList.get(i).getMachineName());
+					cbmMagazine.setRequiredValue("Max 145 MM");
+					cbmMagazineChainList.add(cbmMagazine);
+				}
+				
+			}
+			
+			model.addObject("cbmMagazineChainList",cbmMagazineChainList);
+			
+			try {
+			String[] str = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"}; 
+			String monthName1 = str[Integer.parseInt(cbmMchineScheduleList.get(0).getMmcH1())-1];
+			String monthName2 = str[Integer.parseInt(cbmMchineScheduleList.get(0).getMmcH2())-1]; 
+			model.addObject("monthName1",monthName1);
+			model.addObject("monthName2",monthName2); 
+			}catch(Exception e) {
+				 
+			}
+			
+			try {
+				  
+				 String date1 = DateConvertor.convertToYMD(cbmMagazineChainList.get(0).getDate1())  ; 
+				 String date2 = DateConvertor.convertToYMD(cbmMagazineChainList.get(0).getDate2())  ; 
+				 
+				model.addObject("date1",date1);
+				model.addObject("date2",date2); 
+				}catch(Exception e) {
+					 //e.printStackTrace();
+				}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitCbmMagazineChain", method = RequestMethod.POST)
+	public String submitCbmMagazineChain(HttpServletRequest request, HttpServletResponse response ) {
+		
+		try {
+		 
+		String date1 =  request.getParameter("date1") ;
+		String date2 =  request.getParameter("date2") ; 
+		 
+		HttpSession session = request.getSession();  
+		int deptId = (Integer) session.getAttribute("deptId") ; 
+		UserDetails userDetail = (UserDetails) session.getAttribute("userDetail"); 
+		 
+		for(int i=0 ; i<cbmMagazineChainList.size() ; i++) {
+			 
+			cbmMagazineChainList.get(i).setDate1(DateConvertor.convertToDMY(date1));
+			cbmMagazineChainList.get(i).setDate2(DateConvertor.convertToDMY(date2));
+			cbmMagazineChainList.get(i).setRequiredValue(request.getParameter("requiredValue"+cbmMagazineChainList.get(i).getSchId()));
+			cbmMagazineChainList.get(i).setActualValue1(request.getParameter("actualValue1"+cbmMagazineChainList.get(i).getSchId()));
+			cbmMagazineChainList.get(i).setRemark1(request.getParameter("remark1"+cbmMagazineChainList.get(i).getSchId()));
+			cbmMagazineChainList.get(i).setActualValue2(request.getParameter("actualValue2"+cbmMagazineChainList.get(i).getSchId()));
+			cbmMagazineChainList.get(i).setRemark2(request.getParameter("remark2"+cbmMagazineChainList.get(i).getSchId()));
+	 
+			cbmMagazineChainList.get(i).setDeptId(deptId);
+			cbmMagazineChainList.get(i).setExtra1(userDetail.getUserId());
+			 
+		}
+		
+ 
+		RestTemplate rest=new RestTemplate();
+		 
+		List<CbmMagazineChain> res = rest.postForObject(Constant.url + "/saveCbmMagazineChain", cbmMagazineChainList, List.class); 
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showCbmMagazineChain";
 	}
 
 }
