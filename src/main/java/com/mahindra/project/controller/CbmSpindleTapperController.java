@@ -40,6 +40,8 @@ import com.mahindra.project.model.cbm.CbmYearEnd;
 @Scope("session")
 public class CbmSpindleTapperController {
 	
+	
+	
 	List<CbmSpindleTemper> cbmSpindleTemperList = new ArrayList<CbmSpindleTemper>();
 	List<CbmSpindleClampingForce> cbmSpindleClampingForceList = new ArrayList<CbmSpindleClampingForce>();
 	List<CbmEarthingResistance> cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>(); 
