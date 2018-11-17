@@ -1,8 +1,11 @@
 package com.mahindra.project.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +34,7 @@ import com.mahindra.project.model.cbm.CbmMagazineChain;
 import com.mahindra.project.model.cbm.CbmSchedule;
 import com.mahindra.project.model.cbm.CbmSpindleClampingForce;
 import com.mahindra.project.model.cbm.CbmSpindleTemper;
+import com.mahindra.project.model.cbm.CbmYearEnd;
 
 @Controller
 @Scope("session")
@@ -40,6 +44,9 @@ public class CbmSpindleTapperController {
 	List<CbmSpindleClampingForce> cbmSpindleClampingForceList = new ArrayList<CbmSpindleClampingForce>();
 	List<CbmEarthingResistance> cbmEarthingResistanceList = new ArrayList<CbmEarthingResistance>(); 
 	List<CbmMagazineChain> cbmMagazineChainList = new ArrayList<CbmMagazineChain>();
+	CbmYearEnd cbmYearEnd=new CbmYearEnd();
+	List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>();
+	
 	
 	@RequestMapping(value = "/showSpindleTapper", method = RequestMethod.GET)
 	public ModelAndView showSpindleTapper(HttpServletRequest request, HttpServletResponse response) {
@@ -54,7 +61,7 @@ public class CbmSpindleTapperController {
 			map.add("deptId",deptId);
 			CbmSchedule[] scheduleList = rest.postForObject(Constant.url + "/getCbmScheduleListForSpindleTemper",map,
 					CbmSchedule[].class);
-			List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
+			cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
 			model.addObject("cbmMchineScheduleList",cbmMchineScheduleList);
 			
 			CbmSpindleTemper[] cbmSpindleTemper = rest.postForObject(Constant.url + "/getCbmSpindleTemper",map,
@@ -111,6 +118,72 @@ public class CbmSpindleTapperController {
 					 e.printStackTrace();
 				}
 			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			map.add("cbmType",4);
+			 cbmYearEnd = rest.postForObject(Constant.url + "/getYearEndByDeptIdAndCbmType",map,
+					CbmYearEnd.class);
+			String yearEndDate = new String();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			int yearEnd=0;
+			int yearEndByDate=0;
+			Date date = new Date();
+			String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+			
+			if(cbmYearEnd.getYearEndId()==0) {
+				
+				Calendar now = Calendar.getInstance();
+				int year = now.get(Calendar.YEAR);
+				int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+				 
+				yearEndDate= year+"-03-31";;
+				System.out.println( sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+				 if (sdf.parse(yearEndDate).compareTo(sdf.parse(modifiedDate)) < 0) {
+					 System.out.println("in if modifiedDate>yearEndDate" + sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+					 yearEndByDate=1;
+			        }  
+			}
+			else {
+				
+				yearEndDate= cbmYearEnd.getToYear()+"-03-31";
+				System.out.println( sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+				if (sdf.parse(yearEndDate).compareTo(sdf.parse(modifiedDate)) < 0) {
+					System.out.println("in else modifiedDate>yearEndDate" + sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+					yearEndByDate=1;
+			        }  
+			}
+			
+			System.out.println("year end After Date check " + yearEnd);
+			int flag=0;
+			for(int i=0 ;i < cbmSpindleTemperList.size() ; i++) {
+				 
+				/*System.out.println("cbmSpindleTemperList.get(i).getPer1()" + cbmSpindleTemperList.get(i).getPer1());
+				System.out.println("cbmSpindleTemperList.get(i).getPer2()" + cbmSpindleTemperList.get(i).getPer2());
+				System.out.println("cbmSpindleTemperList.get(i).getRemark1()" + cbmSpindleTemperList.get(i).getRemark1());
+				System.out.println("cbmSpindleTemperList.get(i).getPer2()" + cbmSpindleTemperList.get(i).getRemark2());*/
+				
+				if(!cbmSpindleTemperList.get(i).getPer1().trim().equals("") 
+						&& !cbmSpindleTemperList.get(i).getPer2().trim().equals("")
+						&& !cbmSpindleTemperList.get(i).getRemark1().trim().equals("") 
+						&& !cbmSpindleTemperList.get(i).getRemark2().trim().equals("") ) {
+					flag=1;
+				}
+				else {
+					
+					 
+					flag=0;
+					System.out.println(yearEnd + "find null " +flag);
+					break;
+				}
+			}
+			
+			if(flag==1 && yearEndByDate==1) {
+				yearEnd=1;
+			}
+			System.out.println("year end After list check " + yearEnd);
+			
+			model.addObject("yearEnd",yearEnd);
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -120,6 +193,125 @@ public class CbmSpindleTapperController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/yearEndSpandleTaperBlueMatching", method = RequestMethod.POST)
+	public String yearEndSpandleTaperBlueMatching(HttpServletRequest request, HttpServletResponse response ) {
+		
+		RestTemplate rest=new RestTemplate();
+		
+		try {
+		 
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar now = Calendar.getInstance();
+			int year = now.get(Calendar.YEAR);
+			
+			if(cbmYearEnd.getYearEndId()!=0) {
+				
+				cbmYearEnd.setStatus(1);
+			}
+			else {
+				HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId");
+				
+				cbmYearEnd.setDate(sf.format(date));
+				cbmYearEnd.setCbmType(4);
+				cbmYearEnd.setDeptId(deptId);
+				cbmYearEnd.setFromYear(String.valueOf(year-1));
+				cbmYearEnd.setToYear(String.valueOf(year));
+				cbmYearEnd.setStatus(1);
+				cbmYearEnd.setYear(cbmYearEnd.getFromYear()+"-"+cbmYearEnd.getToYear().substring(2, cbmYearEnd.getToYear().length()));
+				
+			}
+		 
+			
+			CbmYearEnd update = rest.postForObject(Constant.url + "/saveCbmYearEnd", cbmYearEnd, CbmYearEnd.class); 
+			
+			 if(update!=null) {
+				 
+				CbmYearEnd newEntry = new CbmYearEnd();
+				newEntry.setDate(sf.format(date));
+				newEntry.setCbmType(4);
+				newEntry.setDeptId(update.getDeptId());
+				newEntry.setFromYear(update.getToYear());
+				newEntry.setToYear(String.valueOf(Integer.parseInt(newEntry.getFromYear())+1));
+				newEntry.setYear(newEntry.getFromYear()+"-"+newEntry.getToYear().substring(2, newEntry.getToYear().length()));
+				
+				CbmYearEnd save = rest.postForObject(Constant.url + "/saveCbmYearEnd", newEntry, CbmYearEnd.class); 
+				
+				 if(save!=null) {
+					
+					 List<CbmSpindleTemper> newSpindleList = new ArrayList<CbmSpindleTemper>();
+					 
+					 for(int i=0 ; i<cbmSpindleTemperList.size() ; i++) {
+						  
+							cbmSpindleTemperList.get(i).setStatus(1);
+							cbmSpindleTemperList.get(i).setYearEnd(String.valueOf(update.getYearEndId()));
+						}
+					 List<CbmSpindleTemper> res = rest.postForObject(Constant.url + "/saveCbmSpindleTemper", cbmSpindleTemperList, List.class); 
+						
+					 for(int i=0 ; i<cbmMchineScheduleList.size() ; i++) {
+						  
+						 	CbmSpindleTemper cbmSpindle = new CbmSpindleTemper();
+							cbmSpindle.setSchId(cbmMchineScheduleList.get(i).getId());
+							cbmSpindle.setMachineNo(cbmMchineScheduleList.get(i).getMachineNo());
+							cbmSpindle.setMachineName(cbmMchineScheduleList.get(i).getMachineName()); 
+							cbmSpindle.setDeptId(update.getDeptId());
+							newSpindleList.add(cbmSpindle);
+						}
+					 List<CbmSpindleTemper> newEntryRes = rest.postForObject(Constant.url + "/saveCbmSpindleTemper", newSpindleList, List.class); 
+					 
+				 }
+			} 
+			
+		 
+			
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showSpindleTapper";
+	}
+	
+	@RequestMapping(value = "/spindleTapperHistory", method = RequestMethod.GET)
+	public ModelAndView spindleTapperHistory(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("cbm/spindleTapperHistory");
+		try
+		{
+			 
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			map.add("cbmType",4);
+			CbmYearEnd[] yearEnd = rest.postForObject(Constant.url + "/getYearEndList",map,
+					CbmYearEnd[].class);
+			List<CbmYearEnd> yearEndList = new ArrayList<CbmYearEnd>(Arrays.asList(yearEnd));
+			model.addObject("yearEndList",yearEndList);
+			
+			if(request.getParameter("yearId") != null) {
+				
+				int yearId = Integer.parseInt(request.getParameter("yearId"));
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("yearId",yearId); 
+				CbmSpindleTemper[] cbmSpindleTemper = rest.postForObject(Constant.url + "/getCbmSpindleTemperHistoryByYearId",map,
+						CbmSpindleTemper[].class);
+				List<CbmSpindleTemper> cbmSpindleTemperList = new ArrayList<CbmSpindleTemper>(Arrays.asList(cbmSpindleTemper));
+				model.addObject("cbmSpindleTemperList",cbmSpindleTemperList);
+				model.addObject("yearId",yearId);
+				
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
 	
 	@RequestMapping(value = "/submitSpandleTaperBlueMatching", method = RequestMethod.POST)
 	public String submitSpandleTaperBlueMatching(HttpServletRequest request, HttpServletResponse response ) {
