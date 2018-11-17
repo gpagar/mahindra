@@ -79,14 +79,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Spindle Taper History
+								<i class="fa fa-bars"></i>Spindle Clamping Force History
 							</h3>
 							<div class="box-tool">
 						
 						</div><br>
 
 						<div class="box-content">
-			 				<form action="${pageContext.request.contextPath}/spindleTapperHistory"  class="form-horizontal"
+			 				<form action="${pageContext.request.contextPath}/spindleClampingForceHistory"  class="form-horizontal"
 							 id="validation-form" 	 method="GET">
                    
 				
@@ -136,33 +136,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 					    <table id="table"  style="border: 1px;"><!-- class="table table-inverse table-bordered" -->
 						<thead>
-						 
+						   
 						  <tr>
 							 
-							<th >Sr.No</th>
-							<th >Machine No.</th> 
-							<th >M/c Name</th>
-							<th >Blue Matching Percentage</th>
-							<th >Remark</th>
-							<th  >Date</th>
-							<th >Blue Matching Percentage</th>
-							<th >Remark</th>
-							<th >Date</th>
+							<th style="text-align: center;"  >Sr.No</th>
+							<th style="text-align: center;"  >Machine No.</th>  
+							<th style="text-align: center;"  >Frequency</th>
+							<th style="text-align: center;"  >Minimum Required Value</th>
+							<th style="text-align: center;" >Q1</th>
+							<th style="text-align: center;" >Date</th> 
+							<th style="text-align: center;" >Q2</th>
+							<th style="text-align: center;" >Date</th> 
+							<th style="text-align: center;" >Q3</th>
+							<th style="text-align: center;" >Date</th> 
+							<th style="text-align: center;" >Q4</th> 
+							<th style="text-align: center;" >Date</th> 
+							<th style="text-align: center;"  >Ave. Value</th>
+							<th style="text-align: center;"  >Remark</th>
 						  </tr>
+						  
+						    
 						</thead>
 						<tbody>
-				              <c:forEach items="${cbmSpindleTemperList}" var="cbmSpindleTemperList" varStatus="count">
+				              <c:forEach items="${cbmSpindleClampingForceList}" var="cbmSpindleClampingForceList" varStatus="count">
 				              
 				              <tr>
 				              <td>${count.index+1}</td>
-				              <td>${cbmSpindleTemperList.machineNo}</td>
-				              <td>${cbmSpindleTemperList.machineName}</td>
-				              <td>${cbmSpindleTemperList.per1}</td>
-				              <td>${cbmSpindleTemperList.remark1}</td>
-				              <td width="10%">${cbmSpindleTemperList.date1}</td>
-				              <td>${cbmSpindleTemperList.per2}</td>
-				              <td>${cbmSpindleTemperList.remark2}</td>
-				              <td width="10%">${cbmSpindleTemperList.date2} </td> 
+				              <td>${cbmSpindleClampingForceList.machineNo}</td> 
+				              <td>${cbmSpindleClampingForceList.frequency}</td>
+				              <td>${cbmSpindleClampingForceList.minimumRequiredValue}</td>
+				              <td>${cbmSpindleClampingForceList.q1}</td>
+				              <td width="10%">${cbmSpindleClampingForceList.date1}</td>
+				              <td>${cbmSpindleClampingForceList.q2}</td>
+				              <td width="10%">${cbmSpindleClampingForceList.date2} </td> 
+				              <td>${cbmSpindleClampingForceList.q3}</td>
+				              <td width="10%">${cbmSpindleClampingForceList.date3} </td> 
+				              <td>${cbmSpindleClampingForceList.q4}</td>
+				              <td width="10%">${cbmSpindleClampingForceList.date4} </td> 
+				              <td>${cbmSpindleClampingForceList.avgValue}</td>
+				              <td>${cbmSpindleClampingForceList.statusRemark} </td> 
 				               
 				             <%--  <td>${eqCalDetailList.nextCalDate}  ${today}</td> --%>
 				                
