@@ -684,7 +684,7 @@ public class CbmSpindleTapperController {
 			map.add("deptId",deptId);
 			CbmSchedule[] scheduleList = rest.postForObject(Constant.url + "/getCbmScheduleListForEarthingResistance",map,
 					CbmSchedule[].class);
-			List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
+			cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
 			model.addObject("cbmMchineScheduleList",cbmMchineScheduleList);
 			
 			CbmEarthingResistance[] cbmEarthingResistance = rest.postForObject(Constant.url + "/getCbmEarthingResistance",map,
@@ -989,7 +989,7 @@ public class CbmSpindleTapperController {
 			map.add("deptId",deptId);
 			CbmSchedule[] scheduleList = rest.postForObject(Constant.url + "/getCbmScheduleListForCbmMagazineChain",map,
 					CbmSchedule[].class);
-			List<CbmSchedule> cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
+			cbmMchineScheduleList = new ArrayList<CbmSchedule>(Arrays.asList(scheduleList));
 			model.addObject("cbmMchineScheduleList",cbmMchineScheduleList);
 			
 			CbmMagazineChain[] cbmMagazineChain = rest.postForObject(Constant.url + "/getCbmMagazineChain",map,
@@ -1043,6 +1043,190 @@ public class CbmSpindleTapperController {
 				}catch(Exception e) {
 					 //e.printStackTrace();
 				}
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			map.add("cbmType",9);
+			 cbmYearEnd = rest.postForObject(Constant.url + "/getYearEndByDeptIdAndCbmType",map,
+					CbmYearEnd.class);
+			String yearEndDate = new String();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			int yearEnd=0;
+			int yearEndByDate=0;
+			Date date = new Date();
+			String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+			
+			if(cbmYearEnd.getYearEndId()==0) {
+				
+				Calendar now = Calendar.getInstance();
+				int year = now.get(Calendar.YEAR);
+				int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+				 
+				yearEndDate= year+"-03-31";;
+				System.out.println( sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+				 if (sdf.parse(yearEndDate).compareTo(sdf.parse(modifiedDate)) < 0) {
+					 System.out.println("in if modifiedDate>yearEndDate" + sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+					 yearEndByDate=1;
+			        }  
+			}
+			else {
+				
+				yearEndDate= cbmYearEnd.getToYear()+"-03-31";
+				System.out.println( sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+				if (sdf.parse(yearEndDate).compareTo(sdf.parse(modifiedDate)) < 0) {
+					System.out.println("in else modifiedDate>yearEndDate" + sdf.parse(yearEndDate) +" "+sdf.parse(modifiedDate));
+					yearEndByDate=1;
+			        }  
+			}
+			
+			System.out.println("year end After Date check " + yearEnd);
+			int flag=0;
+			for(int i=0 ;i < cbmMagazineChainList.size() ; i++) {
+				  
+				if(!cbmMagazineChainList.get(i).getRequiredValue().trim().equals("") 
+						&& !cbmMagazineChainList.get(i).getActualValue1().trim().equals("")
+						&& !cbmMagazineChainList.get(i).getRemark1().trim().equals("") 
+						&& !cbmMagazineChainList.get(i).getActualValue2().trim().equals("")
+						&& !cbmMagazineChainList.get(i).getRemark2().trim().equals("") ) {
+					flag=1;
+				}
+				else {
+					
+					 
+					flag=0;
+					System.out.println(yearEnd + "find null " +flag);
+					break;
+				}
+			}
+			
+			if(flag==1 && yearEndByDate==1) {
+				yearEnd=1;
+			}
+			System.out.println("year end After list check " + yearEnd);
+			
+			model.addObject("yearEnd",yearEnd);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/yearEndMagazinechain", method = RequestMethod.POST)
+	public String yearEndMagazinechain(HttpServletRequest request, HttpServletResponse response ) {
+		
+		RestTemplate rest=new RestTemplate();
+		
+		try {
+		 
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar now = Calendar.getInstance();
+			int year = now.get(Calendar.YEAR);
+			
+			if(cbmYearEnd.getYearEndId()!=0) {
+				
+				cbmYearEnd.setStatus(1);
+			}
+			else {
+				HttpSession session = request.getSession(); 
+				int deptId = (Integer) session.getAttribute("deptId");
+				
+				cbmYearEnd.setDate(sf.format(date));
+				cbmYearEnd.setCbmType(9);
+				cbmYearEnd.setDeptId(deptId);
+				cbmYearEnd.setFromYear(String.valueOf(year-1));
+				cbmYearEnd.setToYear(String.valueOf(year));
+				cbmYearEnd.setStatus(1);
+				cbmYearEnd.setYear(cbmYearEnd.getFromYear()+"-"+cbmYearEnd.getToYear().substring(2, cbmYearEnd.getToYear().length()));
+				
+			}
+		 
+			
+			CbmYearEnd update = rest.postForObject(Constant.url + "/saveCbmYearEnd", cbmYearEnd, CbmYearEnd.class); 
+			
+			 if(update!=null) {
+				 
+				CbmYearEnd newEntry = new CbmYearEnd();
+				newEntry.setDate(sf.format(date));
+				newEntry.setCbmType(9);
+				newEntry.setDeptId(update.getDeptId());
+				newEntry.setFromYear(update.getToYear());
+				newEntry.setToYear(String.valueOf(Integer.parseInt(newEntry.getFromYear())+1));
+				newEntry.setYear(newEntry.getFromYear()+"-"+newEntry.getToYear().substring(2, newEntry.getToYear().length()));
+				
+				CbmYearEnd save = rest.postForObject(Constant.url + "/saveCbmYearEnd", newEntry, CbmYearEnd.class); 
+				
+				 if(save!=null) {
+					
+					 List<CbmMagazineChain> newSpindleList = new ArrayList<CbmMagazineChain>();
+					 
+					 for(int i=0 ; i<cbmMagazineChainList.size() ; i++) {
+						  
+						 cbmMagazineChainList.get(i).setStatus(1);
+						 cbmMagazineChainList.get(i).setYearEnd(String.valueOf(update.getYearEndId()));
+						}
+					 List<CbmMagazineChain> res = rest.postForObject(Constant.url + "/saveCbmMagazineChain", cbmMagazineChainList, List.class); 
+					 
+					 for(int i=0 ; i<cbmMchineScheduleList.size() ; i++) {
+						  
+						 	CbmMagazineChain cbmMagazine = new CbmMagazineChain();
+							cbmMagazine.setSchId(cbmMchineScheduleList.get(i).getId());
+							cbmMagazine.setMachineNo(cbmMchineScheduleList.get(i).getMachineNo());
+							cbmMagazine.setMachineName(cbmMchineScheduleList.get(i).getMachineName());
+							cbmMagazine.setRequiredValue("Max 145 MM");
+							cbmMagazine.setDeptId(save.getDeptId());
+							newSpindleList.add(cbmMagazine);
+						}
+					 List<CbmMagazineChain> newEntryRes = rest.postForObject(Constant.url + "/saveCbmMagazineChain", newSpindleList, List.class); 
+					 
+				 }
+			} 
+			
+		 
+			
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/showCbmMagazineChain";
+	}
+	
+	@RequestMapping(value = "/showCbmMagazineChainHistory", method = RequestMethod.GET)
+	public ModelAndView cbmMagazineChainResistanceHistory(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView model = new ModelAndView("cbm/showCbmMagazineChain");
+		try
+		{
+			 
+			
+			RestTemplate rest = new RestTemplate();
+			HttpSession session = request.getSession(); 
+			int deptId = (Integer) session.getAttribute("deptId"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("deptId",deptId);
+			map.add("cbmType",9);
+			CbmYearEnd[] yearEnd = rest.postForObject(Constant.url + "/getYearEndList",map,
+					CbmYearEnd[].class);
+			List<CbmYearEnd> yearEndList = new ArrayList<CbmYearEnd>(Arrays.asList(yearEnd));
+			model.addObject("yearEndList",yearEndList);
+			
+			if(request.getParameter("yearId") != null) {
+				
+				int yearId = Integer.parseInt(request.getParameter("yearId"));
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("yearId",yearId); 
+				CbmMagazineChain[] cbmMagazineChain = rest.postForObject(Constant.url + "/getCbmMagazineChainHistoryByYearId",map,
+						CbmMagazineChain[].class);
+				List<CbmMagazineChain> cbmMagazineChainList = new ArrayList<CbmMagazineChain>(Arrays.asList(cbmMagazineChain));
+				model.addObject("list",cbmMagazineChainList);
+				model.addObject("yearId",yearId);
+				
+			}
 			
 		}catch(Exception e)
 		{
