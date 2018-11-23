@@ -91,8 +91,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<i class="fa fa-bars"></i>  EARTHING RESISTANCE CHECKLIST
 								
 							</div>
-									<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Machine No." title="Type in a name" style="border-radius: 23px;">
-											
+									<div class="row" align="right">
+						 				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By Machine No." title="Type in a name" style="border-radius: 23px;">
+						 
+							 	<a href="${pageContext.request.contextPath}/earthingResistanceHistory">	<button type="button" class="btn btn-success" >Earthing Resistance History</button> </a> 
+								 
+						</div>	
 							<div class="box-tool">
 						
 						</div>
@@ -174,13 +178,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="row" align="center">
 						<div class="col-sm-9 col-sm-offset-3 col-lg-1 col-lg-offset-4">
 							<input type="submit" class="btn btn-info" id="submitbtn" value="Submit"/>
+							<c:choose>
+								<c:when test="${yearEnd==1}">
+								<input type="button" class="btn btn-info" onclick="yearEndProcess()" id="yearEnd" value="Year End">  
+								</c:when>
+							</c:choose>
 							
 						</div><br>
 						 
 					</div>
 				</form>
 				
-				
+				<form action="${pageContext.request.contextPath}/yearEndEarthingResistance"  class="form-horizontal"
+							 id="validation-form1"  method="POST">
+							 
+							 </form>
 
 			</div>
 
@@ -294,6 +306,10 @@ function myFunction() {
     
   }
 }
+function yearEndProcess() {
+	 
+	document.getElementById("validation-form1").submit();
+	}
 </script>
 </body>
 
